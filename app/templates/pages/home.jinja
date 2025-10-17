@@ -1,0 +1,38 @@
+{#=====================================================
+  Home page
+=====================================================#}
+
+{% extends 'pages/base.jinja' %}
+
+
+{% block title %}
+
+    Flask Demo
+
+{% endblock %}
+
+
+{% block content %}
+
+    <h1>Notes</h1>
+
+    {% for note in notes %}
+
+        <article>
+
+            <h3>{{ note.title }}</h3>
+            {{ "<p>PIN</p>" if note.pinned else "" }}
+            <p>{{ note.body }}</p>
+            <p>{{ note.created }}</p>
+
+        </article>
+
+    {% else %}
+
+        <p>None!</p>
+
+    {% endfor %}
+
+
+{% endblock %}
+
