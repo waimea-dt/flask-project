@@ -1,20 +1,53 @@
-from os import getenv
 import sqlite3
-from contextlib import contextmanager
-from pathlib import Path
-from colorama import Fore, Style
+from os import getenv
 from dotenv import load_dotenv
+from pathlib import Path
+from contextlib import contextmanager
 
-from app.helpers.log import get_sql_logger, LOG_COLOURS
+from app.helpers.log import get_sql_logger, wrapped, LOG_COLOURS, ERROR, RESET, DIVIDER
+
+load_dotenv()
+LOCAL_DB_PATH = getenv("LOCAL_DB_PATH", "app/db/data.sqlite")
+
+SQL_COLOUR = LOG_COLOURS.get('SQL', "")
+sql_logger = get_sql_logger()
+
+
+def init_db():
+    """Initialize database"""
+
+    sql_logger.debug(DIVIDER)
+    sql_logger.info(f"DB File: {SQL_COLOUR}{LOCAL_DB_PATH}{RESET}")
+
+    # Ensure the directory exists
+    db_path_obj = Path(LOCAL_DB_PATH)
+    db_path_obj.parent.mkdir(parents=True, exist_ok=True)
+
+
+def init_db_table(table_name, schema, seed_insert=None, seed_data=None):
+    """Initialize database table and optionally add seed data"""
+
+    with connect_db() as db:
+        # Check if table exists
+        sql_logger.debug(f"  Table: {SQL_COLOUR}{table_name}{RESET} checking if present...")
+        table_exists = db.execute("SELECT name FROM sqlite_master WHERE type='table' AND name=?", (table_name,)).fetchone()
+
+        if table_exists:
+            sql_logger.info(f"  Table: {SQL_COLOUR}{table_name}{RESET} exists")
+        else:
+            sql_logger.info(f"  Table: {SQL_COLOUR}{table_name}{RESET} not found, creating...")
+            db.execute(schema)
+
+            if seed_insert and seed_data:
+                # Seed with sample data
+                sql_logger.info(f"  Table: {SQL_COLOUR}{table_name}{RESET} seeding with sample data...")
+                db.executemany(seed_insert, seed_data)
+
 
 @contextmanager
 def connect_db():
     """Create a database connection with logging"""
 
-    load_dotenv()
-    LOCAL_DB_PATH = getenv("LOCAL_DB_PATH", "app/db/data.sqlite")
-
-    sql_logger = get_sql_logger()
     connection = sqlite3.connect(LOCAL_DB_PATH)
 
     # Return dictionaries from queries
@@ -29,10 +62,11 @@ def connect_db():
 
         def execute(self, sql, params=()):
             try:
-                SQL_COLOUR = LOG_COLOURS.get('SQL', Fore.WHITE)
+                SQL_COLOUR = LOG_COLOURS.get('SQL', "")
 
-                sql_logger.debug(f"  Query: {SQL_COLOUR}{' '.join(sql.split())}{Style.RESET_ALL}")
-                sql_logger.debug(f" Params: {SQL_COLOUR}{params}{Style.RESET_ALL}")
+                sql_collapsed = ' '.join(sql.split())
+                sql_logger.debug(f"  Query: {SQL_COLOUR}{wrapped(sql_collapsed)}{RESET}")
+                sql_logger.debug(f" Params: {SQL_COLOUR}{params}{RESET}")
 
                 cursor = self._conn.execute(sql, params)
 
@@ -47,14 +81,14 @@ def connect_db():
                         if self._sql_type == 'SELECT':
                             num_rows = len(rows)
                             row_text = f"{num_rows} {'row' if num_rows == 1 else 'rows'}"
-                            sql_logger.debug(f" Result: {SQL_COLOUR}{row_text} returned{Style.RESET_ALL}")
+                            sql_logger.debug(f" Result: {SQL_COLOUR}{row_text}{RESET} returned")
                         return rows
 
                     def fetchone(self):
                         row = self._cursor.fetchone()
                         if self._sql_type == 'SELECT':
                             row_text = "1 row" if row else "0 rows"
-                            sql_logger.debug(f" Result: {SQL_COLOUR}{row_text} returned{Style.RESET_ALL}")
+                            sql_logger.debug(f" Result: {SQL_COLOUR}{row_text}{RESET} returned")
                         return row
 
                     def __getattr__(self, name):
@@ -65,45 +99,60 @@ def connect_db():
                 if sql_upper.startswith('SELECT'):
                     return LoggingCursor(cursor, 'SELECT')
 
+                # Map SQL commands to their result messages
                 row_text = f"{cursor.rowcount} {'row' if cursor.rowcount == 1 else 'rows'}"
-                if sql_upper.startswith('INSERT'):
-                    sql_logger.debug(f" Result: {SQL_COLOUR}{row_text} created, ID {cursor.lastrowid}{Style.RESET_ALL}")
-                elif sql_upper.startswith('UPDATE'):
-                    sql_logger.debug(f" Result: {SQL_COLOUR}{row_text} updated{Style.RESET_ALL}")
-                elif sql_upper.startswith('DELETE'):
-                    sql_logger.debug(f" Result: {SQL_COLOUR}{row_text} deleted{Style.RESET_ALL}")
+
+                result_messages = {
+                    'CREATE': "table created",
+                    'INSERT': f"{row_text} created, id={SQL_COLOUR}{cursor.lastrowid}{RESET}",
+                    'UPDATE': f"{row_text} updated",
+                    'DELETE': f"{row_text} deleted",
+                }
+
+                # Find matching command or use default
+                for cmd, msg in result_messages.items():
+                    if sql_upper.startswith(cmd):
+                        sql_logger.debug(f" Result: {SQL_COLOUR}{msg}{RESET}")
+                        break
+                else:
+                    sql_logger.debug(f" Result: {SQL_COLOUR}{row_text}{RESET} affected")
 
                 return cursor
 
             except sqlite3.Error as e:
-                sql_logger.error(f"{LOG_COLOURS.get('ERROR')}  ERROR: {e}{Style.RESET_ALL}")
+                # sql_logger.error(f"{ERROR}  ERROR: {wrapped(e)}{RESET}")
                 raise
 
         def executemany(self, sql, params):
             try:
-                SQL_COLOUR = LOG_COLOURS.get('SQL', Fore.WHITE)
+                SQL_COLOUR = LOG_COLOURS.get('SQL', "")
 
-                sql_logger.debug(f"  Query: {SQL_COLOUR}{' '.join(sql.split())}{Style.RESET_ALL}")
-                sql_logger.debug(f" Params: {SQL_COLOUR}{len(list(params))} rows{Style.RESET_ALL}")
+                sql_logger.debug(f"  Query: {SQL_COLOUR}{' '.join(sql.split())}{RESET}")
+                sql_logger.debug(f" Params: {SQL_COLOUR}{len(list(params))} rows{RESET}")
 
                 cursor = self._conn.executemany(sql, params)
 
                 sql_upper = sql.strip().upper()
-
                 row_text = f"{cursor.rowcount} {'row' if cursor.rowcount == 1 else 'rows'}"
-                if sql_upper.startswith('INSERT'):
-                    sql_logger.debug(f" Result: {SQL_COLOUR}{row_text} created{Style.RESET_ALL}")
-                elif sql_upper.startswith('UPDATE'):
-                    sql_logger.debug(f" Result: {SQL_COLOUR}{row_text} updated{Style.RESET_ALL}")
-                elif sql_upper.startswith('DELETE'):
-                    sql_logger.debug(f" Result: {SQL_COLOUR}{row_text} deleted{Style.RESET_ALL}")
+
+                result_messages = {
+                    'INSERT': f"{row_text} created",
+                    'UPDATE': f"{row_text} updated",
+                    'DELETE': f"{row_text} deleted",
+                }
+
+                # Find matching command or use default
+                for cmd, msg in result_messages.items():
+                    if sql_upper.startswith(cmd):
+                        sql_logger.debug(f" Result: {SQL_COLOUR}{msg}{RESET}")
+                        break
                 else:
-                    sql_logger.debug(f" Result: {SQL_COLOUR}{row_text} affected{Style.RESET_ALL}")
+                    sql_logger.debug(f" Result: {SQL_COLOUR}{row_text}{RESET} affected")
 
                 return cursor
 
             except sqlite3.Error as e:
-                sql_logger.error(f"{LOG_COLOURS.get('ERROR')}  ERROR: {e}{Style.RESET_ALL}")
+                # sql_logger.error(f"{ERROR}  ERROR: {wrapped(e)}{RESET}")
                 raise
 
         def commit(self):
@@ -130,47 +179,3 @@ def connect_db():
         wrapped_connection.close()
 
 
-def init_db(app):
-    """Initialize database tables and seed data"""
-
-    LOCAL_DB_PATH = getenv("LOCAL_DB_PATH", "app/db/data.sqlite")
-
-    # Ensure the directory exists
-    db_path_obj = Path(LOCAL_DB_PATH)
-    db_path_obj.parent.mkdir(parents=True, exist_ok=True)
-
-    with connect_db() as db:
-        # Check if table exists
-        note_table_exists = db.execute("""
-            SELECT name FROM sqlite_master
-            WHERE type='table' AND name='note'
-        """).fetchone()
-
-        # Create table if it doesn't exist
-        if not note_table_exists:
-            app.logger.info(f"Local database file: {db_path}")
-
-            db.execute("""
-                CREATE TABLE note (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    title TEXT NOT NULL,
-                    body TEXT,
-                    pinned INTEGER DEFAULT 0,
-                    created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-                )
-            """)
-
-            # Seed with sample data
-            sample_notes = [
-                ("Welcome to Notes", "This is your first note. You can edit or delete it.", 1),
-                ("Getting Started", "Create new notes by clicking the 'New Note' button.", 0),
-                ("Pinned Notes", "Pinned notes always appear at the top of your list.", 1),
-                ("Sample Note", "This is just a sample note with some content.", 0),
-            ]
-
-            db.executemany("""
-                INSERT INTO note (title, body, pinned)
-                VALUES (?, ?, ?)
-            """, sample_notes)
-
-            app.logger.info("✓ Database created and seeded with sample notes")

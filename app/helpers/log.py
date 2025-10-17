@@ -1,12 +1,24 @@
-import logging
-from os import getenv
-from colorama import init, Fore, Back, Style
+from os import environ, getenv
+from sys import exc_info
 from dotenv import load_dotenv
 from flask import request
+from flask.signals import before_render_template
+from textwrap import wrap
+from colorama import init, Fore, Back, Style
+import logging
+
+# Load Flask environment config
+load_dotenv()
+FLASK_HOST = getenv("FLASK_RUN_HOST", "localhost")
+FLASK_PORT = getenv("FLASK_RUN_PORT", "5000")
+
+# Initialize colorama for Windows
+init(autoreset=True)
 
 LOG_COLOURS = {
     'APP':      Fore.YELLOW,
     'SQL':      Fore.BLUE,
+    'JINJA':    Fore.MAGENTA,
     'DEBUG':    Fore.CYAN,
     'INFO':     Fore.GREEN,
     'WARNING':  Fore.YELLOW,
@@ -22,12 +34,31 @@ METHOD_COLOURS = {
 }
 
 STATUS_COLOURS = {
-    '200':    Fore.GREEN,
-    '400':    Fore.YELLOW,
-    '500':    Fore.RED,
+    '2': Fore.GREEN,   # 2xx - Success
+    '3': Fore.CYAN,    # 3xx - Redirection
+    '4': Fore.YELLOW,  # 4xx - Client Error
+    '5': Fore.RED,     # 5xx - Server Error
 }
 
-DIVIDER = "┄" * 80
+STATUS_INFO = {
+    200: "OK",
+    301: "Redirect",
+    302: "Redirect",
+    304: "Cached",
+    400: "Bad Req.",
+    401: "Unauthor.",
+    403: "Forbidden",
+    404: "Not Found",
+    405: "Bad Method",
+    500: "Server",
+}
+
+RESET  = Style.RESET_ALL
+BRIGHT = Style.BRIGHT
+DIM    = Style.DIM
+ERROR  = LOG_COLOURS.get('ERROR')
+
+DIVIDER = "─" * 80
 
 
 class ColoredFormatter(logging.Formatter):
@@ -35,21 +66,13 @@ class ColoredFormatter(logging.Formatter):
         logger_name = record.name.upper()
         name_colour  = LOG_COLOURS.get(logger_name, Fore.WHITE)
         level_colour = LOG_COLOURS.get(record.levelname, Fore.WHITE)
-        record.name      = f"{name_colour}[{logger_name}]{Style.RESET_ALL}"
-        record.levelname = f"{level_colour}{record.levelname:<8}{Style.RESET_ALL}"
+        record.name      = f"{name_colour}[{logger_name}]{RESET}"
+        record.levelname = f"{level_colour}{record.levelname:<8}{RESET}"
         return super().format(record)
 
 
 def init_logging(app):
     """Initialize all loggers with colored formatting"""
-
-    # Load Flask environment config
-    load_dotenv()
-    FLASK_HOST = getenv("FLASK_RUN_HOST", "localhost")
-    FLASK_PORT = getenv("FLASK_RUN_PORT", "5000")
-
-    # Initialize colorama for Windows
-    init(autoreset=True)
 
     # Configure handler with custom formatter
     handler = logging.StreamHandler()
@@ -69,34 +92,48 @@ def init_logging(app):
     sql_logger.addHandler(handler)
     sql_logger.setLevel(logging.DEBUG if app.debug else logging.WARNING)
 
-    # Werkzeug's logger
+    # Disable built-in Werkzeug logger
     werkzeug_logger = logging.getLogger('werkzeug')
     werkzeug_logger.setLevel(logging.CRITICAL)
 
     @app.before_request
     def log_request_start():
         method_colour = METHOD_COLOURS.get(request.method, Fore.WHITE)
-        app.logger.debug(DIVIDER)
-        app.logger.info(f"Request: {method_colour}{request.method.upper():<6}{Style.RESET_ALL} {request.path}")
+        if not request.path.lower().startswith('/static/'):
+            app.logger.debug(DIVIDER)
+        app.logger.debug(f"Request: {method_colour}{request.method.upper():<6}{RESET} {request.path}")
 
     @app.after_request
     def log_request_end(response):
-        if response.status_code < 300:
-            response_colour = STATUS_COLOURS.get('200')
-        elif response.status_code < 500:
-            response_colour = STATUS_COLOURS.get('400')
-        elif response.status_code < 600:
-            response_colour = STATUS_COLOURS.get('500')
-        else:
-            response_colour = Fore.WHITE
-
+        # Get color based on first digit of status code
+        status_prefix = str(response.status_code)[0]
+        status_name = STATUS_INFO.get(response.status_code, "")
+        status_colour = STATUS_COLOURS.get(status_prefix, Fore.WHITE)
         method_colour = METHOD_COLOURS.get(request.method, Fore.WHITE)
-        app.logger.info(f" Result: {method_colour}{request.method.upper():<6}{Style.RESET_ALL} {Fore.WHITE}{request.path:<58}{Style.RESET_ALL} [{response_colour}{response.status_code}{Style.RESET_ALL}]")
+        method_text = f"{method_colour}{request.method.upper():<6}{RESET}"
+        path_text = f"{request.path+' ':·<50}{RESET}"
+        status_text = f"{status_colour}{response.status_code}{RESET}|{status_colour}{status_name}{RESET}"
+
+        if app.debug:
+            prefix = " Status"
+            path_colour = DIM
+        else:
+            prefix = "Request"
+            path_colour = ""
+        app.logger.info(f"{prefix}: {method_text} {path_colour}{path_text} {status_text}")
+
         return response
 
+    # Log the start of Jinja template rendering
+    @before_render_template.connect_via(app)
+    def log_before_render(sender, template, context, **extra):
+        jinja_colour = LOG_COLOURS.get('JINJA', "")
+        app.logger.debug(f"  Jinja: Render {jinja_colour}{template.name}{RESET}")
+
     # Announce the server is up
-    app.logger.debug(DIVIDER)
-    app.logger.info(f"🚀 Server running at http://{FLASK_HOST}:{FLASK_PORT}")
+    if environ.get('WERKZEUG_RUN_MAIN') == 'true':
+        app.logger.debug(DIVIDER)
+        app.logger.info(f"🚀 Server running at http://{FLASK_HOST}:{FLASK_PORT}")
 
     return app.logger, sql_logger
 
@@ -106,15 +143,25 @@ def get_sql_logger():
     return logging.getLogger('sql')
 
 
+def wrapped(text):
+    indent = " " * 33
+    return f"\n{indent}".join(wrap(f"{text}", width=72))
+
+
+def log_exception(error):
+    exc_type, exc_value, exc_traceback = exc_info()
+    app_logger = logging.getLogger('app')
+    error_text = f"({exc_type.__name__}) {str(error)}"
+    app_logger.error(f"{ERROR}  ERROR: {wrapped(error_text)}{RESET}")
+
+
 def log_routes(app):
     """Log all registered routes (call after routes are defined)"""
-    from os import environ
-
     if environ.get('WERKZEUG_RUN_MAIN') == 'true':
         app.logger.debug(DIVIDER)
         app.logger.debug("Registered Routes:")
         for rule in app.url_map.iter_rules():
             methods = ','.join(sorted(rule.methods - {'HEAD', 'OPTIONS'}))
             method_colour = METHOD_COLOURS.get(methods, Fore.WHITE)
-            app.logger.debug(f"▪ {method_colour}{methods:8}{Style.RESET_ALL} {rule.rule:30} → {rule.endpoint}")
+            app.logger.debug(f"▪ {method_colour}{methods:8}{RESET} {rule.rule:30} → {rule.endpoint}")
 

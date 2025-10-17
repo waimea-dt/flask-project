@@ -16,23 +16,28 @@
 
     <h1>Notes</h1>
 
-    {% for note in notes %}
+    <section class="notes">
 
-        <article>
+        {% for note in notes %}
 
-            <h3>{{ note.title }}</h3>
-            {{ "<p>PIN</p>" if note.pinned else "" }}
-            <p>{{ note.body }}</p>
-            <p>{{ note.created }}</p>
+            <article class="note">
 
-        </article>
+                <h3>
+                    {{ note.title }}
+                    {{ "📌" if note.pinned }}
+                </h3>
+                <p>{{ note.body }}</p>
+                {# <p>{{ note.created | local_time | human_readable }}</p> #}
 
-    {% else %}
+            </article>
 
-        <p>None!</p>
+        {% else %}
 
-    {% endfor %}
+            <p>None!</p>
 
+        {% endfor %}
+
+    </section>
 
 {% endblock %}
 
