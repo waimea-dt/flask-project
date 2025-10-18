@@ -98,20 +98,34 @@ def init_logging(app):
 
     @app.before_request
     def log_request_start():
-        method_colour = METHOD_COLOURS.get(request.method, Fore.WHITE)
-        if not request.path.lower().startswith('/static/'):
-            app.logger.debug(DIVIDER)
-        app.logger.debug(f"Request: {method_colour}{request.method.upper():<6}{RESET} {request.path}")
+        endpoint = request.endpoint
+        view_func = app.view_functions.get(endpoint) if endpoint else None
+
+        # Handle static files and lambda functions
+        if endpoint == 'static':
+            func_name = 'static file'
+        elif view_func and hasattr(view_func, '__name__'):
+            func_name = f"{view_func.__name__}()"
+        else:
+            func_name = "unknown"
+
+        log_colour = LOG_COLOURS.get('APP', Fore.WHITE)
+        method_colour = METHOD_COLOURS.get(request.method, Fore.WHITE)+BRIGHT
+        method_text = f"{method_colour}> {request.method.upper():<6}{RESET}"
+        path_text = f"{method_colour}{request.path+' ':·<44}→{RESET} {func_name}"
+        divider = f"{DIVIDER}\n{' '*18}{log_colour}[APP]{RESET} " if endpoint != 'static' else ""
+
+        app.logger.debug(f"{divider}Request: {method_text} {path_text}")
 
     @app.after_request
     def log_request_end(response):
         # Get color based on first digit of status code
+        method_colour = METHOD_COLOURS.get(request.method, Fore.WHITE) + DIM if not app.debug else ""
+        method_text = f"{method_colour}< {request.method.upper():<6}{RESET}"
+        path_text = f"{request.path+' ':·<45}{RESET}"
         status_prefix = str(response.status_code)[0]
         status_name = STATUS_INFO.get(response.status_code, "")
         status_colour = STATUS_COLOURS.get(status_prefix, Fore.WHITE)
-        method_colour = METHOD_COLOURS.get(request.method, Fore.WHITE)
-        method_text = f"{method_colour}{request.method.upper():<6}{RESET}"
-        path_text = f"{request.path+' ':·<50}{RESET}"
         status_text = f"{status_colour}{response.status_code}{RESET}|{status_colour}{status_name}{RESET}"
 
         if app.debug:
@@ -120,6 +134,7 @@ def init_logging(app):
         else:
             prefix = "Request"
             path_colour = ""
+
         app.logger.info(f"{prefix}: {method_text} {path_colour}{path_text} {status_text}")
 
         return response
@@ -128,7 +143,7 @@ def init_logging(app):
     @before_render_template.connect_via(app)
     def log_before_render(sender, template, context, **extra):
         jinja_colour = LOG_COLOURS.get('JINJA', "")
-        app.logger.debug(f"  Jinja: Render {jinja_colour}{template.name}{RESET}")
+        app.logger.debug(f" Render: {jinja_colour}{template.name}{RESET}")
 
     # Announce the server is up
     if environ.get('WERKZEUG_RUN_MAIN') == 'true':
@@ -146,6 +161,13 @@ def get_sql_logger():
 def wrapped(text):
     indent = " " * 33
     return f"\n{indent}".join(wrap(f"{text}", width=72))
+
+
+def truncated(text):
+    text = str(text).replace('\n', ' ').replace('\r', '')
+    if len(text) > 72:
+        return text[:68] + '...'
+    return text
 
 
 def log_exception(error):

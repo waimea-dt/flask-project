@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 from pathlib import Path
 from contextlib import contextmanager
 
-from app.helpers.log import get_sql_logger, wrapped, LOG_COLOURS, ERROR, RESET, DIVIDER
+from app.helpers.log import get_sql_logger, wrapped, truncated, LOG_COLOURS, ERROR, RESET, DIVIDER
 
 load_dotenv()
 LOCAL_DB_PATH = getenv("LOCAL_DB_PATH", "app/db/data.sqlite")
@@ -82,6 +82,14 @@ def connect_db():
                             num_rows = len(rows)
                             row_text = f"{num_rows} {'row' if num_rows == 1 else 'rows'}"
                             sql_logger.debug(f" Result: {SQL_COLOUR}{row_text}{RESET} returned")
+
+                            # Log first few rows (preview)
+                            if num_rows > 0:
+                                preview = rows[:3]  # First 5 rows
+                                for i, row in enumerate(preview, 1):
+                                    sql_logger.debug(f"  Row {i}: {SQL_COLOUR}{truncated(row)}{RESET}")
+                                if num_rows > 3:
+                                    sql_logger.debug(f"     ... and {num_rows - 3} more")
                         return rows
 
                     def fetchone(self):
@@ -89,6 +97,8 @@ def connect_db():
                         if self._sql_type == 'SELECT':
                             row_text = "1 row" if row else "0 rows"
                             sql_logger.debug(f" Result: {SQL_COLOUR}{row_text}{RESET} returned")
+                            if row:
+                                sql_logger.debug(f"   Data: {SQL_COLOUR}{truncated(row)}{RESET}")
                         return row
 
                     def __getattr__(self, name):
