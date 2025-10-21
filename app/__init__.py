@@ -3,6 +3,7 @@ from flask import Flask, render_template, flash, redirect, session
 
 from app.helpers.log import init_logging, log_routes, log_exception
 from app.helpers.db import connect_db, init_db, init_db_table
+from app.helpers.dates import init_date_filters
 
 # Create the app
 app = Flask(__name__)
@@ -10,6 +11,8 @@ app = Flask(__name__)
 # Initialize logging
 app_logger, sql_logger = init_logging(app)
 
+# Initialize date/time filters
+init_date_filters(app)
 
 #-----------------------------------------------------------
 @app.get("/")

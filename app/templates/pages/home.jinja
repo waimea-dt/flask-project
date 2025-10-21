@@ -27,7 +27,7 @@
                     {{ "📌" if note.pinned }}
                 </h3>
                 <p>{{ note.body }}</p>
-                {# <p>{{ note.created | local_time | human_readable }}</p> #}
+                <p>{{ note.created | local | format }}</p>
 
             </article>
 

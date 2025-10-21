@@ -59,6 +59,7 @@ DIM    = Style.DIM
 ERROR  = LOG_COLOURS.get('ERROR')
 
 DIVIDER = "─" * 80
+ARROW   = f"{DIM}···→{RESET}"
 
 
 class ColoredFormatter(logging.Formatter):
@@ -103,39 +104,39 @@ def init_logging(app):
 
         # Handle static files and lambda functions
         if endpoint == 'static':
-            func_name = 'static file'
+            route_name = 'static file'
+            func_name = ''
         elif view_func and hasattr(view_func, '__name__'):
+            route_name = f"{request.url_rule}" if request.url_rule else ""
             func_name = f"{view_func.__name__}()"
         else:
-            func_name = "unknown"
+            route_name = "unknown"
+            func_name = ""
 
         log_colour = LOG_COLOURS.get('APP', Fore.WHITE)
-        method_colour = METHOD_COLOURS.get(request.method, Fore.WHITE)+BRIGHT
-        method_text = f"{method_colour}> {request.method.upper():<6}{RESET}"
-        path_text = f"{method_colour}{request.path+' ':·<44}→{RESET} {func_name}"
-        divider = f"{DIVIDER}\n{' '*18}{log_colour}[APP]{RESET} " if endpoint != 'static' else ""
+        indent_text = f"{' '*18}{log_colour}[APP]{RESET}"
+        divider = f"{DIVIDER}\n{indent_text} " if endpoint != 'static' else ""
 
-        app.logger.debug(f"{divider}Request: {method_text} {path_text}")
+        method_colour = METHOD_COLOURS.get(request.method, Fore.WHITE)+BRIGHT
+        method_text = f"{method_colour}{request.method.upper()}{RESET}"
+        query_text = '?' + request.query_string.decode('utf-8') if request.query_string else ''
+        path_text = f"{method_colour}{request.path}{query_text}{RESET}"
+        func_text = f" {ARROW} {func_name}" if func_name else ""
+
+        app.logger.debug(f"{divider}Request: {method_text} {path_text} {ARROW} {route_name}{func_text}")
 
     @app.after_request
     def log_request_end(response):
-        # Get color based on first digit of status code
-        method_colour = METHOD_COLOURS.get(request.method, Fore.WHITE) + DIM if not app.debug else ""
-        method_text = f"{method_colour}< {request.method.upper():<6}{RESET}"
-        path_text = f"{request.path+' ':·<45}{RESET}"
+        method_colour = DIM if app.debug else METHOD_COLOURS.get(request.method, Fore.WHITE)
+        method_text   = f"{method_colour}{request.method.upper()}{RESET}"
+        path_text     = f"{method_colour}{request.path}{RESET}"
         status_prefix = str(response.status_code)[0]
-        status_name = STATUS_INFO.get(response.status_code, "")
+        status_name   = STATUS_INFO.get(response.status_code, "")
         status_colour = STATUS_COLOURS.get(status_prefix, Fore.WHITE)
-        status_text = f"{status_colour}{response.status_code}{RESET}|{status_colour}{status_name}{RESET}"
+        status_text   = f"{status_colour}{response.status_code}{RESET}|{status_colour}{status_name}{RESET}"
+        prefix        = " Status" if app.debug else "Request"
 
-        if app.debug:
-            prefix = " Status"
-            path_colour = DIM
-        else:
-            prefix = "Request"
-            path_colour = ""
-
-        app.logger.info(f"{prefix}: {method_text} {path_colour}{path_text} {status_text}")
+        app.logger.info(f"{prefix}: {method_text} {path_text} {ARROW} {status_text}")
 
         return response
 
