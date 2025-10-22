@@ -347,3 +347,391 @@ def init_date_filters(app):
     app.jinja_env.filters['to_local'] = _to_local_filter
     app.jinja_env.filters['humanize'] = _humanize_filter
 
+
+
+# ==========================================================================
+
+from os import environ, getenv
+from sys import exc_info
+from dotenv import load_dotenv
+from flask import request
+from flask.signals import before_render_template
+from textwrap import wrap
+from colorama import init, Fore, Back, Style
+import logging
+
+# Load Flask environment config
+load_dotenv()
+FLASK_HOST = getenv("FLASK_RUN_HOST", "localhost")
+FLASK_PORT = getenv("FLASK_RUN_PORT", "5000")
+
+# Initialize colorama for Windows
+init(autoreset=True)
+
+LOG_COLOURS = {
+    'APP':      Fore.YELLOW,
+    'SQL':      Fore.BLUE,
+    'JINJA':    Fore.MAGENTA,
+    'DEBUG':    Fore.CYAN,
+    'INFO':     Fore.GREEN,
+    'WARNING':  Fore.YELLOW,
+    'ERROR':    Fore.RED,
+    'CRITICAL': Fore.RED + Style.BRIGHT,
+}
+
+METHOD_COLOURS = {
+    'GET':    Fore.YELLOW,
+    'POST':   Fore.GREEN,
+    'PUT':    Fore.CYAN,
+    'DELETE': Fore.RED,
+}
+
+STATUS_COLOURS = {
+    '2': Fore.GREEN,   # 2xx - Success
+    '3': Fore.CYAN,    # 3xx - Redirection
+    '4': Fore.YELLOW,  # 4xx - Client Error
+    '5': Fore.RED,     # 5xx - Server Error
+}
+
+STATUS_INFO = {
+    200: "OK",
+    301: "Redirect",
+    302: "Redirect",
+    304: "Cached",
+    400: "Bad Req.",
+    401: "Unauthor.",
+    403: "Forbidden",
+    404: "Not Found",
+    405: "Bad Method",
+    500: "Server",
+}
+
+RESET  = Style.RESET_ALL
+BRIGHT = Style.BRIGHT
+DIM    = Style.DIM
+ERROR  = LOG_COLOURS.get('ERROR')
+
+DIVIDER = "─" * 80
+ARROW   = f"{DIM}···→{RESET}"
+
+
+class ColoredFormatter(logging.Formatter):
+    def format(self, record):
+        logger_name = record.name.upper()
+        name_colour  = LOG_COLOURS.get(logger_name, Fore.WHITE)
+        level_colour = LOG_COLOURS.get(record.levelname, Fore.WHITE)
+        record.name      = f"{name_colour}[{logger_name}]{RESET}"
+        record.levelname = f"{level_colour}{record.levelname:<8}{RESET}"
+        return super().format(record)
+
+
+def init_logging(app):
+    """Initialize all loggers with colored formatting"""
+
+    # Configure handler with custom formatter
+    handler = logging.StreamHandler()
+    handler.setFormatter(ColoredFormatter(
+        fmt='%(asctime)s %(levelname)s %(name)s %(message)s',
+        datefmt='%H:%M:%S'
+    ))
+
+    # Flask's app logger
+    app.logger.handlers.clear()
+    app.logger.addHandler(handler)
+    app.logger.setLevel(logging.DEBUG if app.debug else logging.WARNING)
+
+    # SQL logger
+    sql_logger = logging.getLogger('sql')
+    sql_logger.handlers.clear()
+    sql_logger.addHandler(handler)
+    sql_logger.setLevel(logging.DEBUG if app.debug else logging.WARNING)
+
+    # Disable built-in Werkzeug logger
+    werkzeug_logger = logging.getLogger('werkzeug')
+    werkzeug_logger.setLevel(logging.CRITICAL)
+
+    @app.before_request
+    def log_request_start():
+        endpoint = request.endpoint
+        view_func = app.view_functions.get(endpoint) if endpoint else None
+
+        # Handle static files and lambda functions
+        if endpoint == 'static':
+            route_name = 'static file'
+            func_name = ''
+        elif view_func and hasattr(view_func, '__name__'):
+            route_name = f"{request.url_rule}" if request.url_rule else ""
+            func_name = f"{view_func.__name__}()"
+        else:
+            route_name = "unknown"
+            func_name = ""
+
+        log_colour = LOG_COLOURS.get('APP', Fore.WHITE)
+        indent_text = f"{' '*18}{log_colour}[APP]{RESET}"
+        divider = f"{DIVIDER}\n{indent_text} " if endpoint != 'static' else ""
+
+        method_colour = METHOD_COLOURS.get(request.method, Fore.WHITE)+BRIGHT
+        method_text = f"{method_colour}{request.method.upper()}{RESET}"
+        query_text = '?' + request.query_string.decode('utf-8') if request.query_string else ''
+        path_text = f"{method_colour}{request.path}{query_text}{RESET}"
+        func_text = f" {ARROW} {func_name}" if func_name else ""
+
+        app.logger.debug(f"{divider}Request: {method_text} {path_text} {ARROW} {route_name}{func_text}")
+
+    @app.after_request
+    def log_request_end(response):
+        method_colour = DIM if app.debug else METHOD_COLOURS.get(request.method, Fore.WHITE)
+        method_text   = f"{method_colour}{request.method.upper()}{RESET}"
+        path_text     = f"{method_colour}{request.path}{RESET}"
+        status_prefix = str(response.status_code)[0]
+        status_name   = STATUS_INFO.get(response.status_code, "")
+        status_colour = STATUS_COLOURS.get(status_prefix, Fore.WHITE)
+        status_text   = f"{status_colour}{response.status_code}{RESET}|{status_colour}{status_name}{RESET}"
+        prefix        = " Status" if app.debug else "Request"
+
+        app.logger.info(f"{prefix}: {method_text} {path_text} {ARROW} {status_text}")
+
+        return response
+
+    # Log the start of Jinja template rendering
+    @before_render_template.connect_via(app)
+    def log_before_render(sender, template, context, **extra):
+        jinja_colour = LOG_COLOURS.get('JINJA', "")
+        app.logger.debug(f" Render: {jinja_colour}{template.name}{RESET}")
+
+    # Announce the server is up
+    if environ.get('WERKZEUG_RUN_MAIN') == 'true':
+        app.logger.debug(DIVIDER)
+        app.logger.info(f"🚀 Server running at http://{FLASK_HOST}:{FLASK_PORT}")
+
+    return app.logger, sql_logger
+
+
+def get_sql_logger():
+    """Get the SQL logger (call after init_logging)"""
+    return logging.getLogger('sql')
+
+
+def wrapped(text):
+    indent = " " * 33
+    return f"\n{indent}".join(wrap(f"{text}", width=72))
+
+
+def truncated(text):
+    text = str(text).replace('\n', ' ').replace('\r', '')
+    if len(text) > 72:
+        return text[:68] + '...'
+    return text
+
+
+def log_exception(error):
+    exc_type, exc_value, exc_traceback = exc_info()
+    app_logger = logging.getLogger('app')
+    error_text = f"({exc_type.__name__}) {str(error)}"
+    app_logger.error(f"{ERROR}  ERROR: {wrapped(error_text)}{RESET}")
+
+
+def log_routes(app):
+    """Log all registered routes (call after routes are defined)"""
+    if environ.get('WERKZEUG_RUN_MAIN') == 'true':
+        app.logger.debug(DIVIDER)
+        app.logger.debug("Registered Routes:")
+        for rule in app.url_map.iter_rules():
+            methods = ','.join(sorted(rule.methods - {'HEAD', 'OPTIONS'}))
+            method_colour = METHOD_COLOURS.get(methods, Fore.WHITE)
+            app.logger.debug(f"▪ {method_colour}{methods:8}{RESET} {rule.rule:30} → {rule.endpoint}")
+
+
+# ==========================================================================
+
+import sqlite3
+from os import getenv
+from dotenv import load_dotenv
+from pathlib import Path
+from contextlib import contextmanager
+
+from app.helpers.log import get_sql_logger, wrapped, truncated, LOG_COLOURS, ERROR, RESET, DIVIDER
+
+load_dotenv()
+LOCAL_DB_PATH = getenv("LOCAL_DB_PATH", "app/db/data.sqlite")
+
+SQL_COLOUR = LOG_COLOURS.get('SQL', "")
+sql_logger = get_sql_logger()
+
+
+def init_db():
+    """Initialize database"""
+
+    sql_logger.debug(DIVIDER)
+    sql_logger.info(f"DB File: {SQL_COLOUR}{LOCAL_DB_PATH}{RESET}")
+
+    # Ensure the directory exists
+    db_path_obj = Path(LOCAL_DB_PATH)
+    db_path_obj.parent.mkdir(parents=True, exist_ok=True)
+
+
+def init_db_table(table_name, schema, seed_insert=None, seed_data=None):
+    """Initialize database table and optionally add seed data"""
+
+    with connect_db() as db:
+        # Check if table exists
+        sql_logger.debug(f"  Table: {SQL_COLOUR}{table_name}{RESET} checking if present...")
+        table_exists = db.execute("SELECT name FROM sqlite_master WHERE type='table' AND name=?", (table_name,)).fetchone()
+
+        if table_exists:
+            sql_logger.info(f"  Table: {SQL_COLOUR}{table_name}{RESET} exists")
+        else:
+            sql_logger.info(f"  Table: {SQL_COLOUR}{table_name}{RESET} not found, creating...")
+            db.execute(schema)
+
+            if seed_insert and seed_data:
+                # Seed with sample data
+                sql_logger.info(f"  Table: {SQL_COLOUR}{table_name}{RESET} seeding with sample data...")
+                db.executemany(seed_insert, seed_data)
+
+
+@contextmanager
+def connect_db():
+    """Create a database connection with logging"""
+
+    connection = sqlite3.connect(LOCAL_DB_PATH)
+
+    # Return dictionaries from queries
+    connection.row_factory = lambda cursor, row: dict(
+        zip([col[0] for col in cursor.description], row)
+    )
+
+    # Create a wrapper class that intercepts execute calls
+    class LoggingConnection:
+        def __init__(self, conn):
+            self._conn = conn
+
+        def execute(self, sql, params=()):
+            try:
+                SQL_COLOUR = LOG_COLOURS.get('SQL', "")
+
+                sql_collapsed = ' '.join(sql.split())
+                sql_logger.debug(f"  Query: {SQL_COLOUR}{wrapped(sql_collapsed)}{RESET}")
+                sql_logger.debug(f" Params: {SQL_COLOUR}{params}{RESET}")
+
+                cursor = self._conn.execute(sql, params)
+
+                # Wrap cursor to log when data is fetched
+                class LoggingCursor:
+                    def __init__(self, cursor, sql_type):
+                        self._cursor = cursor
+                        self._sql_type = sql_type
+
+                    def fetchall(self):
+                        rows = self._cursor.fetchall()
+                        if self._sql_type == 'SELECT':
+                            num_rows = len(rows)
+                            row_text = f"{num_rows} {'row' if num_rows == 1 else 'rows'}"
+                            sql_logger.debug(f" Result: {SQL_COLOUR}{row_text}{RESET} returned")
+
+                            # Log first few rows (preview)
+                            if num_rows > 0:
+                                preview = rows[:3]  # First 5 rows
+                                for i, row in enumerate(preview, 1):
+                                    sql_logger.debug(f"  Row {i}: {SQL_COLOUR}{truncated(row)}{RESET}")
+                                if num_rows > 3:
+                                    sql_logger.debug(f"     ... and {num_rows - 3} more")
+                        return rows
+
+                    def fetchone(self):
+                        row = self._cursor.fetchone()
+                        if self._sql_type == 'SELECT':
+                            row_text = "1 row" if row else "0 rows"
+                            sql_logger.debug(f" Result: {SQL_COLOUR}{row_text}{RESET} returned")
+                            if row:
+                                sql_logger.debug(f"   Data: {SQL_COLOUR}{truncated(row)}{RESET}")
+                        return row
+
+                    def __getattr__(self, name):
+                        return getattr(self._cursor, name)
+
+                sql_upper = sql.strip().upper()
+
+                if sql_upper.startswith('SELECT'):
+                    return LoggingCursor(cursor, 'SELECT')
+
+                # Map SQL commands to their result messages
+                row_text = f"{cursor.rowcount} {'row' if cursor.rowcount == 1 else 'rows'}"
+
+                result_messages = {
+                    'CREATE': "table created",
+                    'INSERT': f"{row_text} created, id={SQL_COLOUR}{cursor.lastrowid}{RESET}",
+                    'UPDATE': f"{row_text} updated",
+                    'DELETE': f"{row_text} deleted",
+                }
+
+                # Find matching command or use default
+                for cmd, msg in result_messages.items():
+                    if sql_upper.startswith(cmd):
+                        sql_logger.debug(f" Result: {SQL_COLOUR}{msg}{RESET}")
+                        break
+                else:
+                    sql_logger.debug(f" Result: {SQL_COLOUR}{row_text}{RESET} affected")
+
+                return cursor
+
+            except sqlite3.Error as e:
+                # sql_logger.error(f"{ERROR}  ERROR: {wrapped(e)}{RESET}")
+                raise
+
+        def executemany(self, sql, params):
+            try:
+                SQL_COLOUR = LOG_COLOURS.get('SQL', "")
+
+                sql_logger.debug(f"  Query: {SQL_COLOUR}{' '.join(sql.split())}{RESET}")
+                sql_logger.debug(f" Params: {SQL_COLOUR}{len(list(params))} rows{RESET}")
+
+                cursor = self._conn.executemany(sql, params)
+
+                sql_upper = sql.strip().upper()
+                row_text = f"{cursor.rowcount} {'row' if cursor.rowcount == 1 else 'rows'}"
+
+                result_messages = {
+                    'INSERT': f"{row_text} created",
+                    'UPDATE': f"{row_text} updated",
+                    'DELETE': f"{row_text} deleted",
+                }
+
+                # Find matching command or use default
+                for cmd, msg in result_messages.items():
+                    if sql_upper.startswith(cmd):
+                        sql_logger.debug(f" Result: {SQL_COLOUR}{msg}{RESET}")
+                        break
+                else:
+                    sql_logger.debug(f" Result: {SQL_COLOUR}{row_text}{RESET} affected")
+
+                return cursor
+
+            except sqlite3.Error as e:
+                # sql_logger.error(f"{ERROR}  ERROR: {wrapped(e)}{RESET}")
+                raise
+
+        def commit(self):
+            return self._conn.commit()
+
+        def rollback(self):
+            return self._conn.rollback()
+
+        def close(self):
+            return self._conn.close()
+
+        def __getattr__(self, name):
+            return getattr(self._conn, name)
+
+    wrapped_connection = LoggingConnection(connection)
+
+    try:
+        yield wrapped_connection
+        wrapped_connection.commit()
+    except Exception:
+        wrapped_connection.rollback()
+        raise
+    finally:
+        wrapped_connection.close()
+
+

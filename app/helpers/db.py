@@ -1,53 +1,20 @@
 import sqlite3
+from contextlib import contextmanager
+from pathlib import Path
 from os import getenv
 from dotenv import load_dotenv
-from pathlib import Path
-from contextlib import contextmanager
 
-from app.helpers.log import get_sql_logger, wrapped, truncated, LOG_COLOURS, ERROR, RESET, DIVIDER
+from app.helpers.log import get_sql_logger
 
+# Load environment vars
 load_dotenv()
 LOCAL_DB_PATH = getenv("LOCAL_DB_PATH", "app/db/data.sqlite")
-
-SQL_COLOUR = LOG_COLOURS.get('SQL', "")
-sql_logger = get_sql_logger()
-
-
-def init_db():
-    """Initialize database"""
-
-    sql_logger.debug(DIVIDER)
-    sql_logger.info(f"DB File: {SQL_COLOUR}{LOCAL_DB_PATH}{RESET}")
-
-    # Ensure the directory exists
-    db_path_obj = Path(LOCAL_DB_PATH)
-    db_path_obj.parent.mkdir(parents=True, exist_ok=True)
-
-
-def init_db_table(table_name, schema, seed_insert=None, seed_data=None):
-    """Initialize database table and optionally add seed data"""
-
-    with connect_db() as db:
-        # Check if table exists
-        sql_logger.debug(f"  Table: {SQL_COLOUR}{table_name}{RESET} checking if present...")
-        table_exists = db.execute("SELECT name FROM sqlite_master WHERE type='table' AND name=?", (table_name,)).fetchone()
-
-        if table_exists:
-            sql_logger.info(f"  Table: {SQL_COLOUR}{table_name}{RESET} exists")
-        else:
-            sql_logger.info(f"  Table: {SQL_COLOUR}{table_name}{RESET} not found, creating...")
-            db.execute(schema)
-
-            if seed_insert and seed_data:
-                # Seed with sample data
-                sql_logger.info(f"  Table: {SQL_COLOUR}{table_name}{RESET} seeding with sample data...")
-                db.executemany(seed_insert, seed_data)
 
 
 @contextmanager
 def connect_db():
-    """Create a database connection with logging"""
-
+    """Create a database connection with Rich logging"""
+    sql_logger = get_sql_logger()
     connection = sqlite3.connect(LOCAL_DB_PATH)
 
     # Return dictionaries from queries
@@ -60,13 +27,34 @@ def connect_db():
         def __init__(self, conn):
             self._conn = conn
 
+
+        def _log_error(self, e, sql, params):
+            sql_logger.error(f"[red bold][SQL] Error:[/red bold] {e}")
+            sql_logger.error(f"[red][SQL] Query:[/red] {sql}")
+            if params:
+                sql_logger.error(f"[red][SQL] Params:[/red] {params}")
+
+        def _log_result(self, sql, rowcount, lastid):
+            sql = sql.upper()
+            row_text = f"{rowcount} {'row' if rowcount == 1 else 'rows'}"
+            if sql.startswith('INSERT'):
+                sql_logger.debug(f"[blue][SQL] Result:[/blue]   {row_text} inserted [dim](ID: {lastid})[/dim]")
+            elif sql.startswith('UPDATE'):
+                sql_logger.debug(f"[blue][SQL] Result:[/blue]   {row_text} updated")
+            elif sql.startswith('DELETE'):
+                sql_logger.debug(f"[blue][SQL] Result:[/blue]   {row_text} deleted")
+            else:
+                sql_logger.debug(f"[blue][SQL] Result:[/blue]   {row_text} affected")
+
+
         def execute(self, sql, params=()):
             try:
-                SQL_COLOUR = LOG_COLOURS.get('SQL', "")
+                # Log the query
+                clean_sql = ' '.join(sql.split())
+                sql_logger.debug(f"[blue][SQL] Query:[/blue]    {clean_sql}")
 
-                sql_collapsed = ' '.join(sql.split())
-                sql_logger.debug(f"  Query: {SQL_COLOUR}{wrapped(sql_collapsed)}{RESET}")
-                sql_logger.debug(f" Params: {SQL_COLOUR}{params}{RESET}")
+                if params:
+                    sql_logger.debug(f"[blue][SQL] Params:[/blue]   {params}")
 
                 cursor = self._conn.execute(sql, params)
 
@@ -81,88 +69,56 @@ def connect_db():
                         if self._sql_type == 'SELECT':
                             num_rows = len(rows)
                             row_text = f"{num_rows} {'row' if num_rows == 1 else 'rows'}"
-                            sql_logger.debug(f" Result: {SQL_COLOUR}{row_text}{RESET} returned")
+                            sql_logger.debug(f"[blue][SQL] Result:[/blue]   {row_text} returned")
 
                             # Log first few rows (preview)
                             if num_rows > 0:
                                 preview = rows[:3]  # First 5 rows
-                                for i, row in enumerate(preview, 1):
-                                    sql_logger.debug(f"  Row {i}: {SQL_COLOUR}{truncated(row)}{RESET}")
+                                for row in preview:
+                                    sql_logger.debug(f"[blue][SQL] Data:[/blue]     {truncated(row)}")
                                 if num_rows > 3:
-                                    sql_logger.debug(f"     ... and {num_rows - 3} more")
+                                    sql_logger.debug(f"[blue][SQL] Data:[/blue]     ... and {num_rows - 3} more")
                         return rows
 
                     def fetchone(self):
                         row = self._cursor.fetchone()
                         if self._sql_type == 'SELECT':
                             row_text = "1 row" if row else "0 rows"
-                            sql_logger.debug(f" Result: {SQL_COLOUR}{row_text}{RESET} returned")
+                            sql_logger.debug(f"[blue][SQL] Result:[/blue]   {row_text} returned")
                             if row:
-                                sql_logger.debug(f"   Data: {SQL_COLOUR}{truncated(row)}{RESET}")
+                                sql_logger.debug(f"[blue][SQL] Data:[/blue]     {truncated(row)}")
                         return row
 
                     def __getattr__(self, name):
                         return getattr(self._cursor, name)
 
-                sql_upper = sql.strip().upper()
-
-                if sql_upper.startswith('SELECT'):
+                if sql.strip().upper().startswith('SELECT'):
                     return LoggingCursor(cursor, 'SELECT')
 
-                # Map SQL commands to their result messages
-                row_text = f"{cursor.rowcount} {'row' if cursor.rowcount == 1 else 'rows'}"
-
-                result_messages = {
-                    'CREATE': "table created",
-                    'INSERT': f"{row_text} created, id={SQL_COLOUR}{cursor.lastrowid}{RESET}",
-                    'UPDATE': f"{row_text} updated",
-                    'DELETE': f"{row_text} deleted",
-                }
-
-                # Find matching command or use default
-                for cmd, msg in result_messages.items():
-                    if sql_upper.startswith(cmd):
-                        sql_logger.debug(f" Result: {SQL_COLOUR}{msg}{RESET}")
-                        break
-                else:
-                    sql_logger.debug(f" Result: {SQL_COLOUR}{row_text}{RESET} affected")
+                self._log_result(sql, cursor.rowcount, cursor.lastrowid)
 
                 return cursor
 
             except sqlite3.Error as e:
-                # sql_logger.error(f"{ERROR}  ERROR: {wrapped(e)}{RESET}")
+                self._log_error(e, clean_sql, params)
                 raise
 
         def executemany(self, sql, params):
             try:
-                SQL_COLOUR = LOG_COLOURS.get('SQL', "")
+                clean_sql = ' '.join(sql.split())
+                params_list = list(params)
 
-                sql_logger.debug(f"  Query: {SQL_COLOUR}{' '.join(sql.split())}{RESET}")
-                sql_logger.debug(f" Params: {SQL_COLOUR}{len(list(params))} rows{RESET}")
+                sql_logger.debug(f"[blue][SQL] Query (bulk):[/blue] {clean_sql}")
+                sql_logger.debug(f"[blue][SQL] Params:[/blue] {len(params_list)} rows")
 
-                cursor = self._conn.executemany(sql, params)
+                cursor = self._conn.executemany(sql, params_list)
 
-                sql_upper = sql.strip().upper()
-                row_text = f"{cursor.rowcount} {'row' if cursor.rowcount == 1 else 'rows'}"
-
-                result_messages = {
-                    'INSERT': f"{row_text} created",
-                    'UPDATE': f"{row_text} updated",
-                    'DELETE': f"{row_text} deleted",
-                }
-
-                # Find matching command or use default
-                for cmd, msg in result_messages.items():
-                    if sql_upper.startswith(cmd):
-                        sql_logger.debug(f" Result: {SQL_COLOUR}{msg}{RESET}")
-                        break
-                else:
-                    sql_logger.debug(f" Result: {SQL_COLOUR}{row_text}{RESET} affected")
+                self._log_result(sql, cursor.rowcount, cursor.lastrowid)
 
                 return cursor
 
             except sqlite3.Error as e:
-                # sql_logger.error(f"{ERROR}  ERROR: {wrapped(e)}{RESET}")
+                self._log_error(e, clean_sql, f"{len(params_list)} rows")
                 raise
 
         def commit(self):
@@ -187,5 +143,40 @@ def connect_db():
         raise
     finally:
         wrapped_connection.close()
+
+
+def truncated(text):
+    text = str(text).replace('\n', ' ').replace('\r', '')
+    if len(text) > 128:
+        return text[:128] + "'..."
+    return text
+
+
+def init_db():
+    """Initialize database - ensure directory exists"""
+    db_path = Path(LOCAL_DB_PATH)
+    db_path.parent.mkdir(parents=True, exist_ok=True)
+
+
+def init_db_table(app, table_name: str, schema: str, seed_insert: str, seed_data: list):
+    """Initialize a database table with schema and seed data"""
+
+    with connect_db() as db:
+        # Check if table exists
+        table_exists = db.execute("""
+            SELECT name FROM sqlite_master
+            WHERE type='table' AND name=?
+        """, (table_name,)).fetchone()
+
+        # Create table if it doesn't exist
+        if not table_exists:
+            app.logger.info(f"[cyan][SQL][/cyan] Creating table '{table_name}'")
+            db.execute(schema)
+
+            # Seed with sample data
+            if seed_data:
+                app.logger.info(f"[cyan][SQL][/cyan] Seedinmg table '{table_name}' with data")
+                db.executemany(seed_insert, seed_data)
+                app.logger.info(f"[cyan][SQL][/cyan] Table '{table_name}' created and seeded with {len(seed_data)} rows")
 
 

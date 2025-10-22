@@ -3,7 +3,7 @@ from flask import Flask, render_template, flash, redirect, session
 
 from app.helpers.log import init_logging, log_routes, log_exception
 from app.helpers.db import connect_db, init_db, init_db_table
-from app.helpers.dates import init_date_filters
+from app.helpers.date import init_date_filters
 
 # Create the app
 app = Flask(__name__)
@@ -48,6 +48,12 @@ def show_note(id):
 #-----------------------------------------------------------
 @app.get("/test")
 def test():
+    return render_template("pages/form.jinja")
+
+
+#-----------------------------------------------------------
+@app.post("/test")
+def test_post():
     return redirect("/")
 
 
@@ -108,6 +114,6 @@ NOTE_SEED_DATA = [
 
 if environ.get('WERKZEUG_RUN_MAIN') == 'true':
     init_db()
-    init_db_table('note', NOTE_SCHEMA, NOTE_SEED_INSERT, NOTE_SEED_DATA)
+    init_db_table(app, 'note', NOTE_SCHEMA, NOTE_SEED_INSERT, NOTE_SEED_DATA)
 
 

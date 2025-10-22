@@ -1,0 +1,30 @@
+{#=====================================================
+  Home page
+=====================================================#}
+
+{% extends 'pages/base.jinja' %}
+
+
+{% block title %}
+
+    Flask Demo
+
+{% endblock %}
+
+
+{% block content %}
+
+    <h1>Form</h1>
+
+    <article class="note">
+
+        <form method="post" action="/test" enctype="multipart/form-data">
+            <input name="test" type="text" value="TESTING 123...">
+            <input name="file" type="file">
+            <button>Go!</button>
+        </form>
+
+    </article>
+
+{% endblock %}
+
