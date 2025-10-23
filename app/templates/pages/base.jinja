@@ -1,13 +1,6 @@
 {#=====================================================
   Base template
   - Used as the basis of all pages
-  - Uses a light colour theme by default
-  - Provides a main heading and navigation menu
-  - Has blocks for the page title and main content
-  - Loads PicoCSS and Pico Colours
-  - Loads a user stylesheet
-  - Loads JS utility functions
-  - Includes block for flash messages
 =====================================================#}
 
 <!DOCTYPE html>
@@ -20,7 +13,7 @@
 
     <link rel="icon" href="/static/images/notes.svg">
 
-	<title>{% block title %}{% endblock %}</title>
+	<title>Notes Demo {% block title %}{% endblock %}</title>
 
     <script src="/static/js/utils.js"></script>
 
@@ -34,16 +27,19 @@
     <header>
         <nav>
             <ul>
-                <li><strong><a href="/">Notes</a></strong></li>
+                <li><strong><a href="/">Notes Demo</a></strong></li>
             </ul>
 
             <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="/test">Form</a></li>
-                <li><a href="/about">About</a></li>
+                <li><a href="/">Link</a></li>
+                <li><a href="/">Link</a></li>
+                <li><a href="/">Link</a></li>
             </ul>
         </nav>
     </header>
+
+    {# Show flash messages from any previous events #}
+    {% include "partials/messages.jinja" %}
 
     <main>
 

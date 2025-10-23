@@ -1,21 +1,34 @@
-from os import environ
+#===========================================================
+# PROJECT NAME HERE
+# By YOUR NAME HERE
+#===========================================================
+
 from flask import Flask, render_template, flash, redirect, request, session
+from werkzeug.security import generate_password_hash, check_password_hash
+import html
 
 from app.helpers.session import init_session
-from app.helpers.log import init_logging, log_routes, log_exception
-from app.helpers.db import connect_db, init_db, init_db_table
-from app.helpers.date import init_date_filters
+from app.helpers.log     import init_logging
+from app.helpers.db      import init_database, connect_db
+from app.helpers.auth    import login_required
+from app.helpers.text    import init_text_filters
+from app.helpers.date    import init_date_filters
+from app.helpers.error   import init_error_handlers
+
 
 # Create the app
 app = Flask(__name__)
 
-init_session(app)
-init_logging(app)
-init_date_filters(app)
+
+#===========================================================
+# App Routes Handlers
+#===========================================================
 
 #-----------------------------------------------------------
+# Home page route - Show all notes
+#-----------------------------------------------------------
 @app.get("/")
-def show_all_notes():
+def show_notes():
     with connect_db() as db:
         sql = """
             SELECT id, title, body, pinned, created
@@ -29,80 +42,40 @@ def show_all_notes():
 
 
 #-----------------------------------------------------------
+# View note route
+#-----------------------------------------------------------
 @app.get("/note/<int:id>")
 def show_note(id):
-    with connect_db() as db:
-        sql = """
-            SELECT id, title, body, pinned, created
-            FROM note
-            WHERE id=?
-        """
-        params = (id,)
-        note = db.execute(sql, params).fetchone()
-
-        return render_template("pages/home.jinja", note=note)
-    pass
-
-
-#-----------------------------------------------------------
-@app.get("/test")
-def test():
-    session.pop("name", None)
-    return render_template("pages/form.jinja")
-
-
-#-----------------------------------------------------------
-@app.post("/test")
-def test_post():
-    session["name"] = request.form.get("test", "???")
     return redirect("/")
 
 
 #-----------------------------------------------------------
-@app.errorhandler(404)
-def page_not_found(error):
-    return render_template("pages/404.jinja"), 404
+# New note route
+#-----------------------------------------------------------
+@app.post("/note")
+def add_note():
+    flash("Note added")
+    return redirect("/")
 
 
 #-----------------------------------------------------------
-@app.errorhandler(Exception)
-def handle_exception(error):
-    log_exception(error)
-    return render_template("pages/500.jinja"), 500
-
-
+# Delete note route
 #-----------------------------------------------------------
-# Now all the routes are defined, announce them
-log_routes(app)
+@app.get("/note/<int:id>/delete")
+def delete_note(id):
+    flash("Note deleted")
+    return redirect("/")
 
 
-#-----------------------------------------------------------
-# Initialize the database
 
-NOTE_SCHEMA = """
-    CREATE TABLE note (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        title TEXT NOT NULL,
-        body TEXT,
-        pinned INTEGER DEFAULT 0,
-        created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-    )
-"""
-
-NOTE_SEED_SQL = """
-    INSERT INTO note (title, body, pinned)
-    VALUES (?, ?, ?)
-"""
-
-NOTE_SEED_DATA = [
-    ("Welcome to Notes", "This is your first note. You can edit or delete it.", 1),
-    ("Getting Started",  "Create new notes by clicking the 'New Note' button.", 0),
-    ("Pinned Notes",     "Pinned notes always appear at the top of your list.", 1),
-    ("Sample Note",      "This is just a sample note with some content.",       0),
-]
-
-if environ.get('WERKZEUG_RUN_MAIN') == 'true':
-    init_db()
-    init_db_table('note', NOTE_SCHEMA, NOTE_SEED_SQL, NOTE_SEED_DATA)
+#===========================================================
+# Configure the app
+#===========================================================
+init_session(app)
+init_logging(app)
+init_text_filters(app)
+init_date_filters(app)
+init_error_handlers(app)
+init_database()
 
 

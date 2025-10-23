@@ -1,1 +1,1 @@
-# Helper module
+""" Helper module """

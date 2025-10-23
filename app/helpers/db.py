@@ -1,10 +1,16 @@
+#============================================================================
+# SQLite Database Setup and Logging
+#============================================================================
+
 from contextlib import contextmanager
 from pathlib import Path
-from os import getenv
 from dotenv import load_dotenv
+from os import getenv, environ
 import sqlite3
 
-from app.helpers.log import get_logger, log_prefix, truncate
+from app.db.config import TABLES
+from app.helpers.log import get_logger, get_console, log_prefix, truncate
+
 
 load_dotenv()
 LOCAL_DB_PATH = getenv("LOCAL_DB_PATH", "app/db/data.sqlite")
@@ -94,18 +100,21 @@ class _LoggingConnection:
         self._conn = conn
         self._logger = get_logger()
 
-    def execute(self, sql, params=()):
+    def execute(self, sql, params=(), logged=True):
         """Execute a single SQL statement with logging"""
         try:
-            collapsed_sql = ' '.join(sql.split())
-            self._log_query(collapsed_sql, params)
+            if logged:
+                collapsed_sql = ' '.join(sql.split())
+                self._log_query(collapsed_sql, params)
 
             cursor = self._conn.execute(sql, params)
 
-            if self._is_select(sql):
-                return _LoggingCursor(cursor, 'SELECT')
+            if logged:
+                if self._is_select(sql):
+                    return _LoggingCursor(cursor, 'SELECT')
 
-            self._log_mutation_result(sql, cursor.rowcount, cursor.lastrowid)
+                self._log_mutation_result(sql, cursor.rowcount, cursor.lastrowid)
+
             return cursor
 
         except sqlite3.Error as e:
@@ -174,45 +183,136 @@ class _LoggingConnection:
         return getattr(self._conn, name)
 
 
-def init_db():
+def init_database():
+    """Initialize database with all configured tables"""
+
+    # Only run on main process (not reloader parent)
+    if environ.get('WERKZEUG_RUN_MAIN') != 'true':
+        return
+
+    console = get_console()
+    console.rule("[blue bold]Database Configuration[/blue bold]")
+
+    _create_db_if_needed()
+
+    for table_name, schema, seed_sql in TABLES:
+        _init_db_table(table_name, schema, seed_sql)
+
+    _log_database_schema()
+
+
+def _create_db_if_needed():
     """Initialize database - ensure directory exists"""
     db_path = Path(LOCAL_DB_PATH)
     db_path.parent.mkdir(parents=True, exist_ok=True)
 
 
-def init_db_table(table_name: str, schema: str, seed_sql: str, seed_data: list):
+def _init_db_table(table_name, schema, seed_sql):
     """Initialize a database table with schema and seed data"""
-    logger = get_logger()
-
     with connect_db() as db:
         if _table_exists(db, table_name):
             return
 
-        logger.info(f"{_prefix('Table', 'cyan')} Creating '{table_name}'")
+        logger = get_logger()
+        logger.info(f"{_prefix('Table', 'cyan')} creating '{table_name}'...")
+        
         db.execute(schema)
 
-        if seed_data:
-            _seed_table(db, logger, table_name, seed_sql, seed_data)
+        if seed_sql:
+            _seed_table(db, logger, table_name, seed_sql)
 
 
 def _table_exists(db, table_name):
     """Check if a table exists in the database"""
     result = db.execute(
         "SELECT name FROM sqlite_master WHERE type='table' AND name=?",
-        (table_name,)
+        (table_name,),
+        logged=False
     ).fetchone()
     return result is not None
 
 
-def _seed_table(db, logger, table_name, seed_sql, seed_data):
+def _seed_table(db, logger, table_name, seed_sql):
     """Seed a table with initial data"""
-    logger.info(f"{_prefix('Table', 'cyan')} Seeding '{table_name}' with data")
-    db.executemany(seed_sql, seed_data)
+    logger.info(f"{_prefix('Table', 'cyan')} seeding '{table_name}' with data")
+    db.execute(seed_sql)
+    logger.info(f"{_prefix('Table', 'cyan')} '{table_name}' seeded with data")
 
-    num_rows = len(seed_data)
-    logger.info(
-        f"{_prefix('Table', 'cyan')} '{table_name}' created and seeded with "
-        f"{num_rows} row{'s' if num_rows != 1 else ''}"
-    )
+
+def _log_database_schema():
+    """Log comprehensive database schema information"""
+    from rich.syntax import Syntax
+    from rich.table import Table
+
+    logger = get_logger()
+    console = get_console()
+
+    with connect_db() as db:
+        tables = db.execute("""
+            SELECT type, name, tbl_name, sql
+            FROM sqlite_master
+            WHERE type='table' AND name NOT LIKE 'sqlite_%'
+        """, logged=False).fetchall()
+
+        if not tables:
+            return
+
+        for table in tables:
+            table_name = table['name']
+            table_sql  = table['sql'] or ''
+
+            columns      = db.execute(f"PRAGMA table_info({table_name})",       logged=False).fetchall()
+            foreign_keys = db.execute(f"PRAGMA foreign_key_list({table_name})", logged=False).fetchall()
+            indexes      = db.execute(f"PRAGMA index_list({table_name})",       logged=False).fetchall()
+
+            col_table = Table(
+                title=f"Table: [blue bold]{table_name}[/blue bold]",
+                show_header=False,
+                title_justify="left"
+            )
+            col_table.add_column("Keys",  style="green")
+            col_table.add_column("Field", style="yellow")
+            col_table.add_column("Type",  style="cyan")
+            col_table.add_column("Constraints")
+
+            for col in columns:
+                constraints = []
+                keys = ""
+                refs = ""
+
+                if col['pk']:
+                    keys = "PK"
+                    if col['type'].upper() == 'INTEGER' and 'AUTOINCREMENT' in table_sql.upper():
+                        constraints.append('AUTOINCREMENT')
+
+                if foreign_keys:
+                    for fk in foreign_keys:
+                        if col['name'] == fk['from']:
+                            keys += " FK" if keys else "FK"
+                            refs = f"[green]FK[/green] --→ [blue]{fk['table']}[/blue]([yellow]{fk['to']}[/yellow])"
+
+                if col['notnull']:
+                    constraints.append('NOT NULL')
+
+                if col['dflt_value']:
+                    constraints.append(f"DEFAULT {col['dflt_value']}")
+
+                if indexes:
+                    for idx in indexes:
+                        if idx['unique']:
+                            idx_info = db.execute(f"PRAGMA index_info({idx['name']})", logged=False).fetchall()
+                            idx_columns = [idx_col['name'] for idx_col in idx_info]
+                            # Only mark as UNIQUE if this is a single-column index on this column
+                            if len(idx_columns) == 1 and col['name'] in idx_columns:
+                                constraints.append('[magenta]UNIQUE[/magenta]')
+
+                cons = ', '.join(constraints) if constraints else ''
+
+                if refs:
+                    col_table.add_row(keys, col['name'], col['type'] or '', cons, refs)
+                else:
+                    col_table.add_row(keys, col['name'], col['type'] or '', cons)
+
+            console.print(col_table)
 
 

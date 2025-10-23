@@ -2,11 +2,31 @@
     display: flex;
     flex-wrap: wrap;
     gap: 2rem;
-    align-items: flex-start;
     justify-content: center;
+    align-items: flex-start;
 }
 
 .note {
-    width: 30%;
+    width: 18rem;
+    background-color: var(--pico-color-yellow-100);
+}
+
+.note header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    background-color: var(--pico-color-yellow-100);
+    border-bottom: none;
+}
+
+.note header h3 {
+    margin-bottom: 0;
+}
+
+.note footer {
+    font-size: 0.7rem;
+    font-style: italic;
+    background-color: var(--pico-color-yellow-100);
+    border-top: none;
 }
 

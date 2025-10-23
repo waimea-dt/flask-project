@@ -1,5 +1,5 @@
 #===========================================================
-# Session Related Functions
+# Session Setup
 #===========================================================
 
 from dotenv import load_dotenv

@@ -1,3 +1,7 @@
+#============================================================================
+# Logging of Requests and Template Rendering with Rich
+#============================================================================
+
 from os import environ, getenv
 from sys import exc_info
 from dotenv import load_dotenv
@@ -89,6 +93,9 @@ def init_logging(app):
     _register_template_logging(app)
     _announce_server_start(app)
 
+    # Log routes after everything is initialized
+    log_routes(app)
+
 
 def _register_request_logging(app):
     """Register before/after request logging handlers"""
@@ -159,7 +166,7 @@ def _register_template_logging(app):
         if not app.debug:
             return
 
-        app.logger.debug(f"{log_prefix('Render', 'cyan', JINJA_LOGGER)} {template.name}")
+        app.logger.debug(f"{log_prefix('Render', 'magenta', JINJA_LOGGER)} {template.name}")
 
         # Filter out Flask built-ins from context
         template_data = [
@@ -168,7 +175,7 @@ def _register_template_logging(app):
         ]
 
         if template_data:
-            app.logger.debug(f"{log_prefix('Data', 'cyan', JINJA_LOGGER)} {template_data}")
+            app.logger.debug(f"{log_prefix('Data', 'magenta', JINJA_LOGGER)} {template_data}")
 
 
 def _announce_server_start(app):
@@ -176,7 +183,7 @@ def _announce_server_start(app):
     if environ.get('WERKZEUG_RUN_MAIN') != 'true':
         return
 
-    console.rule()
+    console.rule("[green bold]Launching Flask App[/green bold]")
     console.print(
         f"🚀 [green]Server running at[/green] "
         f"[link=http://{FLASK_HOST}:{FLASK_PORT}]http://{FLASK_HOST}:{FLASK_PORT}[/link]"
@@ -189,6 +196,10 @@ def _announce_server_start(app):
 def get_logger():
     """Get the app logger (call after init_logging)"""
     return logging.getLogger('app')
+
+def get_console():
+    """Get the app console (call after init_logging)"""
+    return console
 
 
 def truncate(text, width=80):
@@ -233,17 +244,16 @@ def log_routes(app):
         return
 
     table = Table(show_header=False)
-    table.add_column("Method", style="yellow")
-    table.add_column("Route Pattern", style="cyan")
+    table.add_column("Method",            style="yellow")
+    table.add_column("Route Pattern",     style="cyan")
     table.add_column("Endpoint Function", style="green")
 
     for rule in app.url_map.iter_rules():
         methods = ','.join(sorted(rule.methods - {'HEAD', 'OPTIONS'}))
-        endpoint_display = rule.endpoint + ("()" if rule.endpoint != "static" else "")
+        endpoint_display = rule.endpoint + ("()" if rule.endpoint != STATIC else "")
         table.add_row(methods, rule.rule, endpoint_display)
 
-    console.print("🧭 [cyan]Registered routes:[/cyan]")
+    console.rule("[yellow bold]Registered Routes[/yellow bold]")
     console.print(table)
-    console.rule()
 
 

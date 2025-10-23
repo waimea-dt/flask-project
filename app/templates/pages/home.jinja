@@ -5,16 +5,7 @@
 {% extends 'pages/base.jinja' %}
 
 
-{% block title %}
-
-    Flask Demo
-
-{% endblock %}
-
-
 {% block content %}
-
-    <h1>Notes</h1>
 
     <section class="notes">
 
@@ -22,18 +13,22 @@
 
             <article class="note">
 
-                <h3>
-                    {{ note.title }}
+                <header>
+                    <h3>{{ note.title }}</h3>
                     {{ "📌" if note.pinned }}
-                </h3>
-                <p>{{ note.body }}</p>
-                <p>{{ note.created | local | format }}</p>
+                </header>
+
+                <p>{{ note.body | paragraphs }}</p>
+
+                <footer>
+                    Created on {{ note.created | local | format }}
+                </footer>
 
             </article>
 
         {% else %}
 
-            <p>None!</p>
+            <p>No Notes!</p>
 
         {% endfor %}
 
