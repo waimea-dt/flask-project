@@ -33,9 +33,15 @@ STATUS_INFO = {
 }
 
 STATIC = "static"
+EXCLUDED_CONTEXT_KEYS = {'request', 'session', 'g', 'config', 'url_for', 'get_flashed_messages'}
 
-APP_LOG_PREFIX   = "[FLASK]"
-JINJA_LOG_PREFIX = "[JINJA]"
+APP_LOGGER   = "FLASK"
+JINJA_LOGGER = "JINJA"
+
+
+def log_prefix(action="", colour="yellow", logger=APP_LOGGER):
+    """Create a consistent log prefix with color and alignment"""
+    return f"[{colour}][{logger}] {action:>7}{':' if action else ' '}[/{colour}]"
 
 
 def init_logging(app):
@@ -44,6 +50,10 @@ def init_logging(app):
     import flask
     import jinja2
     import werkzeug
+
+    # Clear console at startup
+    if environ.get('WERKZEUG_RUN_MAIN') == 'true':
+        console.clear()
 
     # Configure Rich handler
     handler = RichHandler(
@@ -67,92 +77,113 @@ def init_logging(app):
         omit_repeated_times=True,
     )
 
+    # Setup app logger
     app.logger.handlers.clear()
     app.logger.addHandler(handler)
     app.logger.setLevel(logging.DEBUG if app.debug else logging.INFO)
 
-    # Disable Werkzeug
-    werkzeug_logger = logging.getLogger('werkzeug')
-    werkzeug_logger.setLevel(logging.CRITICAL)
+    # Disable Werkzeug's built-in logging
+    logging.getLogger('werkzeug').setLevel(logging.CRITICAL)
+
+    _register_request_logging(app)
+    _register_template_logging(app)
+    _announce_server_start(app)
+
+
+def _register_request_logging(app):
+    """Register before/after request logging handlers"""
 
     @app.before_request
     def log_request_start():
-        endpoint = request.endpoint
-        if endpoint == STATIC:
+        if request.endpoint == STATIC:
             return
 
-        view_func = app.view_functions.get(endpoint) if endpoint else None
+        # Get route information
+        view_func = app.view_functions.get(request.endpoint) if request.endpoint else None
         if view_func and hasattr(view_func, '__name__'):
-            route_name = f"{request.url_rule}" if request.url_rule else ""
+            route_name = str(request.url_rule) if request.url_rule else ""
             func_name = f"--→ {view_func.__name__}()"
         else:
             route_name = "[red][bold]✗[/bold] unknown route[/red]"
             func_name = ""
 
+        # Build URL with query string
         query_text = '?' + request.query_string.decode('utf-8') if request.query_string else ''
         path_text = f"{request.path}{query_text}"
 
+        # Log request info
         console.rule()
         app.logger.debug(
-            f"[yellow]{APP_LOG_PREFIX} Request:[/yellow] " +
-            f"{request.method} {path_text} --→ {route_name} {func_name}"
+            f"{log_prefix('Request')} {request.method} {path_text} --→ {route_name} {func_name}"
         )
 
+        # Log request data
         if request.view_args:
-            app.logger.debug(f"[yellow]{APP_LOG_PREFIX}  Params:[/yellow] {request.view_args}")
+            app.logger.debug(f"{log_prefix('Params')} {request.view_args}")
 
         if request.args:
-            query_params = dict(request.args)
-            app.logger.debug(f"[yellow]{APP_LOG_PREFIX}   Query:[/yellow] {query_params}")
+            app.logger.debug(f"{log_prefix('Query')} {dict(request.args)}")
 
         if request.form:
-            form_data = dict(request.form)
-            app.logger.debug(f"[yellow]{APP_LOG_PREFIX}    Form:[/yellow] {form_data}")
+            app.logger.debug(f"{log_prefix('Form')} {dict(request.form)}")
 
         if request.files and any(file.filename for file in request.files.values()):
-            filenames = [file.filename for file in request.files.values()]
-            app.logger.debug(f"[yellow]{APP_LOG_PREFIX}   Files:[/yellow] {filenames}")
+            filenames = [f.filename for f in request.files.values()]
+            app.logger.debug(f"{log_prefix('Files')} {filenames}")
 
         if session:
-            session_data = dict(session)
-            app.logger.debug(f"[yellow]{APP_LOG_PREFIX} Session:[/yellow] {session_data}")
-
+            app.logger.debug(f"{log_prefix('Session')} {dict(session)}")
 
     @app.after_request
     def log_request_end(response):
         status_code = response.status_code
         status_name = STATUS_INFO.get(status_code, "")
-        status_text = f"[yellow]{APP_LOG_PREFIX}  Status:[/yellow] "
-        status_text += f"{request.method} {request.path} --→ "
-        status_text += f"{status_code} [dim]({status_name})[/dim]"
+        status_text = (
+            f"{log_prefix('Status')} {request.method} {request.path} --→ "
+            f"{status_code} [dim]({status_name})[/dim]"
+        )
 
         if request.endpoint == STATIC:
             app.logger.debug(f"[dim]{status_text}[/dim]")
         else:
-            app.logger.info(f"{status_text}")
+            app.logger.info(status_text)
 
         return response
 
 
-    # Log the start of Jinja template rendering
+def _register_template_logging(app):
+    """Register template rendering logging"""
+
     @before_render_template.connect_via(app)
     def log_before_render(sender, template, context, **extra):
-        if app.debug:
-            app.logger.debug(f"[cyan]{JINJA_LOG_PREFIX}  Render:[/cyan] {template.name}")
+        if not app.debug:
+            return
 
-            template_data = [
-                item for item in context.keys()
-                if not item.startswith('_') and item not in ['request', 'session', 'g', 'config', 'url_for', 'get_flashed_messages']
-            ]
-            app.logger.debug(f"[cyan]{JINJA_LOG_PREFIX}    Data:[/cyan] {template_data}")
+        app.logger.debug(f"{log_prefix('Render', 'cyan', JINJA_LOGGER)} {template.name}")
 
-    # Announce the server is up
-    if environ.get('WERKZEUG_RUN_MAIN') == 'true':
-        console.clear()
-        console.rule()
-        console.print(f"🚀 [green]Server running at[/green] [link=http://{FLASK_HOST}:{FLASK_PORT}]http://{FLASK_HOST}:{FLASK_PORT}[/link]")
-        if app.debug:
-            console.print("🔧 [yellow]Debug mode enabled[/yellow]")
+        # Filter out Flask built-ins from context
+        template_data = [
+            key for key in context.keys()
+            if not key.startswith('_') and key not in EXCLUDED_CONTEXT_KEYS
+        ]
+
+        if template_data:
+            app.logger.debug(f"{log_prefix('Data', 'cyan', JINJA_LOGGER)} {template_data}")
+
+
+def _announce_server_start(app):
+    """Announce server startup with routes table"""
+    if environ.get('WERKZEUG_RUN_MAIN') != 'true':
+        return
+
+    console.rule()
+    console.print(
+        f"🚀 [green]Server running at[/green] "
+        f"[link=http://{FLASK_HOST}:{FLASK_PORT}]http://{FLASK_HOST}:{FLASK_PORT}[/link]"
+    )
+
+    if app.debug:
+        console.print("🔧 [yellow]Debug mode enabled[/yellow]")
 
 
 def get_logger():
@@ -161,55 +192,58 @@ def get_logger():
 
 
 def truncate(text, width=80):
-    text = str(text).replace('\n', ' ').replace('\r', '')
+    """Truncate text to width, properly closing any open quotes"""
+    # Strip blank lines and indents, then collapse to single line
+    lines = [line.strip() for line in str(text).splitlines() if line.strip()]
+    text = ' '.join(lines)
 
-    if len(text) > width:
-        truncated_text = text[:width]
+    if len(text) <= width:
+        return text
 
-        # Remove complete quoted strings, leaving only unmatched quotes
-        no_doubles = re.sub(r'"[^"]*"', '', truncated_text)
-        no_singles = re.sub(r"'[^']*'", '', truncated_text)
+    truncated_text = text[:width]
 
-        # Count remaining (unmatched) quotes
-        closing = ""
-        if no_singles.count("'") % 2:
-            closing += "'"
-        if no_doubles.count('"') % 2:
-            closing += '"'
+    # Remove complete quoted strings, leaving only unmatched quotes
+    no_doubles = re.sub(r'"[^"]*"', '', truncated_text)
+    no_singles = re.sub(r"'[^']*'", '', truncated_text)
 
-        return truncated_text + closing + "...}"
-    return text
+    # Close any unmatched quotes
+    closing = ""
+    if no_singles.count("'") % 2:
+        closing += "'"
+    if no_doubles.count('"') % 2:
+        closing += '"'
 
-
+    return truncated_text + closing + "..."
 
 
 def log_exception(error):
     """Log exception with Rich formatting"""
     exc_type, exc_value, exc_traceback = exc_info()
-    app_logger = logging.getLogger('app')
+    logger = get_logger()
 
-    app_logger.error(
-        f"[red bold]{APP_LOG_PREFIX}   Error:[/red bold] {exc_type.__name__} → {str(error)}",
+    logger.error(
+        f"{log_prefix('Error', 'red bold')} {exc_type.__name__} → {str(error)}",
         exc_info=True
     )
 
 
 def log_routes(app):
     """Log all registered routes as a Rich table"""
-    if environ.get('WERKZEUG_RUN_MAIN') == 'true':
-        table = Table(
-            show_header=False,
-        )
-        table.add_column("Method", style="yellow")
-        table.add_column("Route Pattern", style="cyan")
-        table.add_column("Endpoint Function", style="green")
+    if environ.get('WERKZEUG_RUN_MAIN') != 'true':
+        return
 
-        for rule in app.url_map.iter_rules():
-            methods = ','.join(sorted(rule.methods - {'HEAD', 'OPTIONS'}))
-            table.add_row(methods, rule.rule, rule.endpoint + ("()" if rule.endpoint != "static" else ""))
+    table = Table(show_header=False)
+    table.add_column("Method", style="yellow")
+    table.add_column("Route Pattern", style="cyan")
+    table.add_column("Endpoint Function", style="green")
 
-        console.print("🧭 [cyan]Registered routes:[/cyan]")
-        console.print(table)
-        console.rule()
+    for rule in app.url_map.iter_rules():
+        methods = ','.join(sorted(rule.methods - {'HEAD', 'OPTIONS'}))
+        endpoint_display = rule.endpoint + ("()" if rule.endpoint != "static" else "")
+        table.add_row(methods, rule.rule, endpoint_display)
+
+    console.print("🧭 [cyan]Registered routes:[/cyan]")
+    console.print(table)
+    console.rule()
 
 

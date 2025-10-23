@@ -103,6 +103,6 @@ NOTE_SEED_DATA = [
 
 if environ.get('WERKZEUG_RUN_MAIN') == 'true':
     init_db()
-    init_db_table(app, 'note', NOTE_SCHEMA, NOTE_SEED_SQL, NOTE_SEED_DATA)
+    init_db_table('note', NOTE_SCHEMA, NOTE_SEED_SQL, NOTE_SEED_DATA)
 
 
