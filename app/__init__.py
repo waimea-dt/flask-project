@@ -25,7 +25,7 @@ app = Flask(__name__)
 #===========================================================
 
 #-----------------------------------------------------------
-# Home page route - Show all notes
+# Home page - Show all notes
 #-----------------------------------------------------------
 @app.get("/")
 def show_notes():
@@ -38,33 +38,67 @@ def show_notes():
         params = ()
         notes = db.execute(sql, params).fetchall()
 
-        return render_template("pages/home.jinja", notes=notes, name="test")
+        return render_template("pages/note_list.jinja", notes=notes)
 
 
 #-----------------------------------------------------------
-# View note route
+# View a note
 #-----------------------------------------------------------
 @app.get("/note/<int:id>")
 def show_note(id):
-    return redirect("/")
+    with connect_db() as db:
+        sql = """
+            SELECT id, title, body, pinned, created
+            FROM note
+            WHERE id=?
+        """
+        params = (id,)
+        note = db.execute(sql, params).fetchone()
+
+        return render_template("pages/note_single.jinja", note=note)
 
 
 #-----------------------------------------------------------
-# New note route
+# View new note form
+#-----------------------------------------------------------
+@app.get("/note/new")
+def show_note_form():
+        return render_template("pages/note_form.jinja")
+
+
+#-----------------------------------------------------------
+# New note processing
 #-----------------------------------------------------------
 @app.post("/note")
 def add_note():
-    flash("Note added")
-    return redirect("/")
+    title  = request.form.get('title')
+    body   = request.form.get('body')
+    pinned = bool(request.form.get('pinned'))
+
+    title = html.escape(title)
+    body = html.escape(body)
+
+    with connect_db() as db:
+        sql = """
+            INSERT INTO note (title, body, pinned) VALUES (?, ?, ?)
+        """
+        params = (title, body, pinned)
+        result = db.execute(sql, params)
+        new_note_id = result.lastrowid
+
+        flash(f"Note added (#{new_note_id})")
+        return redirect("/")
 
 
 #-----------------------------------------------------------
-# Delete note route
+# Delete a note - Admin only
 #-----------------------------------------------------------
 @app.get("/note/<int:id>/delete")
+@login_required
 def delete_note(id):
-    flash("Note deleted")
-    return redirect("/")
+    with connect_db() as db:
+        # ...
+        return redirect("/")
 
 
 
@@ -77,5 +111,4 @@ init_text_filters(app)
 init_date_filters(app)
 init_error_handlers(app)
 init_database()
-
 

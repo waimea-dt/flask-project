@@ -1,22 +1,76 @@
+/*===========================================================
+  PROJECT NAME HERE
+  By YOUR NAME HERE
+===========================================================*/
+
+
+/* Nav Menu -----------------------------------------------*/
+
+.app-name a {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+
+/* Flash Status Messages --------------------------------- */
+
+#messages ul {
+    width: fit-content;
+    margin: 2rem auto;
+    padding: 0;
+}
+
+#messages .message {
+    list-style: none;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+#messages .message.success { color: var(--pico-color-green-500); }
+#messages .message.error   { color: var(--pico-color-red-500); }
+
+
+/* Notes --------------------------------------------------*/
+
 .notes {
     display: flex;
     flex-wrap: wrap;
     gap: 2rem;
     justify-content: center;
-    align-items: flex-start;
 }
 
 .note {
-    width: 18rem;
-    background-color: var(--pico-color-yellow-100);
+    width: 20rem;
+    box-shadow: 0 0.5rem 1rem #0004;
 }
 
-.note header {
+.notes .note {
+    width: 15rem;
+}
+
+.note,
+.note header,
+.note footer {
+    background-color: var(--pico-color-yellow-100);
+    border: none;
+}
+
+.note:only-of-type {
+    margin-inline: auto;
+}
+
+.note.pinned {
+    border: 2px solid var(--pico-color-red-500);
+}
+
+.note header,
+.note footer {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    background-color: var(--pico-color-yellow-100);
-    border-bottom: none;
 }
 
 .note header h3 {
@@ -26,7 +80,5 @@
 .note footer {
     font-size: 0.7rem;
     font-style: italic;
-    background-color: var(--pico-color-yellow-100);
-    border-top: none;
 }
 

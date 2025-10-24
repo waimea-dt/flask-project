@@ -11,7 +11,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="icon" href="/static/images/notes.svg">
+    <link rel="icon" href="/static/images/note.svg">
 
 	<title>Notes Demo {% block title %}{% endblock %}</title>
 
@@ -26,14 +26,20 @@
 
     <header>
         <nav>
+            {# Left side #}
             <ul>
-                <li><strong><a href="/">Notes Demo</a></strong></li>
+                <li class="app-name">
+                    <a href="/">
+                        <img src="/static/images/note.svg" alt="Note">
+                        Notes Demo
+                    </a>
+                </li>
             </ul>
 
+            {# Right side #}
             <ul>
-                <li><a href="/">Link</a></li>
-                <li><a href="/">Link</a></li>
-                <li><a href="/">Link</a></li>
+                <li><a href="/">All Notes</a></li>
+                <li><a href="/note/new">New Note</a></li>
             </ul>
         </nav>
     </header>

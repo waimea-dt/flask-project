@@ -11,18 +11,14 @@
 
         {% for note in notes %}
 
-            <article class="note">
+            <article class="note {{ 'pinned' if note.pinned }}">
 
                 <header>
                     <h3>{{ note.title }}</h3>
                     {{ "📌" if note.pinned }}
                 </header>
 
-                <p>{{ note.body | paragraphs }}</p>
-
-                <footer>
-                    Created on {{ note.created | local | format }}
-                </footer>
+                <p><a href="/note/{{ note.id }}">Read note...</a></p>
 
             </article>
 
