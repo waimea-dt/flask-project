@@ -1,7 +1,3 @@
----
-render_with_liquid: false
----
-
 # Flash Messages
 
 Give feedback to the user after operations / errors.
@@ -17,11 +13,17 @@ flash("Error message", "error")
 
 ## Display Messages in a Page
 
+*Note: Ignore the `{% raw %}...{% endraw %}` tags in these code snippets - they are required for GitHub Pages*
+
 Add this to your base template (above the main content, and aftre the header):
 
 ```jinja
+{% raw %}
+
 {# Show flash messages from any previous events #}
 {% include "partials/messages.jinja" %}
+
+{% endraw %}
 ```
 
 And add suitable CSS to your stylesheet:
@@ -53,6 +55,8 @@ And add suitable CSS to your stylesheet:
 This is the code for the partial, which can be modified if required:
 
 ```jinja
+{% raw %}
+
 {% with messages = get_flashed_messages(with_categories=true) %}
   {% if messages %}
     <div id="messages">
@@ -66,5 +70,7 @@ This is the code for the partial, which can be modified if required:
     </div>
   {% endif %}
 {% endwith %}
+
+{% endraw %}
 ```
 
