@@ -19,6 +19,18 @@ LOCAL_DB_PATH = getenv("LOCAL_DB_PATH", "app/db/data.sqlite")
 DB_LOGGER = "DBASE"
 PREVIEW_ROWS = 3
 
+TYPE_COLOUR = {
+    "INTEGER":   "cyan",
+    "REAL":      "cyan",
+    "NUMERIC":   "cyan",
+    "TIMESTAMP": "blue",
+    "DATETIME":  "blue",
+    "TEXT":      "green",
+    "BLOB":      "magenta",
+}
+
+console = get_console()
+
 
 def _prefix(action="", colour="blue"):
     """Helper to create database log prefix"""
@@ -244,8 +256,6 @@ def _seed_table(db, logger, table_name, seed_sql):
 def _log_database_schema():
     """Log comprehensive database schema information"""
 
-    console = get_console()
-
     with connect_db() as db:
         tables = db.execute("""
             SELECT type, name, tbl_name, sql
@@ -265,16 +275,18 @@ def _log_database_schema():
             indexes      = db.execute(f"PRAGMA index_list({table_name})",       logged=False).fetchall()
 
             col_table = Table(
-                title=f"Table: [blue bold]{table_name}[/blue bold]",
+                title=f"[blue bold]{table_name}[/blue bold] table schema",
                 # show_header=False,
                 title_justify="left",
-                header_style="white",
+                header_style="white italic",
                 box=box.ROUNDED,
             )
-            col_table.add_column("Keys",  style="green")
-            col_table.add_column("Field", style="yellow")
-            col_table.add_column("Type",  style="cyan")
+            col_table.add_column("Key",        style="green")
+            col_table.add_column("Column",     style="yellow")
+            col_table.add_column("Data Type",  style="cyan")
             col_table.add_column("Constraints")
+            if foreign_keys:
+                col_table.add_column("References")
 
             for col in columns:
                 constraints = []
@@ -289,8 +301,9 @@ def _log_database_schema():
                 if foreign_keys:
                     for fk in foreign_keys:
                         if col['name'] == fk['from']:
-                            keys += " FK" if keys else "FK"
-                            refs = f"[green]FK[/green] --→ [blue]{fk['table']}[/blue]([yellow]{fk['to']}[/yellow])"
+                            keys += " " if keys else ""
+                            keys += "[magenta]FK[/magenta]"
+                            refs = f"[magenta]FK[/magenta] --→ [blue]{fk['table']}[/blue]([yellow]{fk['to']}[/yellow])"
 
                 if col['notnull']:
                     constraints.append('NOT NULL')
@@ -305,7 +318,7 @@ def _log_database_schema():
                             idx_columns = [idx_col['name'] for idx_col in idx_info]
                             # Only mark as UNIQUE if this is a single-column index on this column
                             if len(idx_columns) == 1 and col['name'] in idx_columns:
-                                constraints.append('[magenta]UNIQUE[/magenta]')
+                                constraints.append('[green]UNIQUE[/green]')
 
                 cons = ', '.join(constraints) if constraints else ''
 
@@ -320,8 +333,6 @@ def _log_database_schema():
 def _log_database_data():
     """Log database table data in a compact table format"""
 
-    console = get_console()
-
     with connect_db() as db:
         tables = db.execute("""
             SELECT name
@@ -335,26 +346,24 @@ def _log_database_data():
 
         for table_info in tables:
             table_name = table_info['name']
-
-            # Get all rows
-            rows = db.execute(f"SELECT * FROM {table_name}", logged=False).fetchall()
+            rows    = db.execute(f"SELECT * FROM {table_name}",      logged=False).fetchall()
+            columns = db.execute(f"PRAGMA table_info({table_name})", logged=False).fetchall()
 
             if not rows:
-                console.print(f"\n[blue bold]Table: {table_name}[/blue bold] [dim](empty)[/dim]")
+                console.print(f"[italic][blue bold]{table_name}[/blue bold] table data: [dim](empty)[/dim][/italic]")
                 continue
 
-            # Get column info (including types)
-            columns = db.execute(f"PRAGMA table_info({table_name})", logged=False).fetchall()
             col_names = [col['name'] for col in columns]
             col_types = {col['name']: col['type'].upper() for col in columns}
 
             # Create Rich table
             data_table = Table(
-                title=f"Table: [blue bold]{table_name}[/blue bold] [dim]({len(rows)} rows)[/dim]",
+                title=f"[blue bold]{table_name}[/blue bold] table data: [dim]({len(rows)} rows)[/dim]",
                 title_justify="left",
                 show_lines=True,
-                header_style="white",
+                header_style="yellow italic",
                 box=box.ROUNDED,
+                min_width=30,
             )
 
             # Add columns
@@ -371,41 +380,18 @@ def _log_database_data():
                     value = row[col_name]
 
                     if value is None:
-                        formatted = "[dim]NULL[/dim]"
+                        value = "NULL"
+                        colour = "dim"
                     else:
-                        col_type = col_types.get(col_name, '')
+                        type = col_types.get(col_name, '')
+                        colour = TYPE_COLOUR.get(type, 'white')
+                        if type == "TEXT":
+                            value = str(value).replace('\n', '[yellow]\\n[/yellow]')
+                            value = f'"{value}"'
+                        elif type == "BLOB":
+                            value = f"<BLOB {len(value)} bytes>"
 
-                        # Color based on SQLite type
-                        if 'INT' in col_type:
-                            formatted = f"[cyan]{value}[/cyan]"
-                        elif 'REAL' in col_type or 'FLOAT' in col_type or 'DOUBLE' in col_type or 'NUMERIC' in col_type:
-                            formatted = f"[cyan]{value}[/cyan]"
-                        elif 'TEXT' in col_type or 'CHAR' in col_type or 'CLOB' in col_type:
-                            # Replace newlines with visible '\n' in yellow
-                            display_value = str(value).replace('\n', '[yellow]\\n[/yellow]')
-                            formatted = f'[green]"{display_value}"[/green]'
-                        elif 'DATE' in col_type or 'TIME' in col_type:
-                            formatted = f'[yellow]"{value}"[/yellow]'
-                        elif 'BLOB' in col_type:
-                            # Show size in bytes for BLOB data
-                            if isinstance(value, bytes):
-                                size = len(value)
-                                formatted = f"[magenta]<BLOB {size} bytes>[/magenta]"
-                            else:
-                                formatted = f"[magenta]<BLOB>[/magenta]"
-                        else:
-                            # Default: try to guess by value type
-                            if isinstance(value, (int, float)):
-                                formatted = f"[cyan]{value}[/cyan]"
-                            elif isinstance(value, bytes):
-                                size = len(value)
-                                formatted = f"[magenta]<BLOB {size} bytes>[/magenta]"
-                            else:
-                                # Replace newlines with visible '\n' in yellow
-                                display_value = str(value).replace('\n', '[yellow]\\n[/yellow]')
-                                formatted = f'[green]"{display_value}"[/green]'
-
-                    row_data.append(formatted)
+                    row_data.append(f"[{colour}]{value}[/{colour}]")
 
                 data_table.add_row(*row_data)
 
