@@ -22,7 +22,7 @@ def login_required(func):
             return func(*args, **kwargs)
 
         # No, so go to home page
-        flash("You need to be logged in to access that page", "error")
+        flash("You need to be logged in", "error")
         return redirect("/")
 
     return wrapper

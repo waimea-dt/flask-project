@@ -6,6 +6,7 @@ from contextlib import contextmanager
 from pathlib import Path
 from dotenv import load_dotenv
 from os import getenv, environ
+from rich.table import Table, box
 import sqlite3
 
 from app.db.config import TABLES
@@ -17,6 +18,18 @@ LOCAL_DB_PATH = getenv("LOCAL_DB_PATH", "app/db/data.sqlite")
 
 DB_LOGGER = "DBASE"
 PREVIEW_ROWS = 3
+
+TYPE_COLOUR = {
+    "INTEGER":   "cyan",
+    "REAL":      "cyan",
+    "NUMERIC":   "cyan",
+    "TIMESTAMP": "blue",
+    "DATETIME":  "blue",
+    "TEXT":      "green",
+    "BLOB":      "magenta",
+}
+
+console = get_console()
 
 
 def _prefix(action="", colour="blue"):
@@ -199,6 +212,7 @@ def init_database():
         _init_db_table(table_name, schema, seed_sql)
 
     _log_database_schema()
+    _log_database_data()
 
 
 def _create_db_if_needed():
@@ -215,7 +229,7 @@ def _init_db_table(table_name, schema, seed_sql):
 
         logger = get_logger()
         logger.info(f"{_prefix('Table', 'cyan')} creating '{table_name}'...")
-        
+
         db.execute(schema)
 
         if seed_sql:
@@ -241,11 +255,6 @@ def _seed_table(db, logger, table_name, seed_sql):
 
 def _log_database_schema():
     """Log comprehensive database schema information"""
-    from rich.syntax import Syntax
-    from rich.table import Table
-
-    logger = get_logger()
-    console = get_console()
 
     with connect_db() as db:
         tables = db.execute("""
@@ -266,14 +275,18 @@ def _log_database_schema():
             indexes      = db.execute(f"PRAGMA index_list({table_name})",       logged=False).fetchall()
 
             col_table = Table(
-                title=f"Table: [blue bold]{table_name}[/blue bold]",
-                show_header=False,
-                title_justify="left"
+                title=f"[blue bold]{table_name}[/blue bold] table schema",
+                # show_header=False,
+                title_justify="left",
+                header_style="white italic",
+                box=box.ROUNDED,
             )
-            col_table.add_column("Keys",  style="green")
-            col_table.add_column("Field", style="yellow")
-            col_table.add_column("Type",  style="cyan")
+            col_table.add_column("Key",        style="green")
+            col_table.add_column("Column",     style="yellow")
+            col_table.add_column("Data Type",  style="cyan")
             col_table.add_column("Constraints")
+            if foreign_keys:
+                col_table.add_column("References")
 
             for col in columns:
                 constraints = []
@@ -288,8 +301,9 @@ def _log_database_schema():
                 if foreign_keys:
                     for fk in foreign_keys:
                         if col['name'] == fk['from']:
-                            keys += " FK" if keys else "FK"
-                            refs = f"[green]FK[/green] --→ [blue]{fk['table']}[/blue]([yellow]{fk['to']}[/yellow])"
+                            keys += " " if keys else ""
+                            keys += "[magenta]FK[/magenta]"
+                            refs = f"[magenta]FK[/magenta] --→ [blue]{fk['table']}[/blue]([yellow]{fk['to']}[/yellow])"
 
                 if col['notnull']:
                     constraints.append('NOT NULL')
@@ -304,7 +318,7 @@ def _log_database_schema():
                             idx_columns = [idx_col['name'] for idx_col in idx_info]
                             # Only mark as UNIQUE if this is a single-column index on this column
                             if len(idx_columns) == 1 and col['name'] in idx_columns:
-                                constraints.append('[magenta]UNIQUE[/magenta]')
+                                constraints.append('[green]UNIQUE[/green]')
 
                 cons = ', '.join(constraints) if constraints else ''
 
@@ -315,4 +329,71 @@ def _log_database_schema():
 
             console.print(col_table)
 
+
+def _log_database_data():
+    """Log database table data in a compact table format"""
+
+    with connect_db() as db:
+        tables = db.execute("""
+            SELECT name
+            FROM sqlite_master
+            WHERE type='table' AND name NOT LIKE 'sqlite_%'
+            ORDER BY name
+        """, logged=False).fetchall()
+
+        if not tables:
+            return
+
+        for table_info in tables:
+            table_name = table_info['name']
+            rows    = db.execute(f"SELECT * FROM {table_name}",      logged=False).fetchall()
+            columns = db.execute(f"PRAGMA table_info({table_name})", logged=False).fetchall()
+
+            if not rows:
+                console.print(f"[italic][blue bold]{table_name}[/blue bold] table data: [dim](empty)[/dim][/italic]")
+                continue
+
+            col_names = [col['name'] for col in columns]
+            col_types = {col['name']: col['type'].upper() for col in columns}
+
+            # Create Rich table
+            data_table = Table(
+                title=f"[blue bold]{table_name}[/blue bold] table data: [dim]({len(rows)} rows)[/dim]",
+                title_justify="left",
+                show_lines=True,
+                header_style="yellow italic",
+                box=box.ROUNDED,
+                min_width=30,
+            )
+
+            # Add columns
+            for col_name in col_names:
+                data_table.add_column(
+                    col_name,
+                    overflow="ellipsis",
+                )
+
+            # Add rows
+            for row in rows:
+                row_data = []
+                for col_name in col_names:
+                    value = row[col_name]
+
+                    if value is None:
+                        value = "NULL"
+                        colour = "dim"
+                    else:
+                        type = col_types.get(col_name, '')
+                        colour = TYPE_COLOUR.get(type, 'white')
+                        if type == "TEXT":
+                            value = str(value).replace('\n', '[yellow]\\n[/yellow]')
+                            value = f'"{value}"'
+                        elif type == "BLOB":
+                            value = f"<BLOB {len(value)} bytes>"
+
+                    row_data.append(f"[{colour}]{value}[/{colour}]")
+
+                data_table.add_row(*row_data)
+
+            console.print(data_table)
 
