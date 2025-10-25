@@ -49,6 +49,7 @@ And add suitable CSS to your stylesheet:
 This is the code for the partial, which can be modified if required:
 
 ```jinja
+{% raw %}
 {% with messages = get_flashed_messages(with_categories=true) %}
   {% if messages %}
     <div id="messages">
@@ -62,5 +63,6 @@ This is the code for the partial, which can be modified if required:
     </div>
   {% endif %}
 {% endwith %}
+{% endraw %}
 ```
 
