@@ -1,21 +1,19 @@
-# Flask Project Template
-
-A simple Flask template for learning web development with Python.
-
-## Project Structure
+# Project Structure
 
 ```
 ├── README.md            # Project README
-├── docs/                # Project documentation
-├── guides/              # Helpful guides
-├── .gitignore           # Files not be be pushed to GH
+│
+├── .gitignore           # Files not pushed to GH
 ├── requirements.txt     # Python modules required
+│
+├── docs/                # Project documentation
+│   └── guides/          # Helpful guides
 │
 └── app/                 # Flask application
     │
-    ├── .env             # Environment values
+    ├── __init__.py      # Routes and app logic
     │
-    ├── __init__.py      # Routes and app logic go here
+    ├── .env             # Environment values
     │
     ├── templates/       # Jinja2 templates
     │   ├── pages/       # Full page templates
@@ -27,16 +25,9 @@ A simple Flask template for learning web development with Python.
     │   └── js/          # Javascript files
     │
     ├── db/              # Database files
-    │   ├── data.sqlite  # SQLite database
     │   ├── config.py    # Database schema & seed data
-    │   └── example.py   # Example database schema
+    │   └── data.sqlite  # SQLite database
     │
     └── helpers/         # Helper funcs (don't modify)
 
 ```
-
-## Tips
-
-- Console logs shows all HTTP requests and SQL queries in detail
-- Modify `app/db/config.py` to change database schema
-- The database is automatically created and seeded on first run

@@ -16,7 +16,7 @@ NOTE_SCHEMA = """
     )
 """
 
-# Add other schema here...
+# Add other table schema here...
 
 
 #----------------------------------------------------------------------------
@@ -33,7 +33,7 @@ NOTE_SEED_SQL = """
            ("Sample Note 3",   "Multiple lines:\n- Item 1\n- Item 2\n- Item 3\n- Item 4",    0)
 """
 
-# Add other seed data SQL here...
+# Add other table seed data SQL here...
 
 
 #----------------------------------------------------------------------------
@@ -43,6 +43,6 @@ NOTE_SEED_SQL = """
 
 TABLES = [
     ('note', NOTE_SCHEMA, NOTE_SEED_SQL),
-    # Add more tables here...
+    # Add more table rows here...
 ]
 

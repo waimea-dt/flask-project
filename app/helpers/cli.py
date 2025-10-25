@@ -6,6 +6,8 @@
 #  - flask db-seed    Reseed with sample data
 #  - flask db-clear   Clear all data (with confirmation)
 #  - flass db-show    Shows the DB schema and data
+#  - flass db-schema  Shows the DB schema
+#  - flass db-data    Shows the DB data
 #============================================================================
 
 import click
@@ -112,10 +114,26 @@ def register_commands(app):
 
     @app.cli.command('db-show')
     def db_show():
-        """Display all table data"""
+        """Display all table schema and data"""
         console.rule("[blue bold]Database Contents[/blue bold]", align="left")
         _log_database_schema()
         console.rule()
+        _log_database_data()
+        console.rule()
+
+
+    @app.cli.command('db-schema')
+    def db_show_schema():
+        """Display all table schema"""
+        console.rule("[blue bold]Database Schema[/blue bold]", align="left")
+        _log_database_schema()
+        console.rule()
+
+
+    @app.cli.command('db-data')
+    def db_show_data():
+        """Display all table data"""
+        console.rule("[blue bold]Database Data[/blue bold]", align="left")
         _log_database_data()
         console.rule()
 

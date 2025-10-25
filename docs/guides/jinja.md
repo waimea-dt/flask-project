@@ -2,16 +2,27 @@
 
 ## Templates
 
+### Variables
+
 ```jinja
-{# Variables #}
 {{ variable }}
 {{ dict.key }}
 {{ list[0] }}
+```
 
-{# Conditional values #}
-{{ 'this' if variable else 'that' }}
+### Conditionals
 
-{# Conditionals #}
+```jinja
+{{ 'this' if condition else 'that' }}
+```
+
+```jinja
+{% if condition %}
+    ...
+{% endif %}
+```
+
+```jinja
 {% if condition %}
     ...
 {% elif other %}
@@ -19,19 +30,31 @@
 {% else %}
     ...
 {% endif %}
+```
 
-{# Loops #}
+### Loops
+
+```jinja
+{% for item in items %}
+    {{ item }}
+{% endfor %}
+```
+
+```jinja
 {% for item in items %}
     {{ item }}
 {% else %}
     No items!
 {% endfor %}
+```
 
-{# Include #}
+### Include Partials
+
+```jinja
 {% include "partials/header.jinja" %}
 ```
 
-## Jinja Template Filters
+## Template Filters
 
 ### Date/Time Filters
 ```jinja
@@ -46,9 +69,9 @@
 ### Text Filters
 ```jinja
 {# Text conversion #}
-{{ text | upper }}                {# to UPPER CASE #}
-{{ text | lower }}                {# to lower case #}
-{{ text | title }}                {# to Title Case #}
+{{ text | upper }}    {# to UPPER CASE #}
+{{ text | lower }}    {# to lower case #}
+{{ text | title }}    {# to Title Case #}
 
 {# Shorten long text #}
 {{ long_text | truncate(100) }}
