@@ -16,8 +16,10 @@ flash("Error message", "error")
 Add this to your base template (above the main content, and aftre the header):
 
 ```jinja
+{% raw %}
 {# Show flash messages from any previous events #}
 {% include "partials/messages.jinja" %}
+{% endraw %}
 ```
 
 And add suitable CSS to your stylesheet:
