@@ -1,3 +1,7 @@
+---
+render_with_liquid: false
+---
+
 # Flash Messages
 
 Give feedback to the user after operations / errors.
@@ -15,10 +19,10 @@ flash("Error message", "error")
 
 Add this to your base template (above the main content, and aftre the header):
 
-````jinja
+```jinja
 {# Show flash messages from any previous events #}
 {% include "partials/messages.jinja" %}
-````
+```
 
 And add suitable CSS to your stylesheet:
 
@@ -48,7 +52,7 @@ And add suitable CSS to your stylesheet:
 
 This is the code for the partial, which can be modified if required:
 
-````jinja
+```jinja
 {% with messages = get_flashed_messages(with_categories=true) %}
   {% if messages %}
     <div id="messages">
@@ -62,5 +66,5 @@ This is the code for the partial, which can be modified if required:
     </div>
   {% endif %}
 {% endwith %}
-````
+```
 

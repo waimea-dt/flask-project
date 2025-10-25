@@ -1,28 +1,32 @@
+---
+render_with_liquid: false
+---
+
 # Jinja Template Cheatsheet
 
 ## Templates
 
 ### Variables
 
-````jinja
+```jinja
 {{ variable }}
 {{ dict.key }}
 {{ list[0] }}
-````
+```
 
 ### Conditionals
 
-````jinja
+```jinja
 {{ 'this' if condition else 'that' }}
-````
+```
 
-````jinja
+```jinja
 {% if condition %}
     ...
 {% endif %}
-````
+```
 
-````jinja
+```jinja
 {% if condition %}
     ...
 {% elif other %}
@@ -30,44 +34,44 @@
 {% else %}
     ...
 {% endif %}
-````
+```
 
 ### Loops
 
-````jinja
+```jinja
 {% for item in items %}
     {{ item }}
 {% endfor %}
-````
+```
 
-````jinja
+```jinja
 {% for item in items %}
     {{ item }}
 {% else %}
     No items!
 {% endfor %}
-````
+```
 
 ### Include Partials
 
-````jinja
+```jinja
 {% include "partials/header.jinja" %}
-````
+```
 
 ## Template Filters
 
 ### Date/Time Filters
-````jinja
+```jinja
 {{ note.created | local | format }}        {# Local timezone, nice format #}
 {{ note.created | format_date }}           {# Show nice date only #}
 {{ note.created | format_time }}           {# Show nice time only #}
 {{ note.created | format_human }}          {# "2 hours ago" style format #}
 {{ note.created | format("YYYY-MM-DD") }}  {# Custom format #}
 {{ now() | format }}                       {# Current time #}
-````
+```
 
 ### Text Filters
-````jinja
+```jinja
 {# Text conversion #}
 {{ text | upper }}    {# to UPPER CASE #}
 {{ text | lower }}    {# to lower case #}
@@ -78,5 +82,5 @@
 
 {# Convert \n to <br> tags and \n\n to <p> tags #}
 {{ note.body | paragraphs }}
-````
+```
 
