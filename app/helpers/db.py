@@ -212,6 +212,7 @@ def init_database():
         _init_db_table(table_name, schema, seed_sql)
 
     _log_database_schema()
+    console.rule()
     _log_database_data()
 
 
@@ -348,10 +349,6 @@ def _log_database_data():
             table_name = table_info['name']
             rows    = db.execute(f"SELECT * FROM {table_name}",      logged=False).fetchall()
             columns = db.execute(f"PRAGMA table_info({table_name})", logged=False).fetchall()
-
-            if not rows:
-                console.print(f"[italic][blue bold]{table_name}[/blue bold] table data: [dim](empty)[/dim][/italic]")
-                continue
 
             col_names = [col['name'] for col in columns]
             col_types = {col['name']: col['type'].upper() for col in columns}
