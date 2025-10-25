@@ -15,12 +15,11 @@ flash("Error message", "error")
 
 Add this to your base template (above the main content, and aftre the header):
 
-```jinja
-{% raw %}
+````jinja
 {# Show flash messages from any previous events #}
 {% include "partials/messages.jinja" %}
 {% endraw %}
-```
+````
 
 And add suitable CSS to your stylesheet:
 
@@ -50,8 +49,7 @@ And add suitable CSS to your stylesheet:
 
 This is the code for the partial, which can be modified if required:
 
-```jinja
-{% raw %}
+````jinja
 {% with messages = get_flashed_messages(with_categories=true) %}
   {% if messages %}
     <div id="messages">
@@ -65,6 +63,5 @@ This is the code for the partial, which can be modified if required:
     </div>
   {% endif %}
 {% endwith %}
-{% endraw %}
-```
+````
 
