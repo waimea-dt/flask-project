@@ -6,6 +6,7 @@ from contextlib import contextmanager
 from pathlib import Path
 from dotenv import load_dotenv
 from os import getenv, environ
+from rich.table import Table, box
 import sqlite3
 
 from app.db.config import TABLES
@@ -199,6 +200,7 @@ def init_database():
         _init_db_table(table_name, schema, seed_sql)
 
     _log_database_schema()
+    _log_database_data()
 
 
 def _create_db_if_needed():
@@ -215,7 +217,7 @@ def _init_db_table(table_name, schema, seed_sql):
 
         logger = get_logger()
         logger.info(f"{_prefix('Table', 'cyan')} creating '{table_name}'...")
-        
+
         db.execute(schema)
 
         if seed_sql:
@@ -241,10 +243,7 @@ def _seed_table(db, logger, table_name, seed_sql):
 
 def _log_database_schema():
     """Log comprehensive database schema information"""
-    from rich.syntax import Syntax
-    from rich.table import Table
 
-    logger = get_logger()
     console = get_console()
 
     with connect_db() as db:
@@ -267,8 +266,10 @@ def _log_database_schema():
 
             col_table = Table(
                 title=f"Table: [blue bold]{table_name}[/blue bold]",
-                show_header=False,
-                title_justify="left"
+                # show_header=False,
+                title_justify="left",
+                header_style="white",
+                box=box.ROUNDED,
             )
             col_table.add_column("Keys",  style="green")
             col_table.add_column("Field", style="yellow")
@@ -315,4 +316,98 @@ def _log_database_schema():
 
             console.print(col_table)
 
+
+def _log_database_data():
+    """Log database table data in a compact table format"""
+
+    console = get_console()
+
+    with connect_db() as db:
+        tables = db.execute("""
+            SELECT name
+            FROM sqlite_master
+            WHERE type='table' AND name NOT LIKE 'sqlite_%'
+            ORDER BY name
+        """, logged=False).fetchall()
+
+        if not tables:
+            return
+
+        for table_info in tables:
+            table_name = table_info['name']
+
+            # Get all rows
+            rows = db.execute(f"SELECT * FROM {table_name}", logged=False).fetchall()
+
+            if not rows:
+                console.print(f"\n[blue bold]Table: {table_name}[/blue bold] [dim](empty)[/dim]")
+                continue
+
+            # Get column info (including types)
+            columns = db.execute(f"PRAGMA table_info({table_name})", logged=False).fetchall()
+            col_names = [col['name'] for col in columns]
+            col_types = {col['name']: col['type'].upper() for col in columns}
+
+            # Create Rich table
+            data_table = Table(
+                title=f"Table: [blue bold]{table_name}[/blue bold] [dim]({len(rows)} rows)[/dim]",
+                title_justify="left",
+                show_lines=True,
+                header_style="white",
+                box=box.ROUNDED,
+            )
+
+            # Add columns
+            for col_name in col_names:
+                data_table.add_column(
+                    col_name,
+                    overflow="ellipsis",
+                )
+
+            # Add rows
+            for row in rows:
+                row_data = []
+                for col_name in col_names:
+                    value = row[col_name]
+
+                    if value is None:
+                        formatted = "[dim]NULL[/dim]"
+                    else:
+                        col_type = col_types.get(col_name, '')
+
+                        # Color based on SQLite type
+                        if 'INT' in col_type:
+                            formatted = f"[cyan]{value}[/cyan]"
+                        elif 'REAL' in col_type or 'FLOAT' in col_type or 'DOUBLE' in col_type or 'NUMERIC' in col_type:
+                            formatted = f"[cyan]{value}[/cyan]"
+                        elif 'TEXT' in col_type or 'CHAR' in col_type or 'CLOB' in col_type:
+                            # Replace newlines with visible '\n' in yellow
+                            display_value = str(value).replace('\n', '[yellow]\\n[/yellow]')
+                            formatted = f'[green]"{display_value}"[/green]'
+                        elif 'DATE' in col_type or 'TIME' in col_type:
+                            formatted = f'[yellow]"{value}"[/yellow]'
+                        elif 'BLOB' in col_type:
+                            # Show size in bytes for BLOB data
+                            if isinstance(value, bytes):
+                                size = len(value)
+                                formatted = f"[magenta]<BLOB {size} bytes>[/magenta]"
+                            else:
+                                formatted = f"[magenta]<BLOB>[/magenta]"
+                        else:
+                            # Default: try to guess by value type
+                            if isinstance(value, (int, float)):
+                                formatted = f"[cyan]{value}[/cyan]"
+                            elif isinstance(value, bytes):
+                                size = len(value)
+                                formatted = f"[magenta]<BLOB {size} bytes>[/magenta]"
+                            else:
+                                # Replace newlines with visible '\n' in yellow
+                                display_value = str(value).replace('\n', '[yellow]\\n[/yellow]')
+                                formatted = f'[green]"{display_value}"[/green]'
+
+                    row_data.append(formatted)
+
+                data_table.add_row(*row_data)
+
+            console.print(data_table)
 

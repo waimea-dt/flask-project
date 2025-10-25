@@ -98,10 +98,12 @@ def delete_note(id):
 #===========================================================
 # Configure the app
 #===========================================================
-init_session(app)
 init_logging(app)
 init_text_filters(app)
 init_date_filters(app)
 init_error_handlers(app)
 init_database()
+
+# Register CLI commands
+register_commands(app)
 
