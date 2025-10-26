@@ -42,6 +42,8 @@ CREATE TABLE note (
 
 ## Routes and Handlers
 
+### Reading Notes
+
 ```python
 @app.get("/")
 def show_notes():
@@ -69,8 +71,11 @@ def show_a_note(id):
         note = db.execute(sql, params).fetchone()
 
         return render_template("pages/note_single.jinja", note=note)
+```
 
+### Creating Notes
 
+```python
 @app.get("/note/new")
 def show_note_form():
     return render_template("pages/note_form.jinja")
@@ -96,8 +101,11 @@ def add_a_note():
 
         flash("Note added", "success")
         return redirect("/")
+```
 
+### Updating Notes
 
+```python
 @app.get("/note/<int:id>/edit")
 def show_note_edit_form(id):
     with connect_db() as db:
@@ -133,8 +141,11 @@ def update_a_note(id):
 
         flash("Note updated", "success")
         return redirect("/")
+```
 
+### Deleting Notes
 
+```python
 @app.get("/note/<int:id>/delete")
 def delete_a_note(id):
     with connect_db() as db:
