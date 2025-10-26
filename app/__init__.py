@@ -37,24 +37,6 @@ def show_notes():
         return render_template("pages/note_list.jinja", notes=notes)
 
 
-#-----------------------------------------------------------
-# View a note
-#-----------------------------------------------------------
-@app.get("/note/<int:id>")
-def show_note(id):
-    with connect_db() as db:
-        sql = """
-            SELECT id, title, body, pinned, created
-            FROM note
-            WHERE id=?
-        """
-        params = (id,)
-        note = db.execute(sql, params).fetchone()
-
-        return render_template("pages/note_single.jinja", note=note)
-
-
-
 #===========================================================
 # Configure the app
 #===========================================================

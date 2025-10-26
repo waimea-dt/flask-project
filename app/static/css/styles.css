@@ -40,15 +40,12 @@
     flex-wrap: wrap;
     gap: 2rem;
     justify-content: center;
+    align-items: flex-start;
 }
 
 .note {
-    width: 20rem;
-    box-shadow: 0 0.5rem 1rem #0004;
-}
-
-.notes .note {
     width: 15rem;
+    box-shadow: 0 0.5rem 1rem #0004;
 }
 
 .note,
@@ -58,16 +55,11 @@
     border: none;
 }
 
-.note:only-of-type {
-    margin-inline: auto;
-}
-
 .note.pinned {
     border: 2px solid var(--pico-color-red-500);
 }
 
-.note header,
-.note footer {
+.note header {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;

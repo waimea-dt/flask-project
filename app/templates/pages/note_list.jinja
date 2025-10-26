@@ -18,7 +18,11 @@
                     {{ "📌" if note.pinned }}
                 </header>
 
-                <p><a href="/note/{{ note.id }}">Read note...</a></p>
+                <p>{{ note.body | paragraphs }}</p>
+
+                <footer>
+                    Created on {{ note.created | local | format }}
+                </footer>
 
             </article>
 
