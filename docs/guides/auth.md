@@ -86,7 +86,6 @@ Update the nav menu in `templates/pages/base.jinja`...
     <li><a href="/login">Login</a></li>
 {% endif %}     {% endraw %}
 ```
-
 <!-- Ignore the `raw` and `endraw` tags in these Jinja code snippets - they are required for GitHub Pages -->
 
 
@@ -265,10 +264,9 @@ Update the nav menu in `templates/pages/base.jinja`...
     <li><a href="/user/new">Sign-Up</a></li>
 {% endif %}     {% endraw %}
 ```
-
 <!-- Ignore the `raw` and `endraw` tags in these Jinja code snippets - they are required for GitHub Pages -->
 
-### 9. User the user info. in the session when required
+### 9. Use the logged-in user info. when required
 
 If you need to know the logged in user information (e.g. you need the ID when posting a new DB record linked to the user), you can get this from `session["user"]`...
 
@@ -291,5 +289,4 @@ Or in a Jinja template (using the 'dot' syntax)...
     <p>Welcome, {{ session.user.forename }}!</p>
 {% endif %}     {% endraw %}
 ```
-
 <!-- Ignore the `raw` and `endraw` tags in these Jinja code snippets - they are required for GitHub Pages -->

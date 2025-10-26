@@ -13,6 +13,6 @@ This is a simple [Flask](https://flask.palletsprojects.com/en/stable/) project, 
 - [Form Data Processing](guides/forms.md)
 - [Flash Messages](guides/flash.md)
 - [Session Management](guides/session.md)
-- [Uploading Images/Files](guides/files.md)
+- [Uploading Images/Files](guides/images.md)
 - [User Authentication](guides/auth.md)
 

@@ -3,10 +3,11 @@
 # By YOUR NAME HERE
 #===========================================================
 
-from flask import Flask, render_template, flash, redirect, request, session
+from flask import Flask, request, session, render_template, flash, redirect, send_file, make_response
 from werkzeug.security import generate_password_hash, check_password_hash
 from dotenv import load_dotenv
 from os import getenv
+from io import BytesIO
 import html
 from app.helpers import *
 
@@ -205,6 +206,74 @@ def add_user():
 
         flash("Account created. Please login", "success")
         return redirect("/login")
+
+
+@app.get("/club/new")
+def club_form():
+    return render_template("pages/club_form.jinja")
+
+
+@app.post("/club")
+def add_club():
+    name = request.form.get('name', '').strip()
+    name = html.escape(name)
+
+    logo = request.files['logo']
+    if not logo:
+        flash("There was a problem uploading the image", "error")
+        return redirect("/")
+
+    logo_data = logo.read()
+    logo_mime = logo.mimetype
+
+    with connect_db() as db:
+        sql = """
+            INSERT INTO club (name, logo_data, logo_mime)
+            VALUES (?, ?, ?)
+        """
+        params = (name, logo_data, logo_mime)
+        db.execute(sql, params)
+
+        flash(f"Club '{name}' added", "success")
+        return redirect("/")
+
+
+@app.get('/club/<int:id>/logo')
+def get_club_logo(id):
+    with connect_db() as db:
+        sql = "SELECT logo_data, logo_mime FROM club WHERE id=?"
+        params = (id,)
+        logo = db.execute(sql, params).fetchone()
+
+        if not logo:
+            return render_template("pages/404.jinja"), 404
+
+        return make_response(
+            send_file(
+                BytesIO(logo["logo_data"]),
+                mimetype=logo["logo_mime"]
+            )
+        )
+
+
+@app.get('/club/<int:id>/logo/download')
+def download_club_logo(id):
+    with connect_db() as db:
+        sql = "SELECT logo_data, logo_mime FROM club WHERE id=?"
+        params = (id,)
+        logo = db.execute(sql, params).fetchone()
+
+        if not logo:
+            return render_template("pages/404.jinja"), 404
+
+        ext = logo["logo_mime"].split('/')[-1].split('+')[0]
+
+        return send_file(
+            BytesIO(logo["logo_data"]),
+            mimetype=logo["logo_mime"],
+            download_name=f"logo.{ext}",
+            as_attachment=True
+        )
 
 
 

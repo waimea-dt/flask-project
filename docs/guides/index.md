@@ -9,6 +9,6 @@
 - [Form Data Processing](forms.md)
 - [Flash Messages](flash.md)
 - [Session Management](session.md)
-- [Uploading Images/Files](files.md)
+- [Uploading Images/Files](images.md)
 - [User Authentication](auth.md)
 

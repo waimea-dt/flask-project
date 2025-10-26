@@ -26,6 +26,15 @@ USER_SCHEMA = """
     )
 """
 
+CLUB_SCHEMA = """
+    CREATE TABLE club (
+        id        INTEGER PRIMARY KEY AUTOINCREMENT,
+        name      TEXT NOT NULL,
+        logo_data BLOB NOT NULL,
+        logo_mime TEXT NOT NULL
+    )
+"""
+
 # Add other table schema here...
 
 
@@ -59,6 +68,7 @@ NOTE_SEED_SQL = """
 TABLES = [
     ('note', NOTE_SCHEMA, NOTE_SEED_SQL),
     ('user', USER_SCHEMA, None),
+    ('club', CLUB_SCHEMA, None),
     # Add more table rows here...
 ]
 
