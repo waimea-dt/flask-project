@@ -198,7 +198,7 @@ def delete_a_note(id):
     <footer>
         <span>Created on {{ note.created | local | format }}</span>
 
-        <span><a href="/note/{{ note.id }}/edit">✏ Edit</a></span>
+        <span><a href="/note/{{ note.id }}/edit">🖊️ Edit</a></span>
         <span><a href="/note/{{ note.id }}/delete"
                  onclick="return confirm('Really delete?')">🗑 Delete</a></span>
     </footer>
