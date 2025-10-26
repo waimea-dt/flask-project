@@ -13,14 +13,13 @@ flash("Error message", "error")
 
 ## Display Messages in a Page
 
-{#
-Note: Ignore the `{% raw %}...{% endraw %}` tags in these code snippets - they are required for GitHub Pages
-#}
-
 ```jinja
 {% raw %}{# Show flash messages from any previous events #}
 {% include "partials/messages.jinja" %}     {% endraw %}
 ```
+
+*{% # Note: Ignore the `{% raw %}...{% endraw %}` tags in these code snippets - they are required for GitHub Pages %}*
+
 *Note: you can modify the code for this template partial if needed*
 
 And add suitable CSS to your stylesheet:

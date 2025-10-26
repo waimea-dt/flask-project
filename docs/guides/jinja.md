@@ -1,8 +1,6 @@
 # Jinja Template Cheatsheet
 
-{#
-Note: Ignore the `{% raw %}...{% endraw %}` tags in these code snippets - they are required for GitHub Pages
-#}
+*{% # Note: Ignore the `{% raw %}...{% endraw %}` tags in these code snippets - they are required for GitHub Pages %}*
 
 ## Templates
 
