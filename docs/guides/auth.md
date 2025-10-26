@@ -158,7 +158,8 @@ def add_user():
             flash(f"Username '{username}' already exists", "error")
             return redirect("/user/new")
 
-        pass_hash =
+        pass_hash = generate_password_hash(password)
+        
         sql = """
             INSERT INTO user (forename, surname, username, pass_hash)
             VALUES (?, ?, ?, ?)
