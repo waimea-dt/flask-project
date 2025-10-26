@@ -2,14 +2,6 @@
 
 ## Simple Authentication without a User Table
 
-{% # Test comment %}
-
-{% # Test `comment` %}
-
-{% # **Test comment** %}
-
-{% # *Test comment* %}
-
 If you just need a very simple authentication scheme to limit access to aprts of your site (e.g. for an admin page), you can use just a password...
 
 
@@ -95,9 +87,7 @@ Update the nav menu in `templates/pages/base.jinja`...
 {% endif %}     {% endraw %}
 ```
 
-*
-{% # Note: Ignore the `raw` and `endraw` tags in these Jinja code snippets - they are required for GitHub Pages %}
-*
+<!-- Ignore the `raw` and `endraw` tags in these Jinja code snippets - they are required for GitHub Pages -->
 
 
 ## User Authentication with User Account Table
@@ -276,9 +266,7 @@ Update the nav menu in `templates/pages/base.jinja`...
 {% endif %}     {% endraw %}
 ```
 
-*
-{% # Note: Ignore the `raw` and `endraw` tags in these Jinja code snippets - they are required for GitHub Pages %}
-*
+<!-- Ignore the `raw` and `endraw` tags in these Jinja code snippets - they are required for GitHub Pages -->
 
 ### 9. User the user info. in the session when required
 
@@ -304,6 +292,4 @@ Or in a Jinja template (using the 'dot' syntax)...
 {% endif %}     {% endraw %}
 ```
 
-*
-{% # Note: Ignore the `raw` and `endraw` tags in these Jinja code snippets - they are required for GitHub Pages %}
-*
+<!-- Ignore the `raw` and `endraw` tags in these Jinja code snippets - they are required for GitHub Pages -->

@@ -1,6 +1,6 @@
 # Jinja Template Cheatsheet
 
-*{% # Note: Ignore the `raw` and `endraw` tags in these Jinja code snippets - they are required for GitHub Pages %}*
+<!-- Ignore the `raw` and `endraw` tags in these Jinja code snippets - they are required for GitHub Pages -->
 
 ## Templates
 
