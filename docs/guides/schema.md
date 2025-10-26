@@ -126,7 +126,7 @@ TABLES = [
 
 ## Tips
 
-- Tables shoul be named using **singular** names, so a table that hold notes should be called 'note'. This makes queries read a bit more logically:
+- Tables should be named using **singular** names, so a table that hold notes should be called 'note'. This makes queries read a bit more logically:
     - `note.id`
     - `note.title`
     - etc.

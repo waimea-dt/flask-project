@@ -21,7 +21,7 @@ def example_route():
     return render_template("pages/example.jinja", data=rows)
 ```
 
-### Route with a Paramater in URL (e.g. an ID)
+### Route with a Parameter in URL (e.g. an ID)
 
 ```python
 @app.get("/example/<int:id>")

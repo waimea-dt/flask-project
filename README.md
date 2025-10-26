@@ -1,6 +1,6 @@
 # Flask Project Template
 
-This is a simple [Flask]() project, built using [Python](), that using a [SQLite]() database, and [Jinja2]() templates
+This is a simple [Flask](https://flask.palletsprojects.com/en/stable/) project, built using [Python](https://www.python.org/), that using a [SQLite](https://sqlite.org/) database, and [Jinja2](https://jinja.palletsprojects.com/en/stable/) templates
 
 See the [docs](docs) folder for guides to usage.
 
@@ -35,6 +35,6 @@ See the [docs](docs) folder for guides to usage.
     │   ├── config.py    # Database schema & seed data
     │   └── data.sqlite  # SQLite database
     │
-    └── helpers/         # Helper funcs (don't modify)
+    └── helpers/         # Helper files (don't modify)
 
 ```

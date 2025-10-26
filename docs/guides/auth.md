@@ -2,7 +2,7 @@
 
 ## Simple Authentication without a User Table
 
-If you just need a very simple authentication scheme to limit access to aprts of your site (e.g. for an admin page), you can use just a password...
+If you just need a very simple authentication scheme to limit access to parts of your site (e.g. for an admin page), you can use just a password...
 
 
 ### 1. Add a password to your `.env` file
@@ -51,7 +51,7 @@ def login_admin():
         return redirect("/")
 ```
 
-### 4. Add the `@login_required` decorator to requird routes
+### 4. Add the `@login_required` decorator to required routes
 
 ```python
 @app.get("/admin")
@@ -91,7 +91,7 @@ Update the nav menu in `templates/pages/base.jinja`...
 
 ## User Authentication with User Account Table
 
-If you need to create nultiple user accounts and authenticate them based on username and password, you will need a dedicated `user` table in your database.
+If you need to create multiple user accounts and authenticate them based on username and password, you will need a dedicated `user` table in your database.
 
 *Note: Best practice is to **never store user passwords** in your database, but instead to store a **hash** of the password*
 
@@ -210,7 +210,7 @@ def login_user():
         user = db.execute(sql, params).fetchone()
 
         if not user:
-            flash(f"Uknown user", "error")
+            flash(f"Unknown user", "error")
             return redirect("/login")
 
         if not check_password_hash(user["pass_hash"], password):
@@ -228,7 +228,7 @@ def login_user():
         return redirect("/")
 ```
 
-### 6. Add the `@login_required` decorator to requird routes
+### 6. Add the `@login_required` decorator to required routes
 
 ```python
 @app.get("/admin")

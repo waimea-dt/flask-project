@@ -28,6 +28,6 @@
     │   ├── config.py    # Database schema & seed data
     │   └── data.sqlite  # SQLite database
     │
-    └── helpers/         # Helper funcs (don't modify)
+    └── helpers/         # Helper files (don't modify)
 
 ```

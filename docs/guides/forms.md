@@ -44,7 +44,7 @@ Check a value is **numeric** using `isdigit()`:
 value = request.form.get('value', '').strip()
 
 if not value.isdigit():
-    flash("Value shouod be numeric", "error")
+    flash("Value should be numeric", "error")
     return redirect("/note/new")
 ```
 
@@ -54,7 +54,7 @@ Check a numeric value is in a **given range** (first converting it to a number)
 value = int(value)  # or double(value_str)
 
 if value < 10 or value > 30:
-    flash("Value shouod be between 10 and 30", "error")
+    flash("Value should be between 10 and 30", "error")
     return redirect("/note/new")
 ```
 
@@ -86,7 +86,7 @@ def add_note():
         return redirect("/note/new")
 
     if not priority.isdigit():
-        flash("Priority shouod be numeric", "error")
+        flash("Priority should be numeric", "error")
         return redirect("/note/new")
 
     priority = int(priority)

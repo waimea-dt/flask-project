@@ -1,4 +1,4 @@
-# Jinja Template Cheatsheet
+# Jinja Template Guide
 
 <!-- Ignore the `raw` and `endraw` tags in these Jinja code snippets - they are required for GitHub Pages -->
 
@@ -17,7 +17,7 @@
 ### Conditionals
 
 ```jinja
-{% raw %}{# Condiional statements let you make choices... #}
+{% raw %}{# Conditional statements let you make choices... #}
 
 {# Conditional values #}
 {{ 'this' if condition }}

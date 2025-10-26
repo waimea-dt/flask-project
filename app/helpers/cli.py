@@ -5,9 +5,9 @@
 #  - flask db-reset   Delete and recreate database
 #  - flask db-seed    Reseed with sample data
 #  - flask db-clear   Clear all data (with confirmation)
-#  - flass db-show    Shows the DB schema and data
-#  - flass db-schema  Shows the DB schema
-#  - flass db-data    Shows the DB data
+#  - flask db-show    Shows the DB schema and data
+#  - flask db-schema  Shows the DB schema
+#  - flask db-data    Shows the DB data
 #============================================================================
 
 import click

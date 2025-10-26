@@ -10,9 +10,9 @@
    python -m venv venv
    ```
 
-   Activate the new virtual environemnt...
+   Activate the new virtual environment...
 
-   On Wndows:
+   On Windows:
    ```ps
    venv\Scripts\activate
    ```

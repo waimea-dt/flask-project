@@ -1,6 +1,6 @@
 # Session Management
 
-## Uses of the Sesison
+## Uses of the Session
 
 The session is used for storing data that lasts between HTTP requests (in other words, between page loads / refreshes).
 
