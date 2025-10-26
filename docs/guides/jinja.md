@@ -38,14 +38,22 @@
     ...
 {% else %}
     ...
-{% endif %}
+{% endif %}      {% endraw %}
+```
 
-{# Comparison operators #}
+```jinja
+{% raw %}{# Conditional operators... #}
+
 {% if age >= 18 %}
 {% if name == "John" %}
 {% if count != 0 %}
 {% if score > 50 and score < 100 %}
-{% if is_admin or is_moderator %}
+{% if is_admin or is_moderator %}      {% endraw %}
+
+```
+
+```jinja
+{% raw %}{# Using conditions to check variable values... #}
 
 {# Check if value exists and is not empty #}
 {% if variable %}
@@ -75,16 +83,20 @@
     {{ item }}
 {% endfor %}
 
-{# Accessing the loop counter #}
-{% for item in items %}
-    Item {{ loop.index }}: {{ item }}
-{% endfor %}
-
 {# Loop With 'else' option if list is empty #}
 {% for item in items %}
     {{ item }}
 {% else %}
     No items!
+{% endfor %}        {% endraw %}
+```
+
+```jinja
+{% raw %}{# Accessing loop variables... #}
+
+{# Accessing the loop counter #}
+{% for item in items %}
+    Item {{ loop.index }}: {{ item }}
 {% endfor %}
 
 {# Other loop variables #}

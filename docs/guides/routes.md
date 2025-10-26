@@ -1,5 +1,28 @@
 # Flask Route Handling
 
+## Naming Routes
+
+Try to be consistent when naming routes. A good pattern to use is:
+
+**Fetching Data:**
+- `GET  /notes` - for a page that has multiple items
+- `GET  /note/<int:id>` - for a page that shows a single thing by ID
+- `GET  /notes/pinned` - for a page that has multiple, specific items
+
+**New Data:**
+- `GET  /note/new` - for a page with a form for a new item
+- `POST /note` - to process the new item form data
+
+**Updating Data:**
+- `GET  /note/<int:id>/edit` - for a page with a form to edit an item
+- `POST /note/<int:id>` - to process updated data for an item
+
+**Deleting Data:**
+- `GET  /note/<int:id>/delete` - to process an item deletion
+
+*Note: within routes, **numeric** parameters use `<int:value>`, whilst **text** parameters use `<value>`*
+
+
 ## Defining Routes
 
 ### Simple Route to a Page - No Data
@@ -10,27 +33,56 @@ def example_route():
     return render_template("pages/about.jinja")
 ```
 
-### Route to a Page with Data
-
 ```python
-@app.get("/example")
+@app.get("/note/new")
 def example_route():
-    with connect_db() as db:
-        sql = "SELECT * FROM table_name"
-        rows = db.execute(sql).fetchall()
-    return render_template("pages/example.jinja", data=rows)
+    return render_template("pages/note_form.jinja")
 ```
 
-### Route with a Parameter in URL (e.g. an ID)
+### Route for a Page with Multiple Items
 
 ```python
-@app.get("/example/<int:id>")
-def example_route(id):
+@app.get("/notes")
+def show_note_list():
     with connect_db() as db:
-        sql = "SELECT * FROM table_name WHERE id=?"
+        sql = "SELECT * FROM note"
+        notes = db.execute(sql).fetchall()
+    return render_template("pages/note_list.jinja", notes=notes)
+```
+
+### Route for a Page with Multiple, Specific Items
+
+```python
+@app.get("/notes/pinned")
+def show_pinned_note_list():
+    with connect_db() as db:
+        sql = "SELECT * FROM note WHERE pinned=1"
+        notes = db.execute(sql).fetchall()
+    return render_template("pages/note_list.jinja", notes=notes, title="Pinned Notes")
+```
+
+### Route for a Single Item using a Parameter (e.g. an ID)
+
+```python
+@app.get("/note/<int:id>")
+def show_note(id):
+    with connect_db() as db:
+        sql = "SELECT * FROM note WHERE id=?"
         params = (id,)
-        row = db.execute(sql, params).fetchone()
-    return render_template("pages/example.jinja", data=row)
+        note = db.execute(sql, params).fetchone()
+    return render_template("pages/note_info.jinja", note=note)
+```
+
+### Route for Multiple Items using a Parameter (e.g. a category)
+
+```python
+@app.get("/notes/<category>")
+def show_note(id):
+    with connect_db() as db:
+        sql = "SELECT * FROM note WHERE id=?"
+        params = (id,)
+        note = db.execute(sql, params).fetchone()
+    return render_template("pages/note_info.jinja", note=note)
 ```
 
 ### Protected Routes
@@ -47,7 +99,7 @@ def admin_page():
 
 ## Redirects
 
-Immediately load a different route...
+Immediately loads a different route...
 
 ```python
 return redirect("/")

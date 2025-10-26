@@ -8,6 +8,7 @@ This is a simple [Flask web app](https://flask.palletsprojects.com/) project, bu
 
 - [Project Structure](guides/structure.md)
 - [Quick Start](guides/quick.md)
+- [Example Simple CRUD App](guides/crud.md)
 
 ### App Development Guides
 

@@ -2,6 +2,7 @@
 
 - [Project Structure](structure.md)
 - [Quick Start](quick.md)
+- [Example Simple CRUD App](crud.md)
 
 ## App Development Guides
 
