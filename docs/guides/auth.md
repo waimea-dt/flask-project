@@ -2,6 +2,14 @@
 
 ## Simple Authentication without a User Table
 
+{% # Test comment %}
+
+{% # Test `comment` %}
+
+{% # **Test comment** %}
+
+{% # *Test comment* %}
+
 If you just need a very simple authentication scheme to limit access to aprts of your site (e.g. for an admin page), you can use just a password...
 
 
