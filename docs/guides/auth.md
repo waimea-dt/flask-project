@@ -87,7 +87,7 @@ Update the nav menu in `templates/pages/base.jinja`...
 {% endif %}     {% endraw %}
 ```
 
-*{% # Note: Ignore the `{% raw %}...{% endraw %}` tags in these code snippets - they are required for GitHub Pages %}*
+*{% # Note: Ignore the `raw` and `endraw` tags in these Jinja code snippets - they are required for GitHub Pages %}*
 
 
 ## User Authentication with User Account Table
@@ -265,7 +265,7 @@ Update the nav menu in `templates/pages/base.jinja`...
     <li><a href="/user/new">Sign-Up</a></li>
 {% endif %}     {% endraw %}
 ```
-*{% # Note: Ignore the `{% raw %}...{% endraw %}` tags in these code snippets - they are required for GitHub Pages %}*
+*{% # Note: Ignore the `raw` and `endraw` tags in these Jinja code snippets - they are required for GitHub Pages %}*
 
 ### 9. User the user info. in the session when required
 
@@ -291,5 +291,5 @@ Or in a Jinja template (using the 'dot' syntax)...
 {% endif %}     {% endraw %}
 ```
 
-*{% # Note: Ignore the `{% raw %}...{% endraw %}` tags in these code snippets - they are required for GitHub Pages %}*
+*{% # Note: Ignore the `raw` and `endraw` tags in these Jinja code snippets - they are required for GitHub Pages %}*
 

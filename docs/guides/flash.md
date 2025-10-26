@@ -18,7 +18,7 @@ flash("Error message", "error")
 {% include "partials/messages.jinja" %}     {% endraw %}
 ```
 
-*{% # Note: Ignore the `{% raw %}...{% endraw %}` tags in these code snippets - they are required for GitHub Pages %}*
+*{% # Note: Ignore the `raw` and `endraw` tags in these Jinja code snippets - they are required for GitHub Pages %}*
 
 *Note: you can modify the code for this template partial if needed*
 
