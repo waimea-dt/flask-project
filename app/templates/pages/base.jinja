@@ -38,6 +38,15 @@
 
             {# Right side #}
             <ul>
+                {% if session.logged_in %}
+                    <li>Welcome, {{ session.user.forename }}!</li>
+                    <li><a href="/admin">Admin</a></li>
+                    <li><a href="/logout">Logout</a></li>
+                {% else %}
+                    <li><a href="/user/new">Sign Up</a></li>
+                    <li><a href="/login">Login</a></li>
+                {% endif %}
+
                 <li><a href="/">All Notes</a></li>
                 <li><a href="/note/new">New Note</a></li>
             </ul>

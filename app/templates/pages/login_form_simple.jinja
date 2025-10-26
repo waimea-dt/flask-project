@@ -1,0 +1,20 @@
+
+
+{% extends 'pages/base.jinja' %}
+
+
+{% block content %}
+
+
+    <form method="post" action="/login-simple">
+        <label>
+            Password
+            <input name="password" type="password" required>
+        </label>
+
+        <button>Login</button>
+    </form>
+
+
+{% endblock %}
+

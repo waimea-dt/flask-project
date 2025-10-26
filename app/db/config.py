@@ -16,11 +16,21 @@ NOTE_SCHEMA = """
     )
 """
 
+USER_SCHEMA = """
+    CREATE TABLE user (
+        id        INTEGER PRIMARY KEY AUTOINCREMENT,
+        forename  TEXT NOT NULL,
+        surname   TEXT NOT NULL,
+        username  TEXT NOT NULL UNIQUE,
+        pass_hash TEXT NOT NULL
+    )
+"""
+
 # Add other table schema here...
 
 
 #----------------------------------------------------------------------------
-# Table seeding queries and data
+# Table seeding queries and data (optional)
 #----------------------------------------------------------------------------
 
 NOTE_SEED_SQL = """
@@ -38,11 +48,17 @@ NOTE_SEED_SQL = """
 
 #----------------------------------------------------------------------------
 # Tables List - Add your tables here
+#
 # Format: (table_name, schema, seed_sql),
+#     or: (table_name, schema, None),
+#
+#   Note: The order is important - Create the tables that have foreign keys
+#         *after* the linked table has been created
 #----------------------------------------------------------------------------
 
 TABLES = [
     ('note', NOTE_SCHEMA, NOTE_SEED_SQL),
+    ('user', USER_SCHEMA, None),
     # Add more table rows here...
 ]
 

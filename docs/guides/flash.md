@@ -13,14 +13,15 @@ flash("Error message", "error")
 
 ## Display Messages in a Page
 
-*Note: Ignore the `{% raw %}...{% endraw %}` tags in these code snippets - they are required for GitHub Pages*
-
-Add this to your base template (above the main content, and aftre the header):
+{#
+Note: Ignore the `{% raw %}...{% endraw %}` tags in these code snippets - they are required for GitHub Pages
+#}
 
 ```jinja
 {% raw %}{# Show flash messages from any previous events #}
 {% include "partials/messages.jinja" %}     {% endraw %}
 ```
+*Note: you can modify the code for this template partial if needed*
 
 And add suitable CSS to your stylesheet:
 
@@ -46,25 +47,5 @@ And add suitable CSS to your stylesheet:
 #messages .message.error {
     color: var(--pico-color-red-500);
 }
-```
-
-This is the code for the partial, which can be modified if required:
-
-```jinja
-{% raw %}{# Show a container with child messages if any... #}
-
-{% with messages = get_flashed_messages(with_categories=true) %}
-  {% if messages %}
-    <div id="messages">
-      <ul>
-        {% for category, message in messages %}
-          <li class="message {{ category }}">
-            {{ message }}
-          </li>
-        {% endfor %}
-      </ul>
-    </div>
-  {% endif %}
-{% endwith %}       {% endraw %}
 ```
 

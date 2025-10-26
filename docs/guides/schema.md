@@ -117,8 +117,12 @@ This is the format of the TABLES list in the `db/config.py` file:
 TABLES = [
     ('user', USER_SCHEMA, USER_SEED_SQL),
     ('note', NOTE_SCHEMA, NOTE_SEED_SQL),
+    ('todo', TODO_SCHEMA, None),
 ]
 ```
+
+*Note that the order is important - Create the tables that have foreign keys **after** the linked table has been created*
+
 
 ## Tips
 

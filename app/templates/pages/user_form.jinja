@@ -1,0 +1,33 @@
+
+
+{% extends 'pages/base.jinja' %}
+
+
+{% block content %}
+
+    <form method="post" action="/user">
+        <label>
+            Forename
+            <input name="forename" type="text" required>
+        </label>
+
+        <label>
+            Surname
+            <input name="surname" type="text" required>
+        </label>
+
+        <label>
+            Username
+            <input name="username" type="text" required>
+        </label>
+
+        <label>
+            Password
+            <input name="password" type="password" required>
+        </label>
+
+        <button>Sign Up</button>
+    </form>
+
+{% endblock %}
+
