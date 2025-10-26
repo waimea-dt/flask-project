@@ -17,8 +17,7 @@
         <p>{{ note.body | paragraphs }}</p>
 
         <footer>
-            <span>Created on {{ note.created | local | format }}</span>
-            <span><a href="/note/{{ note.id }}/delete">❌ Delete</a></span>
+            Created on {{ note.created | local | format }}
         </footer>
 
     </article>

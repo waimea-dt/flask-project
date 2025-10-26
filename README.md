@@ -10,7 +10,6 @@ See the [docs](docs) folder for guides to usage.
 ```
 ├── README.md            # Project README
 │
-├── .gitignore           # Files not pushed to GH
 ├── requirements.txt     # Python modules required
 │
 ├── docs/                # Project documentation

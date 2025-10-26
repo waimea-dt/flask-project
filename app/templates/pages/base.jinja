@@ -11,9 +11,9 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="icon" href="/static/images/note.svg">
-
 	<title>Notes Demo {% block title %}{% endblock %}</title>
+
+    <link rel="icon" href="/static/images/note.svg">
 
     <script src="/static/js/utils.js"></script>
 
@@ -38,17 +38,9 @@
 
             {# Right side #}
             <ul>
-                {% if session.logged_in %}
-                    <li>Welcome, {{ session.user.forename }}!</li>
-                    <li><a href="/admin">Admin</a></li>
-                    <li><a href="/logout">Logout</a></li>
-                {% else %}
-                    <li><a href="/user/new">Sign Up</a></li>
-                    <li><a href="/login">Login</a></li>
-                {% endif %}
-
                 <li><a href="/">All Notes</a></li>
-                <li><a href="/note/new">New Note</a></li>
+                <li><a href="/">Link</a></li>
+                <li><a href="/">Link</a></li>
             </ul>
         </nav>
     </header>

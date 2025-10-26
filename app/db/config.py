@@ -16,25 +16,6 @@ NOTE_SCHEMA = """
     )
 """
 
-USER_SCHEMA = """
-    CREATE TABLE user (
-        id        INTEGER PRIMARY KEY AUTOINCREMENT,
-        forename  TEXT NOT NULL,
-        surname   TEXT NOT NULL,
-        username  TEXT NOT NULL UNIQUE,
-        pass_hash TEXT NOT NULL
-    )
-"""
-
-CLUB_SCHEMA = """
-    CREATE TABLE club (
-        id        INTEGER PRIMARY KEY AUTOINCREMENT,
-        name      TEXT NOT NULL,
-        logo_data BLOB NOT NULL,
-        logo_mime TEXT NOT NULL
-    )
-"""
-
 # Add other table schema here...
 
 
@@ -67,8 +48,6 @@ NOTE_SEED_SQL = """
 
 TABLES = [
     ('note', NOTE_SCHEMA, NOTE_SEED_SQL),
-    ('user', USER_SCHEMA, None),
-    ('club', CLUB_SCHEMA, None),
     # Add more table rows here...
 ]
 
