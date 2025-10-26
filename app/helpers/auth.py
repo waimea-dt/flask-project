@@ -17,7 +17,7 @@ def login_required(func):
     def wrapper(*args, **kwargs):
 
         # Is the user logged in?
-        if 'logged_in' in session:
+        if session.get('logged_in'):
             # Yes, so run function
             return func(*args, **kwargs)
 
