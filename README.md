@@ -1,8 +1,8 @@
 # Flask Project Template
 
-This is a simple [Flask](https://flask.palletsprojects.com/en/stable/) project, built using [Python](https://www.python.org/), that using a [SQLite](https://sqlite.org/) database, and [Jinja2](https://jinja.palletsprojects.com/en/stable/) templates
+This is a simple [Flask web app](https://flask.palletsprojects.com/) project, built using [Python](https://www.python.org/), that using a [SQLite database](https://sqlite.org/), and [Jinja2 templates](https://jinja.palletsprojects.com/templates/). Basic styling is handled by [PicoCSS](https://picocss.com/).
 
-See the [docs](docs) folder for guides to usage.
+See the [docs folder](docs), hosted as a Pages site [here](https://waimea-cpy.github.io/flask--by-the-book/) for a quick-start and guides to usage.
 
 
 ## Project Structure

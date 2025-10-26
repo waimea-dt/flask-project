@@ -1,18 +1,83 @@
 # Handling Form Data
 
+## Typical Form with a Range of Inputs
+
+```html
+<form method="post" action="/note">
+    <h3>New Note</h3>
+
+    <label>
+        Title
+        <input name="title" type="text" required>
+    </label>
+
+    <label>
+        Body
+        <textarea name="body" required></textarea>
+    </label>
+
+    <label>
+        <input name="pin" type="checkbox">
+        Pin note?
+    </label>
+
+    <fieldset>
+        <legend>Tags</legend>
+        <label>
+            <input name="tags" value="home" type="checkbox">
+            home
+        </label>
+        <label>
+            <input name="tags" value="work" type="checkbox">
+            work
+        </label>
+        <label>
+            <input name="tags" value="todo" type="checkbox">
+            todo
+        </label>
+    </fieldset>
+
+    <button>Add Note</button>
+</form>
+```
+Giving this form...
+
+<form id="formdemo" method="post" action="/note">
+  <h3>New Note</h3>
+  <label>Title <input name="title" type="text" required></label>
+  <label>Body <textarea name="body" required></textarea></label>
+  <label><input name="pin" type="checkbox"> Pin note?</label>
+  <fieldset>
+    <legend>Tags</legend>
+    <label><input name="tags" value="home" type="checkbox"> home</label>
+    <label><input name="tags" value="work" type="checkbox"> work</label>
+    <label><input name="tags" value="todo" type="checkbox"> todo</label>
+  </fieldset>
+  <button>Add Note</button>
+</form>
+
 ## Get Values from Form
+
+Get form data via `request.form.get('key').strip()`...
 
 ```python
 # Get form data
-value = request.form.get('field_name', '').strip()
-value = request.form.get('field_name', 'default').strip()
+title = request.form.get('title', '').strip()
+body = request.form.get('body', '').strip()
 
 # Get checkbox state as a boolean
-checked = bool(request.form.get('checkbox_name'))
+pinned = bool(request.form.get('pin'))   # True/False
 
-# Get all values for multiple checkboxes / selects
-values = request.form.getlist('field_name')
+# Get all values from checkboxes / selects
+tag_list = request.form.getlist('tags')  # ['work', 'todo']
+tags = ", ".join(tag_list)               # "work, todo"
 ```
+
+Notes:
+- `.get('key')` gets the form input with the name 'key'
+- `.get('key', '')` value will be nothing if the input missing
+- `.strip()` removes leading / trailing spaces
+- Can also add transforms: `.lower()`, `.upper()`, etc.
 
 ## Validation of Input Data
 
@@ -111,5 +176,31 @@ def add_note():
         return redirect("/")
 ```
 
-
+<style>
+  #formdemo, #formdemo * {
+    box-sizing: border-box;
+    font-size: inherit;
+  }
+  #formdemo {
+    width: 22rem;
+    margin-inline: auto;
+    border: 1px solid currentcolor;
+    padding: 0 1rem;
+    border-radius: 0.5rem;
+    background-color: #3692;
+  }
+  #formdemo > * {
+    display:block;
+    margin-block: 1rem;
+  }
+  #formdemo fieldset label {
+    display: inline-block;
+    margin-inline: 0.5rem;
+  }
+  #formdemo input[type="text"],
+  #formdemo textarea {
+    display: block;
+    width: 100%;
+  }
+</style>
 

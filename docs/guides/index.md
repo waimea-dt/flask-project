@@ -1,14 +1,25 @@
-# Guides to Using the Flask Project Template
+# Using the Flask Project Template
 
 - [Project Structure](structure.md)
-- [Project Setup](setup.md)
-- [Database Schema](schema.md)
-- [Creating Routes](routes.md)
+- [Quick Start](quick.md)
+
+## App Development Guides
+
+- [Flask App Setup and Run](setup.md)
+- [Defining a Database Schema](schema.md)
+- [Creating App Routes](routes.md)
 - [Jinja Templates](jinja.md)
 - [SQLite Queries](sqlite.md)
 - [Form Data Processing](forms.md)
-- [Flash Messages](flash.md)
+- [Flash Feedback Messages](flash.md)
 - [Session Management](session.md)
-- [Uploading Images/Files](images.md)
 - [User Authentication](auth.md)
+- [Managing Image / File Uploads](images.md)
+
+## Additional Guides
+
+- [VS Code Setup for Flask Dev.](vscode.md)
+- [Hosting Your App on Render](hosting.md)
+- [Documentation on GitHub Pages](pages.md)
+
 
