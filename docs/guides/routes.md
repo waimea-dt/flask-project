@@ -77,10 +77,10 @@ def show_note(id):
 
 ```python
 @app.get("/notes/<category>")
-def show_note(id):
+def show_note(category):
     with connect_db() as db:
-        sql = "SELECT * FROM note WHERE id=?"
-        params = (id,)
+        sql = "SELECT * FROM note WHERE category=?"
+        params = (category,)
         note = db.execute(sql, params).fetchone()
     return render_template("pages/note_info.jinja", note=note)
 ```
