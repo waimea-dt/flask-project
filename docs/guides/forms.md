@@ -21,19 +21,24 @@
         Pin note?
     </label>
 
+    <select name="category">
+        <option>Home<option>
+        <option>Work<option>
+    </select>
+
     <fieldset>
         <legend>Tags</legend>
         <label>
-            <input name="tags" value="home" type="checkbox">
-            home
-        </label>
-        <label>
-            <input name="tags" value="work" type="checkbox">
-            work
-        </label>
-        <label>
             <input name="tags" value="todo" type="checkbox">
             todo
+        </label>
+        <label>
+            <input name="tags" value="call" type="checkbox">
+            call
+        </label>
+        <label>
+            <input name="tags" value="shop" type="checkbox">
+            shop
         </label>
     </fieldset>
 
@@ -47,11 +52,15 @@ Giving this form...
   <label>Title <input name="title" type="text" required></label>
   <label>Body <textarea name="body" required></textarea></label>
   <label><input name="pin" type="checkbox"> Pin note?</label>
+  <label>Category <select name="category">
+    <option>Home</option>
+    <option>Work</option>
+  </select></label>
   <fieldset>
     <legend>Tags</legend>
-    <label><input name="tags" value="home" type="checkbox"> home</label>
-    <label><input name="tags" value="work" type="checkbox"> work</label>
-    <label><input name="tags" value="todo" type="checkbox"> todo</label>
+    <label><input name="tags" value="todo" type="checkbox"> home</label>
+    <label><input name="tags" value="call" type="checkbox"> call</label>
+    <label><input name="tags" value="shop" type="checkbox"> shop</label>
   </fieldset>
   <button>Add Note</button>
 </form>
@@ -69,8 +78,8 @@ body = request.form.get('body', '').strip()
 pinned = bool(request.form.get('pin'))   # True/False
 
 # Get all values from checkboxes / selects
-tag_list = request.form.getlist('tags')  # ['work', 'todo']
-tags = ", ".join(tag_list)               # "work, todo"
+tag_list = request.form.getlist('tags')  # ['todo', 'shop']
+tags = ", ".join(tag_list)               # "todo, shop"
 ```
 
 Notes:
@@ -198,7 +207,8 @@ def add_note():
     margin-inline: 0.5rem;
   }
   #formdemo input[type="text"],
-  #formdemo textarea {
+  #formdemo textarea,
+  #formdemo select {
     display: block;
     width: 100%;
   }
