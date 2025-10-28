@@ -10,9 +10,9 @@
 # using this format, and then add the tables to the Table Registry below:
 #
 # class TableName:
-#     NAME   = ""
-#     SCHEMA = "..."
-#     SEED   = "..." or None
+#     NAME      = "name"
+#     SCHEMA    = "CREATE TABLE name (...)"
+#     SEED_DATA = "INSERT INTO name (...)" or None
 #----------------------------------------------------------------------------
 
 class NoteTable:
@@ -29,7 +29,7 @@ class NoteTable:
         )
     """
 
-    SEED = """
+    SEED_DATA = """
         INSERT INTO note (title, pinned, body)
         VALUES
             ("Welcome!",      1, "This is a demo application using Flask, Jinja and SQLite."),
@@ -49,8 +49,8 @@ class NoteTable:
 # Register all of your tables by adding them to the TABLES list here:
 #
 # TABLES = [
-#     (Table1.NAME, Table1.SCHEMA, Table1.SEED),
-#     (Table2.NAME, Table2.SCHEMA, Table2.SEED),
+#     (Table1.NAME, Table1.SCHEMA, Table1.SEED_DATA),
+#     (Table2.NAME, Table2.SCHEMA, Table2.SEED_DATA),
 #     etc.
 # ]
 #
@@ -59,7 +59,7 @@ class NoteTable:
 #----------------------------------------------------------------------------
 
 TABLES = [
-    (NoteTable.NAME, NoteTable.SCHEMA, NoteTable.SEED),
+    (NoteTable.NAME, NoteTable.SCHEMA, NoteTable.SEED_DATA),
     # Add more tables here...
 ]
 
