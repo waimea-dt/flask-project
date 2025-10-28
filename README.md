@@ -2,7 +2,15 @@
 
 This is a simple [Flask web app](https://flask.palletsprojects.com/) project, built using [Python](https://www.python.org/), that using a [SQLite database](https://sqlite.org/), and [Jinja2 templates](https://jinja.palletsprojects.com/templates/). Basic styling is handled by [PicoCSS](https://picocss.com/).
 
-See the [docs folder](docs), hosted as a [GH Pages site](https://waimea-dt.github.io/flask-project/) for a quick-start and guides to usage.
+See the [docs folder](docs) for a quick-start and guides to usage. In particular:
+
+- [Setup](docs/guides/setup.md)
+- [Routes](docs/guides/routes.md) in Flask
+- [Jinja](docs/guides/jinja.md) templates
+- [DB Schema](docs/guides/schema.md)
+- [SQL Queries](docs/guides/sqlite.md)
+
+For easier reading, the docs are hosted as a [GH Pages site](https://waimea-dt.github.io/flask-project/).
 
 
 ## Project Structure
@@ -11,6 +19,7 @@ See the [docs folder](docs), hosted as a [GH Pages site](https://waimea-dt.githu
 ├── README.md            # Project README
 │
 ├── requirements.txt     # Python modules required
+├── dev-requirements.txt # Dev-only tools (pytest)
 │
 ├── docs/                # Project documentation
 │   └── guides/          # Helpful guides
@@ -51,4 +60,10 @@ See the [docs folder](docs), hosted as a [GH Pages site](https://waimea-dt.githu
 ### Development
 - `flask run` - Start the development server
 - `flask --help` - See all available commands
+
+### Testing
+- `pytest -q` - Run the test suite (see `docs/guides/testing.md`)
+
+### VS Code
+This repo includes `.vscode/tasks.json` with tasks for running the Flask server, inspecting the DB, and running tests.
 
