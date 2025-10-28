@@ -45,18 +45,24 @@
 
 .note {
     width: 18rem;
+    margin: 0;
     box-shadow: 0 0.5rem 1rem #0004;
+    border: 1px solid var(--pico-color-yellow-300)
 }
 
 .note,
 .note header,
 .note footer {
     background-color: var(--pico-color-yellow-100);
+}
+
+.note header,
+.note footer {
     border: none;
 }
 
 .note.pinned {
-    border: 2px solid var(--pico-color-red-500);
+    border-color: var(--pico-color-red-500);
 }
 
 .note header {
