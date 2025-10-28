@@ -68,9 +68,13 @@ Giving this form...
 ## Get Values from Form
 
 Get form data via `request.form.get('key').strip()`...
+- `.get('key')` gets the form input with the name 'key'
+- `.get('key', '')` value will be nothing if the input missing
+- `.strip()` removes leading / trailing spaces
+- Can also add other text transforms: `.lower()`, `.upper()`, etc.
 
 ```python
-# Get form data
+# Get form text data
 title = request.form.get('title', '').strip()
 body = request.form.get('body', '').strip()
 
@@ -82,11 +86,18 @@ tag_list = request.form.getlist('tags')  # ['todo', 'shop']
 tags = ", ".join(tag_list)               # "todo, shop"
 ```
 
-Notes:
-- `.get('key')` gets the form input with the name 'key'
-- `.get('key', '')` value will be nothing if the input missing
-- `.strip()` removes leading / trailing spaces
-- Can also add transforms: `.lower()`, `.upper()`, etc.
+**⚠️ Important Security Issue!**
+
+✅ Always escape text to avoid **cross-site script (XSS) attacks**
+
+❌ Not doing this allows users to exploit your app by entering script commands into form text fields which your app will then run.
+
+```python
+# Escape text to avoid XSS exploits
+title = html.escape(title)
+body = html.escape(body)
+```
+
 
 ## Validation of Input Data
 
@@ -130,13 +141,6 @@ value = int(value)  # or double(value_str)
 if value < 10 or value > 30:
     flash("Value should be between 10 and 30", "error")
     return redirect("/note/new")
-```
-
-## Escaping HTML Tag / JS Script Injection
-
-```python
-title = html.escape(title)
-body = html.escape(body)
 ```
 
 ## Full Example

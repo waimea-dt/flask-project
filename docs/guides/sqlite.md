@@ -10,21 +10,40 @@ with connect_db() as db:
     notes = db.execute(sql).fetchall()
 ```
 
-### Query with Parameters
+### Queries with Parameters
 
 ```python
 with connect_db() as db:
     sql = "SELECT * FROM note WHERE user_id=?"
-    params = (id,)
+    params = (id,)  # single parameter (note the comma)
     notes = db.execute(sql, params).fetchall()
 ```
 
 ```python
 with connect_db() as db:
     sql = "INSERT INTO note (title, body) VALUES (?, ?)"
-    params = (title, body)
+    params = (title, body)  # multiple parameters
     db.execute(sql, params)
 ```
+
+**⚠️ Important Security Issue!**
+
+To avoid **SQL injection attacks** (where a user attempts to add malicious SQL into your database via a form input):
+
+✅ Always use parameterized queries (`?` placeholders):
+```python
+# This is the correct way...
+sql = "SELECT * FROM note WHERE id=?"
+params = (id,)
+db.execute(sql, params)
+```
+❌ NEVER add user input directly into queries (e.g. via `f"..."` strings):
+```python
+# This is BAD!
+sql = f"SELECT * FROM note WHERE id={id}"
+db.execute(sql)
+```
+
 
 ## Example Queries
 
@@ -80,24 +99,5 @@ with connect_db() as db:
     sql = "DELETE FROM note WHERE id = ?"
     params = (id,)
     db.execute(sql, params)
-```
-
-## Tips
-
-- Always use parameterized queries (`?` placeholders) to prevent SQL injection
-- NEVER use f-strings or string concatenation with user input
-
-Good:
-```python
-with connect_db() as db:
-    sql = "SELECT * FROM note WHERE id=?"
-    params = (id,)
-    db.execute(sql, params)
-```
-Bad:
-```python
-with connect_db() as db:
-    sql = f"SELECT * FROM note WHERE id={id}"
-    db.execute(sql)
 ```
 
