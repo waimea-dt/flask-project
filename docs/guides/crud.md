@@ -81,7 +81,7 @@ def show_note_form():
     return render_template("pages/note_form.jinja")
 
 
-@app.post("/note/")
+@app.post("/note")
 def add_a_note():
     title = request.form.get('title', '').strip()
     body = request.form.get('body', '').strip()
