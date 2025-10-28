@@ -27,7 +27,7 @@ app = Flask(__name__)
 def show_notes():
     with connect_db() as db:
         sql = """
-            SELECT id, title, body, pinned, created
+            SELECT id, tigtle, body, pinned, created
             FROM note
             ORDER BY pinned DESC, created DESC
         """

@@ -37,3 +37,18 @@ See the [docs folder](docs), hosted as a [GH Pages site](https://waimea-dt.githu
     └── helpers/         # Helper files (don't modify)
 
 ```
+
+## Useful Commands
+
+### Database Management
+- `flask db-show` - View database schema and all data
+- `flask db-schema` - Show just the schema
+- `flask db-data` - Show just the data
+- `flask db-reset` - Delete and recreate database with seed data
+- `flask db-seed` - Reseed database (keeps structure)
+- `flask db-clear` - Clear all data (keeps structure)
+
+### Development
+- `flask run` - Start the development server
+- `flask --help` - See all available commands
+
