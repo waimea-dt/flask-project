@@ -5,8 +5,9 @@
 
 #----------------------------------------------------------------------------
 # Table definitions
-#
-# One per table, in this format:
+#----------------------------------------------------------------------------
+# Define your tables with a name, a schema and optional seed/sample data,
+# using this format, and then add the tables to the Table Registry below:
 #
 # class TableName:
 #     NAME   = ""
@@ -44,11 +45,17 @@ class NoteTable:
 
 #----------------------------------------------------------------------------
 # Table registry
+#----------------------------------------------------------------------------
+# Register all of your tables by adding them to the TABLES list here:
 #
-# Format: (Table.NAME, Table.SCHEMA, Table.SEED),
-
-# Note: The order is important - Create the tables that have foreign keys
-#       *after* the linked table has been created
+# TABLES = [
+#     (Table1.NAME, Table1.SCHEMA, Table1.SEED),
+#     (Table2.NAME, Table2.SCHEMA, Table2.SEED),
+#     etc.
+# ]
+#
+# Note: The table order is important - Create the tables that have
+# foreign keys *after* the tables they link to have been created
 #----------------------------------------------------------------------------
 
 TABLES = [
