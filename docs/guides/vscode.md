@@ -1,4 +1,10 @@
-# VisualStudio Code Setup
+---
+title: VS Code Setup
+parent: Guides
+nav_order: 15
+---
+
+# VisualStudio Code Setup for Flask Dev.
 
 ## VS Code Extensions
 

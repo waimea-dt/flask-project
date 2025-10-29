@@ -1,3 +1,9 @@
+---
+title: Quick Start
+parent: Guides
+nav_order: 2
+---
+
 # Quick Start
 
 ## First Run

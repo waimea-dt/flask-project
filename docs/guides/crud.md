@@ -1,8 +1,10 @@
 ---
+title: Simple CRUD App
 parent: Guides
+nav_order: 3
 ---
 
-# Example of a Simple CRUD Flask App
+# Example of a Simple Flask CRUD App
 
 A simple Flask / SQLite / Jinja app with routes to:
 - **C**reate

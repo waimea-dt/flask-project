@@ -1,3 +1,9 @@
+---
+title: Database Schema
+parent: Guides
+nav_order: 6
+---
+
 # Database Schema Examples
 
 ## Single Table Schema

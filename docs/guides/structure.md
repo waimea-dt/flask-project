@@ -1,3 +1,9 @@
+---
+title: Project Structure
+parent: Guides
+nav_order: 1
+---
+
 # Project Structure
 
 ```
