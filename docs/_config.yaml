@@ -1,3 +1,9 @@
 title: Flask Project
 theme: minima
 
+minima:
+  nav_pages:
+    - index.md
+    - instructions/portfolio.md
+    - evidence/portfolio.md
+    - guides/portfolio.md
