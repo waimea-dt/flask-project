@@ -1,3 +1,7 @@
+---
+parent: Guides
+---
+
 # Example of a Simple CRUD Flask App
 
 A simple Flask / SQLite / Jinja app with routes to:

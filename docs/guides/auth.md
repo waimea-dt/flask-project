@@ -1,3 +1,7 @@
+---
+parent: Guides
+---
+
 # User Authentication
 
 ## Simple Authentication without a User Table
@@ -159,7 +163,7 @@ def add_user():
             return redirect("/user/new")
 
         pass_hash = generate_password_hash(password)
-        
+
         sql = """
             INSERT INTO user (forename, surname, username, pass_hash)
             VALUES (?, ?, ?, ?)

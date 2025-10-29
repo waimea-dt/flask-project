@@ -1,5 +1,6 @@
 ---
 title: Instructions
+nav_order: 1
 ---
 
 # Task Instructions

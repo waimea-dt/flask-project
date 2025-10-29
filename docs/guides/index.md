@@ -1,5 +1,6 @@
 ---
 title: Guides
+nav_order: 3
 ---
 
 # Guides for the Project

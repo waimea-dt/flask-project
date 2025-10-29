@@ -5,13 +5,5 @@ plugins:
 
 remote_theme: just-the-docs/just-the-docs
 
-# minima:
-#   skin: dark
-
-#   nav_pages:
-#     - instructions/index.md
-#     - evidence/index.md
-#     - guides/index.md
-
-#   show_title: false
+color_scheme: dark
 
