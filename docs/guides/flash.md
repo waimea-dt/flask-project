@@ -1,9 +1,3 @@
----
-title: Flash Messages
-parent: Guides
-nav_order: 11
----
-
 # Flash Messages
 
 Give feedback to the user after operations / errors.

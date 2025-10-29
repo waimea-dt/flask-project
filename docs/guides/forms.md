@@ -1,9 +1,3 @@
----
-title: Form Data Processing
-parent: Guides
-nav_order: 10
----
-
 # Handling Form Data
 
 ## Typical Form with a Range of Inputs

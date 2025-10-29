@@ -1,9 +1,3 @@
----
-title: Image / File Uploads
-parent: Guides
-nav_order: 14
----
-
 # Image / File Uploading and Access
 
 If you are dealing withe relatively small images / files (100kB or less), then you can store these directly in the database as Binary Large OBject (BLOB) data.

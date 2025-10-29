@@ -1,9 +1,3 @@
----
-title: Flask App Setup
-parent: Guides
-nav_order: 5
----
-
 # Flask App Setup
 
 ## Create and Configure a Virtual Environment

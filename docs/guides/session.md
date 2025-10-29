@@ -1,9 +1,3 @@
----
-title: Session Management
-parent: Guides
-nav_order: 12
----
-
 # Session Management
 
 ## Uses of the Session

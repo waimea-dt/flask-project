@@ -1,9 +1,3 @@
----
-title: Jinja Templates
-parent: Guides
-nav_order: 8
----
-
 # Jinja Template Guide
 
 <!-- Ignore the `raw` and `endraw` tags in these Jinja code snippets - they are required for GitHub Pages -->

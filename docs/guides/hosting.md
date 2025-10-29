@@ -1,9 +1,3 @@
----
-title: Hosting on Render
-parent: Guides
-nav_order: 17
----
-
 # Hosting Your App on Render
 
 There are various places that you can host a Flask app, but many are paid-only. One service that will host a simple Flask app for free is [Render](https://render.com)

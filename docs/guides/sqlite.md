@@ -1,9 +1,3 @@
----
-title: SQLite Queries
-parent: Guides
-nav_order: 9
----
-
 # SQLite Queries
 
 ## Query Parameters

@@ -1,8 +1,3 @@
----
-title: Guides
-nav_order: 3
----
-
 # How-To Guides
 
 - [Project Structure](structure.md)

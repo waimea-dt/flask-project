@@ -1,9 +1,3 @@
----
-title: Creating App Routes
-parent: Guides
-nav_order: 7
----
-
 # Flask Route Handling
 
 ## Naming Routes

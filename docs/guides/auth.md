@@ -1,9 +1,3 @@
----
-title: User Authentication
-parent: Guides
-nav_order: 13
----
-
 # User Authentication
 
 ## Simple Authentication without a User Table

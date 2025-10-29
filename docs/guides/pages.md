@@ -1,9 +1,3 @@
----
-title: GitHub Pages
-parent: Guides
-nav_order: 16
----
-
 # Hosting Documentation on GitHub Pages
 
 Markdown files on GitHub are rendered as plain HTML and can easily be read. However, they can be themed to be far more readable using GitHub Pages
