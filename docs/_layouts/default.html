@@ -10,8 +10,10 @@
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.classless.slate.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.colors.min.css">
 
-    <link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism.min.css" rel="stylesheet">
-    <link href="https://prismjs.catppuccin.com/mocha.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release/build/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@catppuccin/highlightjs/css/catppuccin-mocha.css">
+
+    <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release/build/highlight.min.js"></script>
 
     <!-- <link rel="stylesheet" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}"> -->
 </head>
@@ -43,10 +45,9 @@
         <p><small>Digital Technologies @ Waimea College</small></p>
     </footer>
 
-    <!-- Prism.js syntax highlighting -->
-    <script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-core.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/prismjs/plugins/autoloader/prism-autoloader.min.js"></script>
-
+    <!-- Syntax highlighting -->
+    <script>hljs.highlightAll();</script>
+    
 </body>
 </html>
 
