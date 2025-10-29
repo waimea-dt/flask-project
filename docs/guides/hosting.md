@@ -1,5 +1,5 @@
 ---
-title: Hosting on render
+title: Hosting on Render
 parent: Guides
 nav_order: 17
 ---

@@ -32,25 +32,6 @@ with connect_db() as db:
     db.execute(sql, params)
 ```
 
-**⚠️ Important Security Issue!**
-
-To avoid **SQL injection attacks** (where a user attempts to add malicious SQL into your database via a form input):
-
-✅ Always use parameterized queries (`?` placeholders):
-```python
-# This is the correct way...
-sql = "SELECT * FROM note WHERE id=?"
-params = (id,)
-db.execute(sql, params)
-```
-❌ NEVER add user input directly into queries (e.g. via `f"..."` strings):
-```python
-# This is BAD!
-sql = f"SELECT * FROM note WHERE id={id}"
-db.execute(sql)
-```
-
-
 ## Example Queries
 
 ### `SELECT` to Fetch All Rows with`fetchall()`
@@ -106,4 +87,23 @@ with connect_db() as db:
     params = (id,)
     db.execute(sql, params)
 ```
+
+## ⚠️ Important Security Issue
+
+To avoid **SQL injection attacks** (where a user attempts to add malicious SQL into your database via a form input):
+
+✅ Always use parameterized queries (`?` placeholders):
+```python
+# This is the correct way...
+sql = "SELECT * FROM note WHERE id=?"
+params = (id,)
+db.execute(sql, params)
+```
+❌ NEVER add user input directly into queries (e.g. via `f"..."` strings):
+```python
+# This is BAD!
+sql = f"SELECT * FROM note WHERE id={id}"
+db.execute(sql)
+```
+
 

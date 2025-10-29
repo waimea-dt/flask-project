@@ -1,15 +1,4 @@
----
-title: Guides
-nav_order: 3
----
-
-# How-To Guides
-
-- [Project Structure](structure.md)
-- [Quick Start](quick.md)
-- [Example Simple CRUD App](crud.md)
-
-## App Development Guides
+# App Development
 
 - [Flask App Setup and Run](setup.md)
 - [Defining a Database Schema](schema.md)
@@ -21,11 +10,4 @@ nav_order: 3
 - [Session Management](session.md)
 - [User Authentication](auth.md)
 - [Managing Image / File Uploads](images.md)
-
-## Additional Guides
-
-- [VS Code Setup for Flask Dev.](vscode.md)
-- [Hosting Your App on Render](hosting.md)
-- [Documentation on GitHub Pages](pages.md)
-
 

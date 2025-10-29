@@ -92,11 +92,10 @@ tag_list = request.form.getlist('tags')  # ['todo', 'shop']
 tags = ", ".join(tag_list)               # "todo, shop"
 ```
 
-**⚠️ Important Security Issue!**
 
-✅ Always escape text to avoid **cross-site script (XSS) attacks**
+## Escaping Text Values to Avoid XSS
 
-❌ Not doing this allows users to exploit your app by entering script commands into form text fields which your app will then run.
+**Always** escape text input values *(see security note below)*
 
 ```python
 # Escape text to avoid XSS exploits
@@ -223,4 +222,19 @@ def add_note():
     width: 100%;
   }
 </style>
+
+
+
+## ⚠️ Important Security Issue
+
+✅ Always escape text to avoid **cross-site script (XSS) attacks**
+
+❌ Not doing this allows users to exploit your app by entering script commands into form text fields which your app will then run.
+
+```python
+# Escape text to avoid XSS exploits
+title = html.escape(title)
+body = html.escape(body)
+```
+
 

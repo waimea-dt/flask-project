@@ -1,5 +1,6 @@
 ---
 title: Templates
+nav_exclude: true
 ---
 
 # Project Template Files

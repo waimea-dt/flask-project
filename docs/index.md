@@ -1,7 +1,12 @@
+---
+title: Documentation
+nav_order: 0
+---
+
 # Flask Project Documentation
 
-- [Guides](guides/)
-- [Instructions](instructions/)
-- [Evidence](evidence/)
-- [Templates](templates/)
+- [How-To Guides](guides/)
+- [Task Instructions](instructions/)
+- [Project Evidence](evidence/)
+- [Template Files](templates/)
 
