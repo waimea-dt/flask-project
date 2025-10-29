@@ -1,10 +1,17 @@
 title: Flask Project
-theme: minima
 
-header_pages:
-  - instructions/index.md
-  - evidence/index.md
-  - guides/index.md
+plugins:
+  - jekyll-remote-theme
 
-show_excerpts: false
+remote_theme: jekyll/minima
+
+minima:
+  skin: dark
+
+  nav_pages:
+    - instructions/index.md
+    - evidence/index.md
+    - guides/index.md
+
+  show_title: false
 
