@@ -1,4 +1,8 @@
-# Template Files
+---
+title: Templates
+---
+
+# Project Template Files
 
 Templates for customising key project files:
 

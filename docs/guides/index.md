@@ -1,4 +1,8 @@
-# Using the Flask Project Template
+---
+title: Guides
+---
+
+# Guides for the Project
 
 - [Project Structure](structure.md)
 - [Quick Start](quick.md)

@@ -5,3 +5,6 @@ header_pages:
   - instructions/index.md
   - evidence/index.md
   - guides/index.md
+
+show_excerpts: false
+
