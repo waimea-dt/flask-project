@@ -10,7 +10,7 @@ See the [docs folder](docs) for a quick-start and guides to usage. In particular
 - [DB Schema](docs/guides/schema.md)
 - [SQL Queries](docs/guides/sqlite.md)
 
-For easier reading, the docs are hosted as a [GH Pages site](https://waimea-dt.github.io/flask-project/).
+*For easier reading, the docs are hosted as a [GH Pages site](https://waimea-dt.github.io/flask-project/)*
 
 
 ## Project Structure
@@ -19,7 +19,6 @@ For easier reading, the docs are hosted as a [GH Pages site](https://waimea-dt.g
 ├── README.md            # Project README
 │
 ├── requirements.txt     # Python modules required
-├── dev-requirements.txt # Dev-only tools (pytest)
 │
 ├── docs/                # Project documentation
 │   └── guides/          # Helpful guides
@@ -60,10 +59,4 @@ For easier reading, the docs are hosted as a [GH Pages site](https://waimea-dt.g
 ### Development
 - `flask run` - Start the development server
 - `flask --help` - See all available commands
-
-### Testing
-- `pytest -q` - Run the test suite (see `docs/guides/testing.md`)
-
-### VS Code
-This repo includes `.vscode/tasks.json` with tasks for running the Flask server, inspecting the DB, and running tests.
 
