@@ -1,6 +1,6 @@
 # Project Structure
 
-```plaintext
+```
 ├── README.md            # Project README
 │
 ├── requirements.txt     # Python modules required
