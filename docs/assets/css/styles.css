@@ -21,3 +21,7 @@ nav ul {
     width: auto;
 }
 
+h2 {
+    color: var(--pico-secondary);
+}
+

@@ -1,6 +1,6 @@
 # Project Structure
 
-```
+```text
 ├── README.md            # Project README
 │
 ├── requirements.txt     # Python modules required
@@ -28,5 +28,4 @@
     │   └── data.sqlite  # SQLite database
     │
     └── helpers/         # Helper files (don't modify)
-
 ```
