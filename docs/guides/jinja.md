@@ -49,7 +49,6 @@
 {% if count != 0 %}
 {% if score > 50 and score < 100 %}
 {% if is_admin or is_moderator %}      {% endraw %}
-
 ```
 
 ```jinja
