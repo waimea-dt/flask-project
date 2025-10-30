@@ -26,11 +26,10 @@ body > main {
 
 body > header hgroup {
     margin-bottom: 0;
-    font-size: 0.9em;
 }
 
 body > header h1 {
-    --pico-font-size: 1.2rem;
+    --pico-font-size: 1.5rem;
 }
 
 nav ul {
