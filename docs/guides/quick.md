@@ -9,11 +9,13 @@ python -m venv venv
 venv\Scripts\activate
 pip install -r requirements.txt
 ```
-(`source venv/bin/activate` on Mac/Linux)
+*(use `source venv/bin/activate` on Mac/Linux)*
+
 
 ### 2. Configure environment vars:
 
 - Copy `.env-example` to `.env`, and edit as needed
+
 
 ### 3. Run server:
 
@@ -23,7 +25,8 @@ flask run
 
 ### 4. Browse site
 
-- Visit: http://localhost:5000
+- Visit: [http://localhost:5000](http://localhost:5000)
+
 
 ---
 
@@ -32,6 +35,7 @@ flask run
 ### 1. Define database schema in `db/config.py`
 
 - *See [schema](schema.md) doc for more details*
+
 
 ### 2. Define routes and handlers in `__init__.py`
 

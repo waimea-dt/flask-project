@@ -48,11 +48,12 @@
 
     <!-- Syntax highlighting -->
     <script>
-        hljs.configure({
-            cssSelector: 'code',
-            languages: []
+        document.querySelectorAll('code').forEach(block => {
+            if (!block.className || !block.className.includes('language-')) {
+                block.classList.add('language-plaintext')
+            }
+            hljs.highlightElement(block)
         })
-        hljs.highlightAll()
     </script>
 
 </body>
