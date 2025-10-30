@@ -1,14 +1,5 @@
 title: Flask Project Template
-description: A starter Flask project with Jinja, SQLite and PicoCSS
+description: A starter Flask, Jinja, SQLite and PicoCSS project
 author: DT Dept.
 
-theme: null
-
-navigation:
-  - title: Task
-    url: /instructions/
-  - title: Evidence
-    url: /evidence/
-  - title: Guides
-    url: /guides/
 

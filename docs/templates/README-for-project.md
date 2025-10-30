@@ -17,11 +17,11 @@ Task Instructions:
 - [Instruction documents](docs/instructions/)
 
 Project Evidence
-- [Project Requirements](docs/instructions/requirements.md)
-- [Sprint 1: Planning](docs/instructions/sprint-1-plann.md)
-- [Sprint 2: Developing MVP](docs/instructions/sprint-2-mvp.md)
-- [Sprint 3: Refinement](docs/instructions/sprint-3-refine.md)
-- [Project Review](docs/instructions/review.md)
+- [Project Requirements](docs/evidence/sprint-0-requirements.md)
+- [Sprint 1: Development of a Prototype](docs/evidence/sprint-1-prototype.md)
+- [Sprint 2: Development of a MVP](docs/evidence/sprint-2-mvp.md)
+- [Sprint 3: Final System Refinement](docs/evidence/sprint-3-final.md)
+- [Project Review](docs/evidence/system-review.md)
 
 
 ## Technologies Used

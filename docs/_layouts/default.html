@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>{{ page.title | default: site.title | default: "Flask Project" }}</title>
+    <title>{{ page.title | default: site.title | default: site.github.repository_name }}</title>
 
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.classless.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.colors.min.css">
@@ -13,10 +13,10 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release/build/styles/dark.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@catppuccin/highlightjs/css/catppuccin-mocha.css">
 
-    <link rel="stylesheet" href="{{ '/assets/css/styles.css' | relative_url }}">
+    <link rel="stylesheet" href="{{ "/assets/css/styles.css" | relative_url }}">
 
     <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release/build/highlight.min.js"></script>
-    <script src="{{ '/assets/js/highlight.js' | relative_url }}"></script>
+    <script src="{{ "/assets/js/highlight.js" | relative_url }}"></script>
 </head>
 
 <body>
@@ -25,15 +25,17 @@
             <ul>
                 <li>
                     <hgroup>
-                        <h1><a href="{{ "/" | absolute_url }}">{{ site.title | default: site.github.repository_name }}</a></h1>
+                        <h1><a href="{{ "/" | absolute_url }}">
+                           {{ site.title       | default: site.github.repository_name }}</a></h1>
                         <p>{{ site.description | default: site.github.project_tagline }}</p>
+                        <p>{{ site.author      | default: site.github.owner_name }}</p>
                     </hgroup>
                 </li>
             </ul>
             <ul>
-                {% for item in site.navigation %}
-                    <li><a href="{{ item.url | relative_url }}">{{ item.title }}</a></li>
-                {% endfor %}
+                <li><a href="{{ "/instructions/" | absolute_url }}">Task</a></li>
+                <li><a href="{{ "/evidence/"     | absolute_url }}">Evidence</a></li>
+                <li><a href="{{ "/guides/"       | absolute_url }}">Guides</a></li>
                 <li><a href="https://github.com/{{ site.github.owner_name }}/{{ site.github.repository_name }}">GitHub</a></li>
             </ul>
         </nav>

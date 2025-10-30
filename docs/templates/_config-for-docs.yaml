@@ -2,16 +2,3 @@ title: ... Project
 description: A system for ...
 author: A Student
 
-theme: null
-highlighter: none
-
-navigation:
-  - title: Home
-    url: /
-  - title: Instructions
-    url: /instructions/
-  - title: Evidence
-    url: /evidence/
-  - title: Guides
-    url: /guides/
-
