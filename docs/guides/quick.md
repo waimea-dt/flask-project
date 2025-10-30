@@ -7,9 +7,9 @@
 ```bash
 python -m venv venv
 venv\Scripts\activate
-# source venv/bin/activate on Mac/Linux
 pip install -r requirements.txt
 ```
+(`source venv/bin/activate` on Mac/Linux)
 
 ### 2. Configure environment vars:
 

@@ -1,16 +1,21 @@
-body>footer, body>header, body>main {
-    max-width: 950px;
-}
-
-body>header hgroup {
-    margin-bottom: 0;
-}
-
 body {
+    --pico-h2-color: var(--pico-primary);
+    --pico-h3-color: var(--pico-secondary);
+
     min-height: 100vh;
     min-height: 100dvh;
     display: grid;
     grid-template-rows: auto 1fr auto;
+}
+
+body > footer,
+body > header,
+body > main {
+    max-width: 950px;
+}
+
+body > header hgroup {
+    margin-bottom: 0;
 }
 
 nav ul {
@@ -20,8 +25,3 @@ nav ul {
 :where(table) {
     width: auto;
 }
-
-h2 {
-    color: var(--pico-secondary);
-}
-
