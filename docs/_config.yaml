@@ -6,9 +6,7 @@ theme: null
 highlighter: none
 
 navigation:
-  - title: Home
-    url: /
-  - title: Instructions
+  - title: Task
     url: /instructions/
   - title: Evidence
     url: /evidence/
