@@ -1,0 +1,13 @@
+title: Flask Project Template
+description: A start Flask project with Jinja, SQLite and PicoCSS
+author: DT Dept.
+
+theme: null
+highlighter: none
+
+navigation:
+  - title: Home
+    url: /
+  - title: Guides
+    url: /guides/
+

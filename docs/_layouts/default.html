@@ -14,8 +14,6 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@catppuccin/highlightjs/css/catppuccin-mocha.css">
 
     <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release/build/highlight.min.js"></script>
-
-    <!-- <link rel="stylesheet" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}"> -->
 </head>
 
 <body>
@@ -28,11 +26,9 @@
                 </li>
             </ul>
             <ul>
-                <li><a href="{{ '/' | relative_url }}">Home</a></li>
-                <li><a href="{{ '/instructions/' | relative_url }}">Instructions</a></li>
-                <li><a href="{{ '/evidence/' | relative_url }}">Evidence</a></li>
-                <li><a href="{{ '/guides/' | relative_url }}">Guides</a></li>
-                <li><a href="https://github.com/{{ site.github.owner_name }}/{{ site.github.repository_name }}">View on GitHub</a></li>
+                {% for item in site.navigation %}
+                    <li><a href="{{ item.url | relative_url }}">{{ item.title }}</a></li>
+                {% endfor %}
             </ul>
         </nav>
     </header>
@@ -42,6 +38,7 @@
     </main>
 
     <footer>
+        <p><a href="https://github.com/{{ site.github.owner_name }}/{{ site.github.repository_name }}">View on Project repository on GitHub</a></p>
         <p><small>Digital Technologies @ Waimea College</small></p>
     </footer>
 
