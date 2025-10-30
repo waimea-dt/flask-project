@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="{{ '/assets/css/styles.css' | relative_url }}">
 
     <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release/build/highlight.min.js"></script>
+    <script src="{{ '/assets/js/highlight.js' | relative_url }}"></script>
 </head>
 
 <body>
@@ -45,23 +46,6 @@
     <footer>
         <small>Digital Technologies @ Waimea College</small>
     </footer>
-
-    <!-- Syntax highlighting -->
-    <script>
-        document.querySelectorAll('code').forEach(block => {
-            const parent = block.closest('div[class*="language-"]')
-            if (parent) {
-                const langClass = Array.from(parent.classList).find(c => c.startsWith('language-'))
-                if (langClass) {
-                    block.classList.add(langClass)
-                    hljs.highlightElement(block)
-                    return
-                }
-            }
-            block.classList.add('language-plaintext')
-            hljs.highlightElement(block)
-        })
-    </script>
 
 </body>
 </html>
