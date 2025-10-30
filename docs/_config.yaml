@@ -3,8 +3,14 @@ description: A starter Flask project with Jinja, SQLite and PicoCSS
 author: DT Dept.
 
 theme: null
+
 markdown: kramdown
 highlighter: rouge
+
+kramdown:
+  syntax_highlighter: rouge
+  syntax_highlighter_opts:
+    default_lang: plaintext
 
 navigation:
   - title: Task
