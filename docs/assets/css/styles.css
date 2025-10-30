@@ -1,0 +1,16 @@
+body>footer, body>header, body>main {
+    max-width: 950px;
+}
+
+body>header hgroup {
+    margin-bottom: 0;
+}
+
+nav ul {
+    flex-wrap: wrap;
+}
+
+:where(table) {
+    width: auto;
+}
+
