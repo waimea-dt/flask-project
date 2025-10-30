@@ -32,7 +32,12 @@ body > header h1 {
     --pico-font-size: 1.5rem;
 }
 
-nav ul {
+body > header > nav {
+    flex-wrap: wrap;
+    gap: 0 2rem;
+}
+
+body > header > nav ul {
     flex-wrap: wrap;
 }
 
