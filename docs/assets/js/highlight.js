@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    hljs.registerLanguage('jinja', window.hljs.getLanguage('django'));
+    hljs.registerLanguage('django', window.hljs.getLanguage('django'));
 
     document.querySelectorAll('code').forEach(block => {
         const parent = block.closest('div[class*="language-"]')
