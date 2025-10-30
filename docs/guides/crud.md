@@ -1,12 +1,11 @@
 # Example of a Simple Flask CRUD App
 
-A simple Flask / SQLite / Jinja app with routes to:
-- **C**reate
-- **R**ead
-- **U**pdate
-- **D**elete
+A simple Flask / SQLite / Jinja app with routes to: **C**reate, **R**ead, **U**pdate, **D**elete data.
 
-**DB Schema**
+
+## App Configuration
+
+### DB Schema
 
 ```SQL
 CREATE TABLE note (
@@ -18,7 +17,7 @@ CREATE TABLE note (
 )
 ```
 
-**App Routes:**
+### App Routes
 
 | Method | Route                   | Description           |
 | ------ | ----------------------- | --------------------- |
@@ -30,7 +29,8 @@ CREATE TABLE note (
 | `POST` | `/note/<int:id>`        | update a note         |
 | `GET`  | `/note/<int:id>/delete` | delete a note         |
 
-**App Templates:**
+
+### App Templates
 
 | Name                   | Data Needed | Description                  |
 | ---------------------- | ----------- | ---------------------------- |

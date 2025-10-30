@@ -1,7 +1,14 @@
+/* COLOURS ------------------------------- */
+
 body {
     --pico-h2-color: var(--pico-primary);
     --pico-h3-color: var(--pico-primary-hover);
+}
 
+
+/* LAYOUT -------------------------------- */
+
+body {
     min-height: 100vh;
     min-height: 100dvh;
     display: grid;
@@ -14,6 +21,9 @@ body > main {
     max-width: 950px;
 }
 
+
+/* HEADER & NAV --------------------------- */
+
 body > header hgroup {
     margin-bottom: 0;
 }
@@ -22,6 +32,14 @@ nav ul {
     flex-wrap: wrap;
 }
 
+
+/* TABLES --------------------------------- */
+
 :where(table) {
     width: auto;
 }
+
+td, th {
+    padding-block: calc(var(--pico-spacing)/ 4);
+}
+
