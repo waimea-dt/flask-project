@@ -7,11 +7,13 @@
 
     <title>{{ page.title | default: site.title | default: "Flask Project" }}</title>
 
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.classless.slate.min.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.classless.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.colors.min.css">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release/build/styles/dark.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@catppuccin/highlightjs/css/catppuccin-mocha.css">
+
+    <link rel="stylesheet" href="{{ '/assets/css/styles.css' | relative_url }}">
 
     <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release/build/highlight.min.js"></script>
 </head>
@@ -21,14 +23,17 @@
         <nav>
             <ul>
                 <li>
-                    <h1><a href="{{ "/" | absolute_url }}">{{ site.title | default: site.github.repository_name }}</a></h1>
-                    <p>{{ site.description | default: site.github.project_tagline }}</p>
+                    <hgroup>
+                        <h1><a href="{{ "/" | absolute_url }}">{{ site.title | default: site.github.repository_name }}</a></h1>
+                        <p>{{ site.description | default: site.github.project_tagline }}</p>
+                    </hgroup>
                 </li>
             </ul>
             <ul>
                 {% for item in site.navigation %}
                     <li><a href="{{ item.url | relative_url }}">{{ item.title }}</a></li>
                 {% endfor %}
+                <li><a href="https://github.com/{{ site.github.owner_name }}/{{ site.github.repository_name }}">GitHub</a></li>
             </ul>
         </nav>
     </header>
@@ -38,8 +43,7 @@
     </main>
 
     <footer>
-        <p><a href="https://github.com/{{ site.github.owner_name }}/{{ site.github.repository_name }}">View on Project repository on GitHub</a></p>
-        <p><small>Digital Technologies @ Waimea College</small></p>
+        <small>Digital Technologies @ Waimea College</small>
     </footer>
 
     <!-- Syntax highlighting -->
