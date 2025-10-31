@@ -8,27 +8,33 @@
 
     <label>
         Title
-        <input name="title" type="text" required>
+        <input name="title" type="text" placeholder="e.g. Feed the cat" required>
     </label>
 
     <label>
         Body
-        <textarea name="body" required></textarea>
+        <textarea name="body" placeholder="e.g. 2 scoops in the morning" required></textarea>
     </label>
 
-    <label><input name="pin" type="checkbox"> Pin note?</label>
+    <label>
+        <input name="pin" type="checkbox">
+        Pin note?
+    </label>
 
-    <select name="category">
-        <option>Personal<option>
-        <option>Family<option>
-        <option>Work<option>
-    </select>
+    <label>
+        Category
+        <select name="category">
+            <option>Personal<option>
+            <option>Family<option>
+            <option>Work<option>
+        </select>
+    </label>
 
     <fieldset>
         <legend>Priority</legend>
         <label><input name="priority" value="5" type="radio"> 5</label>
         <label><input name="priority" value="4" type="radio"> 4</label>
-        <label><input name="priority" value="3" type="radio"> 3</label>
+        <label><input name="priority" value="3" type="radio" checked> 3</label>
         <label><input name="priority" value="2" type="radio"> 2</label>
         <label><input name="priority" value="1" type="radio"> 1</label>
     </fieldset>
@@ -47,8 +53,8 @@ Giving this form...
 
 <form id="formdemo" method="post" action="/note">
   <h3>New Note</h3>
-  <label>Title <input name="title" type="text" required></label>
-  <label>Body <textarea name="body" required></textarea></label>
+  <label>Title <input name="title" type="text" placeholder="e.g. Feed the cat" required></label>
+  <label>Body <textarea name="body" required placeholder="e.g. 2 scoops in the morning"></textarea></label>
   <label><input name="pin" type="checkbox"> Pin note?</label>
   <label>Category <select name="category">
     <option>Personal</option>
@@ -59,7 +65,7 @@ Giving this form...
     <legend>Priority</legend>
     <label><input name="priority" value="5" type="radio"> 5</label>
     <label><input name="priority" value="4" type="radio"> 4</label>
-    <label><input name="priority" value="3" type="radio"> 3</label>
+    <label><input name="priority" value="3" type="radio" checked> 3</label>
     <label><input name="priority" value="2" type="radio"> 2</label>
     <label><input name="priority" value="1" type="radio"> 1</label>
   </fieldset>
