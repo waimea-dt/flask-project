@@ -1,6 +1,45 @@
-# Database Schema Examples
+# Database Schema Configuration
 
-## Single Table Schema
+## Database Configuration in `app/db/config.py`
+
+The database schema are defined in `app/db/config.py`. Each table is defined as a table class, in this format:
+
+```python
+class TableName:
+
+    NAME = "tablename"
+
+    SCHEMA = """
+        CREATE TABLE ...
+    """
+
+    SEED_DATA = """
+        INSERT INTO ...
+    """
+```
+
+If no seed data is to be given for a table:
+
+```python
+    SEED_DATA = None
+```
+
+The table are then added to the `TABLES` **table registry list**, one row per table:
+
+```python
+TABLES = [
+    (NoteTable.NAME, NoteTable.SCHEMA, NoteTable.SEED_DATA),
+    (UserTable.NAME, UserTable.SCHEMA, UserTable.SEED_DATA),
+    ...
+]
+```
+
+*Note that the order is important - Create the tables that have foreign keys **after** the linked table has been created*
+
+
+## Example Database Schema
+
+### Schema for a Single Table
 
 **Notes** table:
 
@@ -14,7 +53,9 @@ CREATE TABLE note (
 )
 ```
 
-## Two Linked Table Schema
+### Schema for Two Linked Tables
+
+Tables are connected via **foreign keys** which link a field in one table to the **primary key** of another...
 
 **User** table:
 
@@ -44,7 +85,7 @@ CREATE TABLE note (
 )
 ```
 
-## Two Tables with a Many-to-Many Relationship
+### Schema for Two Tables with a Many-to-Many Relationship
 
 A many-to-many relationship requires a third 'linking' table, consisting of **two foreign keys** which together also become a **composite primary key**.
 
@@ -86,9 +127,9 @@ CREATE TABLE member (
 )
 ```
 
-## Example table seeding queries and data
+## Seeding Tables with Sample / Test Data
 
-*Note that in this example, the 'test' user password is 'test'. This is a genuine hash of the password - So, you can use this to seed a user account.*
+You can configure each table to have sample / test data loaded into it when it is first created...
 
 **User table seeding:**
 
@@ -109,19 +150,7 @@ VALUES ("Welcome!",        "This is a demo application", 1, 1),
        ("Sample Note",     "This is just a sample note", 0, 1)
 ```
 
-## Example tables List - One row per table
-
-This is the format of the TABLES list in the `db/config.py` file:
-
-```python
-TABLES = [
-    ('user', USER_SCHEMA, USER_SEED_SQL),
-    ('note', NOTE_SCHEMA, NOTE_SEED_SQL),
-    ('todo', TODO_SCHEMA, None),
-]
-```
-
-*Note that the order is important - Create the tables that have foreign keys **after** the linked table has been created*
+*Note that in this example, the 'test' user password is 'test'. This is a genuine hash of the password - So, you can use this to seed a user account.*
 
 
 ## Tips

@@ -1,12 +1,13 @@
 # Image / File Uploading and Access
 
-If you are dealing withe relatively small images / files (100kB or less), then you can store these directly in the database as Binary Large OBject (BLOB) data.
+If you are dealing withe relatively small images / files (100kB or less), then you can store these directly in the database as **Binary Large OBject (BLOB)** data.
 
-*(If you are storing larger files / images, database BLOBs would result in a very large SQLite database file. In this case, you should upload the files to a storage location and only store a reference to the location in the DB. However, this is outside the scope of this guide)*
+*(If you are storing larger files / images, database BLOBs would result in a very large SQLite database file. In this case, you should **upload the files to a storage location** and only **store a reference to the location in the DB**. However, this is outside the scope of this guide)*
+
 
 ## Setup the Database
 
-Define the DB schema with a BLOB field, and in the case of images, you will need to store the [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/MIME_types/Common_types) to identify the image type when accessing it...
+Define the DB schema with a **BLOB** field, and in the case of images, you will need to store the **[MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/MIME_types/Common_types)** to identify the image type when accessing it...
 
 ```sql
 CREATE TABLE club (
@@ -22,11 +23,11 @@ CREATE TABLE club (
 If a form is uploading images / files, it needs to be a `multipart` form.
 
 In addition, the file input control should specify the type(s) of file that can be uploaded using the `accept` parameter. Examples:
-- PNG images only: `"image/png"`
-- Common image types: `"image/png, image/jpeg, image/gif, image/webp"`
-- All image types: `"image/*"`
-- Text files only: `".txt"`
-- Word files only: `".docx"`
+- **PNG** images only: `"image/png"`
+- **Common image** types: `"image/png, image/jpeg, image/gif, image/webp"`
+- **All image** types: `"image/*"`
+- **Text** files only: `".txt"`
+- **Word** files only: `".docx"`
 
 
 ```html
@@ -52,7 +53,7 @@ In addition, the file input control should specify the type(s) of file that can 
 
 ## Setup a form processing route and function
 
-The uploaded image / file data is handled separately from the other form data values, coming via `request.files`...
+Most data submitted by a form is accessed via `request.form.get(...)`. The uploaded image / file data is handled separately from the other form data values, coming via `request.files.get(...)`...
 
 ```python
 @app.post("/club")
@@ -60,7 +61,7 @@ def add_club():
     name = request.form.get('name', '').strip()
     name = html.escape(name)
 
-    logo = request.files['logo']
+    logo = request.files.get('logo', None)
     if not logo:
         flash("There was a problem uploading the image", "error")
         return redirect("/")
@@ -82,7 +83,7 @@ def add_club():
 
 ## Serve uploaded images using `<img>`
 
-When access database entries, **do not** request the image data along with other data values. Instead, use a separate HTTP request for the image data via an `<img>` tag on the page you want to show the image, and provide a dedicated route for this...
+When accessing database entries, **do not request the image data** along with other data values. Instead, **use a separate HTTP request for the image data via an `<img>` tag** on the page you want to show the image, and provide a dedicated route for this...
 
 ### 1. Get data for the page (but *not* the image)
 
@@ -97,19 +98,22 @@ def get_club(id):
         return render_template("pages/club.jinja", club=club)
 ```
 
-### 2. Template to show data has an `<img>` tag
+### 2. Template to show data with an `<img>` tag
+
+The source of the image is set to a special image loading route, `/club/{{ club.id }}/logo`...
 
 ```jinja
 {% raw %}{# Show the club info and request image... #}
 
 <h1>Welcome to '{{ club.name }}' Club!</h1>
 
-<img src="/club/{{ club.id }}/logo" alt="{{ club.name }} logo">
-{% endraw %}
+<img src="/club/{{ club.id }}/logo" alt="{{ club.name }} logo">    {% endraw %}
 ```
 <!-- Ignore the `raw` and `endraw` tags in these Jinja code snippets - they are required for GitHub Pages -->
 
 ### 3. Route to serve up the image
+
+This route retrieves the image data and MIME type, then creates an image file and returns this...
 
 ```python
 @app.get('/club/<int:id>/logo')

@@ -28,7 +28,7 @@ with connect_db() as db:
 
 ## Example Queries
 
-### `SELECT` to Fetch All Rows with`fetchall()`
+### `SELECT` to Fetch All Rows with `fetchall()`
 
 ```python
 with connect_db() as db:
@@ -54,7 +54,7 @@ with connect_db() as db:
     db.execute(sql, params)
 ```
 
-#### ... and get the id of the new row
+#### ... and, optionally, get the id of the new row
 
 ```python
 with connect_db() as db:
@@ -93,7 +93,7 @@ sql = "SELECT * FROM note WHERE id=?"
 params = (id,)
 db.execute(sql, params)
 ```
-❌ NEVER add user input directly into queries (e.g. via `f"..."` strings):
+❌ NEVER add user input directly into queries (e.g. via `f"...{var}"` strings):
 ```python
 # This is BAD!
 sql = f"SELECT * FROM note WHERE id={id}"

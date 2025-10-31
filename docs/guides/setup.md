@@ -13,7 +13,7 @@
    Activate the new virtual environment...
 
    On Windows:
-   ```ps
+   ```bash
    venv\Scripts\activate
    ```
    On Linux / Mac:
@@ -63,12 +63,12 @@
 
 ### 2. View in browser:
 
-   Open http://localhost:5000 in a browser
+   Open [http://localhost:5000](http://localhost:5000) in a browser
 
 
 ### 3. View Logs:
 
-   Watch the console to see logs for:
+   Watch the console to see **logs** for:
    - Database configuration
    - HTTP requests and responses
    - SQL queries and results

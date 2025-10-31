@@ -16,31 +16,32 @@
         <textarea name="body" required></textarea>
     </label>
 
-    <label>
-        <input name="pin" type="checkbox">
-        Pin note?
-    </label>
-
     <select name="category">
-        <option>Home<option>
+        <option>Personal<option>
+        <option>Family<option>
         <option>Work<option>
     </select>
 
     <fieldset>
-        <legend>Tags</legend>
-        <label>
-            <input name="tags" value="todo" type="checkbox">
-            todo
-        </label>
-        <label>
-            <input name="tags" value="call" type="checkbox">
-            call
-        </label>
-        <label>
-            <input name="tags" value="shop" type="checkbox">
-            shop
-        </label>
+        <legend>Priority</legend>
+        <label><input name="priority" value="5" type="radio"> 5</label>
+        <label><input name="priority" value="4" type="radio"> 4</label>
+        <label><input name="priority" value="3" type="radio"> 3</label>
+        <label><input name="priority" value="2" type="radio"> 2</label>
+        <label><input name="priority" value="1" type="radio"> 1</label>
     </fieldset>
+
+    <fieldset>
+        <legend>Tags</legend>
+        <label><input name="tags" value="todo" type="checkbox"> todo</label>
+        <label><input name="tags" value="call" type="checkbox"> call</label>
+        <label><input name="tags" value="shop" type="checkbox"> shop</label>
+    </fieldset>
+
+    <label>
+        <input name="pin" type="checkbox">
+        Pin note?
+    </label>
 
     <button>Add Note</button>
 </form>
@@ -51,17 +52,26 @@ Giving this form...
   <h3>New Note</h3>
   <label>Title <input name="title" type="text" required></label>
   <label>Body <textarea name="body" required></textarea></label>
-  <label><input name="pin" type="checkbox"> Pin note?</label>
   <label>Category <select name="category">
-    <option>Home</option>
+    <option>Personal</option>
+    <option>Family</option>
     <option>Work</option>
   </select></label>
+  <fieldset>
+    <legend>Priority</legend>
+    <label><input name="priority" value="5" type="radio"> 5</label>
+    <label><input name="priority" value="4" type="radio"> 4</label>
+    <label><input name="priority" value="3" type="radio"> 3</label>
+    <label><input name="priority" value="2" type="radio"> 2</label>
+    <label><input name="priority" value="1" type="radio"> 1</label>
+  </fieldset>
   <fieldset>
     <legend>Tags</legend>
     <label><input name="tags" value="todo" type="checkbox"> home</label>
     <label><input name="tags" value="call" type="checkbox"> call</label>
     <label><input name="tags" value="shop" type="checkbox"> shop</label>
   </fieldset>
+  <label><input name="pin" type="checkbox"> Pin note?</label>
   <button>Add Note</button>
 </form>
 
@@ -77,6 +87,9 @@ Get form data via `request.form.get('key').strip()`...
 # Get form text data
 title = request.form.get('title', '').strip()
 body = request.form.get('body', '').strip()
+
+# Get radio button value
+priority = request.form.get('priority')
 
 # Get checkbox state as a boolean
 pinned = bool(request.form.get('pin'))   # True/False
@@ -151,6 +164,7 @@ def add_note():
     title    = request.form.get('title', '').strip()
     body     = request.form.get('body', '').strip()
     priority = request.form.get('priority', '3').strip()
+    tag_list = request.form.getlist('tags')
     pinned   = bool(request.form.get('pinned'))
 
     # Validate data
@@ -175,13 +189,16 @@ def add_note():
     title = html.escape(title)
     body = html.escape(body)
 
+    # Join tags
+    tags = ", ".join(tag_list)
+
     # Add to the database
     with connect_db() as db:
         sql = """
-            INSERT INTO note (title, body, priority, pinned)
-            VALUES (?, ?, ?, ?)
+            INSERT INTO note (title, body, priority, tags, pinned)
+            VALUES (?, ?, ?, ?, ?)
         """
-        params = (title, body, priority, pinned)
+        params = (title, body, priority, tags, pinned)
         db.execute(sql, params)
 
         flash(f"Note added")

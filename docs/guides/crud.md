@@ -45,6 +45,7 @@ CREATE TABLE note (
 ### Reading Notes
 
 ```python
+# Show all notes -------------------------------------------
 @app.get("/")
 def show_notes():
     with connect_db() as db:
@@ -59,6 +60,7 @@ def show_notes():
         return render_template("pages/note_list.jinja", notes=notes)
 
 
+# Show a single note ----------------------------------------
 @app.get("/note/<int:id>")
 def show_a_note(id):
     with connect_db() as db:
@@ -76,11 +78,13 @@ def show_a_note(id):
 ### Creating Notes
 
 ```python
+# Show new note form ----------------------------------------
 @app.get("/note/new")
 def show_note_form():
     return render_template("pages/note_form.jinja")
 
 
+# Process new note ------------------------------------------
 @app.post("/note")
 def add_a_note():
     title = request.form.get('title', '').strip()
@@ -106,6 +110,7 @@ def add_a_note():
 ### Updating Notes
 
 ```python
+# Show note edit form with existing data --------------------
 @app.get("/note/<int:id>/edit")
 def show_note_edit_form(id):
     with connect_db() as db:
@@ -120,6 +125,7 @@ def show_note_edit_form(id):
         return render_template("pages/note_form_edit.jinja", note=note)
 
 
+# Process updated note --------------------------------------
 @app.post("/note/<int:id>")
 def update_a_note(id):
     title = request.form.get('title', '').strip()
@@ -146,6 +152,7 @@ def update_a_note(id):
 ### Deleting Notes
 
 ```python
+# Delete a note ---------------------------------------------
 @app.get("/note/<int:id>/delete")
 def delete_a_note(id):
     with connect_db() as db:

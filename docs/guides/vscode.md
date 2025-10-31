@@ -4,31 +4,31 @@
 
 To support setting up and developing with Flask, the following extensions for VS Code are recommended:
 
-- **Python** (from Microsoft) - Python language support
-- **Better Jinja** (from Samuel Colvin) - Jinja template support
-- **SQLite3 Editor** (from yy0931) - SQLite editor within VS Code
+- **[Python](https://marketplace.visualstudio.com/items?itemName=ms-python.python)** *(Microsoft)* - Python language support
+- **[Better Jinja](https://marketplace.visualstudio.com/items?itemName=samuelcolvin.jinjahtml)** *(Samuel Colvin)* - Jinja template support
+- **[SQLite3 Editor](https://marketplace.visualstudio.com/items?itemName=yy0931.vscode-sqlite3-editor)** *(yy0931)* - SQLite editor within VS Code
 
 Additionally (just to make life better):
 
-- **Code Spell Checker** (from Street Side Software) - because speeling is hard!
-- **Error Lens** (from Alexander) - places error messages inline, next to code
-- **Python Indent** (from Kevin Rose) - indents / aligns Python code better
-- **GitHub Markdown Preview** extension pack (from Matt Bierner) - better MD preview matching GitHub style
+- **[Code Spell Checker](https://marketplace.visualstudio.com/items?itemName=streetsidesoftware.code-spell-checker)** *(Street Side Software)* - because speeling is hard!
+- **[Error Lens](https://marketplace.visualstudio.com/items?itemName=usernamehw.errorlens)** *(Alexander)* - places error messages inline, next to code
+- **[Python Indent](https://marketplace.visualstudio.com/items?itemName=KevinRose.vsc-python-indent)** *(Kevin Rose)* - indents / aligns Python code better
+- **[GitHub Markdown Preview](https://marketplace.visualstudio.com/items?itemName=bierner.github-markdown-preview)** extension pack *(Matt Bierner)* - better MD preview matching GitHub style
 
 Optional (but great!):
 
-- **Catppuccin for VSCode** - a great theme (use mocha variant)
-- **Catppuccin Perfect Icons** - a matching icon set
+- **[Catppuccin for VSCode](https://marketplace.visualstudio.com/items?itemName=Catppuccin.catppuccin-vsc)** - a great theme (use mocha variant)
+- **[Catppuccin Perfect Icons](https://marketplace.visualstudio.com/items?itemName=thang-nm.catppuccin-perfect-icons)** - a matching icon set
 
 ## Useful VS Code Keyboard Shortcuts
+
+### Terminal
+
+- <kbd>Ctrl</kbd>+<kbd>`` ` ``</kbd> - Open built-in terminal (to enter commands like `flask run`, or to see application logs)
 
 ### Working with Files
 
 - <kbd>Ctrl</kbd>+<kbd>P</kbd> - Go to file... Type in a few letters of the file name (quicker thatn using the sidebar)
-
-### Terminal
-
-- <kbd>Ctrl</kbd>+<kbd>\`</kbd> - Open built-in terminal (to enter commands like `flask run`, or to see application logs)
 
 ### Working with Markdown
 

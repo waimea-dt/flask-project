@@ -85,6 +85,27 @@ def show_note(category):
     return render_template("pages/note_info.jinja", note=note)
 ```
 
+### Route for a Search Query
+
+This would filter notes via a search URL of the form `/notes/search?query=...`. Typically this URL would be from filter links on the notes page, or from a search form, using the `GET` method...
+
+```python
+@app.get("/notes/search")
+def search_notes():
+    # Get search query and add wildcards
+    query = request.args.get('query')
+    query = f"%{query}%"
+
+    with connect_db() as db:
+        sql = """
+            SELECT * FROM note
+            WHERE title LIKE ? OR body LIKE ?
+        """
+        params = (query, query)
+        notes = db.execute(sql, params).fetchall()
+    return render_template("pages/note_list.jinja", notes=notes)
+```
+
 ### Protected Routes
 
 Add the `@login_required` decorator...
