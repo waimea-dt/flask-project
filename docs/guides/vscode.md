@@ -24,7 +24,7 @@ Optional (but great!):
 
 ### Terminal
 
-- <kbd>Ctrl</kbd>+<kbd> ̀</kbd> - Open built-in terminal (to enter commands like `flask run`, or to see application logs)
+- <kbd>Ctrl</kbd>+<kbd>ˋ</kbd> - Open built-in terminal (to enter commands like `flask run`, or to see application logs)
 
 ### Working with Files
 
