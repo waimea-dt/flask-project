@@ -25,10 +25,9 @@
             <ul>
                 <li>
                     <hgroup>
-                        <h1><a href="{{ "/" | absolute_url }}">
-                           {{ site.title       | default: site.github.repository_name }}</a></h1>
+                        <h1><a href="{{ "/" | absolute_url }}">{{ site.title | default: site.github.repository_name }}</a></h1>
                         <p>{{ site.description | default: site.github.project_tagline }}</p>
-                        <p>{{ site.author      | default: site.github.owner_name }} @ Waimea College</p>
+                        <p><small>{{ site.author | default: site.github.owner_name }} @ Waimea College</p></small>
                     </hgroup>
                 </li>
             </ul>

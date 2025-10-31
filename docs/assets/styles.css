@@ -42,6 +42,13 @@ body > header > nav ul {
 }
 
 
+/* FOOTER --------------------------------- */
+
+body > footer {
+    text-align: center;
+}
+
+
 /* TABLES --------------------------------- */
 
 :where(table) {

@@ -35,7 +35,7 @@ Render makes hosting very simple:
     - Build Command: `pip install -r requirements.txt`
     - Start Command: `flask run`
     - Instance Type: **Free**
-    - Environment Variables:
+    - Environment Variables (copy/paste from your `.env` file to start):
         - `FLASK_SECRET_KEY`  *Something long and random*
         - `DEFAULT_TIMEZONE`  **Pacific/Auckland**
         - `LOCAL_DB_PATH`     **app/db/data.sqlite**

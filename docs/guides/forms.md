@@ -16,6 +16,8 @@
         <textarea name="body" required></textarea>
     </label>
 
+    <label><input name="pin" type="checkbox"> Pin note?</label>
+
     <select name="category">
         <option>Personal<option>
         <option>Family<option>
@@ -38,11 +40,6 @@
         <label><input name="tags" value="shop" type="checkbox"> shop</label>
     </fieldset>
 
-    <label>
-        <input name="pin" type="checkbox">
-        Pin note?
-    </label>
-
     <button>Add Note</button>
 </form>
 ```
@@ -52,6 +49,7 @@ Giving this form...
   <h3>New Note</h3>
   <label>Title <input name="title" type="text" required></label>
   <label>Body <textarea name="body" required></textarea></label>
+  <label><input name="pin" type="checkbox"> Pin note?</label>
   <label>Category <select name="category">
     <option>Personal</option>
     <option>Family</option>
@@ -71,7 +69,6 @@ Giving this form...
     <label><input name="tags" value="call" type="checkbox"> call</label>
     <label><input name="tags" value="shop" type="checkbox"> shop</label>
   </fieldset>
-  <label><input name="pin" type="checkbox"> Pin note?</label>
   <button>Add Note</button>
 </form>
 
