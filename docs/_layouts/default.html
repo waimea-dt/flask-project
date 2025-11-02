@@ -22,6 +22,7 @@
 <body>
     <header>
         <nav>
+
             <ul>
                 <li>
                     <hgroup>
@@ -31,45 +32,56 @@
                     </hgroup>
                 </li>
             </ul>
+
             <ul>
                 <li><a role="button" href="{{ "/instructions/" | absolute_url }}">Task</a></li>
                 <li><a role="button" href="{{ "/evidence/"     | absolute_url }}">Evidence</a></li>
-                <li><a role="button" href="{{ "/guides/"       | absolute_url }}">Guides</a></li>
+                {% if site.development %}
+                    <!-- Only show guides if in dev. -->
+                    <li><a role="button" href="{{ "/guides/"   | absolute_url }}">Guides</a></li>
+                {% endif %}
                 <li><a role="button" href="https://github.com/{{ site.github.owner_name }}/{{ site.github.repository_name }}">GitHub</a></li>
             </ul>
+
         </nav>
     </header>
 
     <aside>
+
+        {% if site.development %}
+            <!-- Only show guides if in dev. -->
+            Guides
+            <ul>
+                {% if page.url contains '/guides/' %}
+                    {% for p in site.pages %}
+                        {% if p.url contains '/guides/' %}
+                            <li><a href="{{ p.url }}">{{ p.title }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                {% else %}
+                    <li><a href="{{ "/guides/" | absolute_url }}">Guides</a></li>
+                {% endif %}
+            </ul>
+        {% endif %}
+
         Instructions
         <ul>
-            {% for page in site.pages %}
-            [{{ page.path }}] - [{{ page.url }}]<br>
-                {% if page.path contains '/instructions/' %}
-                    <li><a href="{{ page.url }}">{{ page.title }}</a></li>
+            {% for p in site.pages %}
+                {% if p.url contains '/instructions/' %}
+                    <li><a href="{{ p.url }}">{{ p.title }}</a></li>
                 {% endif %}
             {% endfor %}
         </ul>
 
         Evidence
         <ul>
-            {% for page in site.pages %}
-                {% if page.path contains '/evidence/' %}
-                    <li><a href="{{ page.url }}">{{ page.title }}</a></li>
+            {% for p in site.pages %}
+                {% if p.url contains '/evidence/' %}
+                    <li><a href="{{ p.url }}">{{ p.title }}</a></li>
                 {% endif %}
             {% endfor %}
         </ul>
 
-        {% if site.template %}
-            Guides
-            <ul>
-                {% for page in site.pages %}
-                    {% if page.path contains '/guides/' %}
-                        <li><a href="{{ page.url }}">{{ page.title }}</a></li>
-                    {% endif %}
-                {% endfor %}
-            </ul>
-        {% endif %}
     </aside>
 
     <main>

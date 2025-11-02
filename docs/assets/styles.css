@@ -34,8 +34,11 @@ body > aside {
     display: none;
 }
 
-@media screen and (min-width: 800px) {
+@media screen and (min-width: 1280px) {
     body {
+        max-width: 1280px;
+        margin-inline: auto;
+        gap: 0 1rem;
         grid-template-columns: 250px 1fr;
         grid-template-areas:
             "header header"
@@ -44,8 +47,9 @@ body > aside {
     }
 
     body > footer,
-    body > header {
-        max-width: calc(1024px + 250px);
+    body > header,
+    body > main {
+        max-width: unset;
     }
 
     body > aside {
