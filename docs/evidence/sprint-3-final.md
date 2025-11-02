@@ -1,2 +1,3 @@
-# Sprint 3 - Final System Refinement
+# Sprint 3 - Developing and Refining the Final System
+
 
