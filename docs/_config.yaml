@@ -2,3 +2,7 @@ title: Flask Project Template
 description: A starter Flask, Jinja, SQLite and PicoCSS project
 author: Digital Technologies Dept.
 
+collections:
+  guides:
+    output: true
+

@@ -13,12 +13,44 @@ body {
     min-height: 100dvh;
     display: grid;
     grid-template-rows: auto 1fr auto;
+    grid-template-areas:
+        "header"
+        "main"
+        "footer";
 }
+
+body > header { grid-area: header; }
+body > aside  { grid-area: sidebar; }
+body > main   { grid-area: main; }
+body > footer { grid-area: footer; }
 
 body > footer,
 body > header,
 body > main {
     max-width: 1024px;
+}
+
+body > aside {
+    display: none;
+}
+
+@media screen and (min-width: 800px) {
+    body {
+        grid-template-columns: 250px 1fr;
+        grid-template-areas:
+            "header header"
+            "sidebar main"
+            "footer footer";
+    }
+
+    body > footer,
+    body > header {
+        max-width: calc(1024px + 250px);
+    }
+
+    body > aside {
+        display: block;
+    }
 }
 
 
