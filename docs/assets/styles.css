@@ -83,7 +83,7 @@ body > header > nav ul {
 body > aside {
     position: sticky;
     top: 1rem;
-    padding-top: 1rem;
+    padding-right: 0.5rem;
     align-self: start;
     max-height: calc(100vh - 2rem);
     overflow-y: auto;
@@ -97,10 +97,10 @@ body > aside li {
 }
 
 body > aside h3 {
-    margin: 1rem 0 0.5rem;
+    margin: 1.6rem 0 0.5rem;
     font-size: 1.1rem;
     border-top: 1px solid var(--pico-secondary-border);
-    padding-top: 0.3rem;
+    padding-top: 0.5rem;
 }
 
 body > aside h4 {
