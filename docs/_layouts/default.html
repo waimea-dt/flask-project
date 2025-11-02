@@ -43,28 +43,34 @@
     <aside>
         Instructions
         <ul>
-            <li><a href="{{ "/instructions/" | absolute_url }}">Task</a></li>
+            {% for page in site.pages %}
+                {% if page.path contains '/instructions/' %}
+                    <li><a href="{{ page.url }}">{{ page.title }}</a></li>
+                {% endif %}
+            {% endfor %}
         </ul>
 
         Evidence
         <ul>
-            <li><a href="{{ "/evidence/sprint-0-requirements.html" | absolute_url }}">Requirements</a></li>
-            <li><a href="{{ "/evidence/sprint-1-prototype.html"    | absolute_url }}">Sprint 1</a></li>
-            <li><a href="{{ "/evidence/sprint-1-mvp.html"          | absolute_url }}">Sprint 2</a></li>
-            <li><a href="{{ "/evidence/sprint-1-final.html"        | absolute_url }}">Sprint 3</a></li>
-            <li><a href="{{ "/evidence/system-review.html"         | absolute_url }}">Review</a></li>
+            {% for page in site.pages %}
+                {% if page.path contains '/evidence/' %}
+                    <li><a href="{{ page.url }}">{{ page.title }}</a></li>
+                {% endif %}
+            {% endfor %}
         </ul>
 
-        {% if site.guides %}
+        {% if site.template %}
             Guides
             <ul>
-                {% for guide in site.guides %}
-                    <li><a href="{{ guide.url }}">{{ guide.title }}</a></li>
+                {% for page in site.pages %}
+                    {% if page.path contains '/guides/' %}
+                        <li><a href="{{ page.url }}">{{ page.title }}</a></li>
+                    {% endif %}
                 {% endfor %}
             </ul>
         {% endif %}
     </aside>
-    
+
     <main>
         {{ content }}
     </main>

@@ -4,11 +4,11 @@ This is a simple [Flask web app](https://flask.palletsprojects.com/) project, bu
 
 See the [docs folder](docs) for a quick-start and guides to usage. In particular:
 
-- [Setup](docs/_guides/setup.md)
-- [Routes](docs/_guides/routes.md) in Flask
-- [Jinja](docs/_guides/jinja.md) templates
-- [DB Schema](docs/_guides/schema.md)
-- [SQL Queries](docs/_guides/sqlite.md)
+- [Setup](docs/guides/setup.md)
+- [Routes](docs/guides/routes.md) in Flask
+- [Jinja](docs/guides/jinja.md) templates
+- [DB Schema](docs/guides/schema.md)
+- [SQL Queries](docs/guides/sqlite.md)
 
 *For easier reading, the docs are hosted as a [GH Pages site](https://waimea-dt.github.io/flask-project/)*
 
@@ -42,7 +42,7 @@ See the [docs folder](docs) for a quick-start and guides to usage. In particular
 │   └── helpers/         # Helper files (don't modify)
 │
 └── docs/                # Project documentation
-    ├── _guides/         # Helpful guides
+    ├── guides/          # Helpful guides
     ├── instructions/    # Task instructions
     └── evidence/        # Project evidence
 ```

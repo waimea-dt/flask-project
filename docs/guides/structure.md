@@ -27,7 +27,7 @@
 │   └── helpers/         # Helper files (don't modify)
 │
 └── docs/                # Project documentation
-    ├── _guides/         # Helpful guides
+    ├── guides/          # Helpful guides
     ├── instructions/    # Task instructions
     └── evidence/        # Project evidence
 ```
