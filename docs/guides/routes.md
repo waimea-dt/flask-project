@@ -103,12 +103,14 @@ def search_notes():
         """
         params = (query, query)
         notes = db.execute(sql, params).fetchall()
-    return render_template("pages/note_list.jinja", notes=notes)
+
+    return render_template("pages/note_list.jinja", notes=notes,
+                           title=f"Notes matching '{query}'")
 ```
 
 ### Protected Routes
 
-Add the `@login_required` decorator...
+Add the `@login_required` decorator to stop routes being accessed by unauthorised users...
 
 ```python
 @app.get("/admin")
@@ -118,7 +120,7 @@ def admin_page():
     return render_template("pages/admin.jinja")
 ```
 
-## Redirects
+## Route Redirects
 
 Immediately loads a different route...
 
