@@ -50,36 +50,45 @@
 
         {% if site.development %}
             <!-- Only show guides if in dev. -->
-            Guides
+            <h3>Guides</h3>
             <ul>
                 {% if page.url contains '/guides/' %}
-                    {% for p in site.pages %}
-                        {% if p.url contains '/guides/' %}
-                            <li><a href="{{ p.url }}">{{ p.title }}</a></li>
-                        {% endif %}
-                    {% endfor %}
+                    <li><a href="{{ "/guides/structure.html" | absolute_url }}">Structure</a></li>
+                    <li><a href="{{ "/guides/quick.html"     | absolute_url }}">Quick Start</a></li>
+                    <li><a href="{{ "/guides/crud.html"      | absolute_url }}">Simple CRUD App</a></li>
+                    <h4>App Development Guides</h4>
+                    <li><a href="{{ "/guides/setup.html"     | absolute_url }}">Flask Setup</a></li>
+                    <li><a href="{{ "/guides/schema.html"    | absolute_url }}">Database Schema</a></li>
+                    <li><a href="{{ "/guides/routes.html"    | absolute_url }}">App Routes</a></li>
+                    <li><a href="{{ "/guides/jinja.html"     | absolute_url }}">Jinja Templates</a></li>
+                    <li><a href="{{ "/guides/sqlite.html"    | absolute_url }}">SQLite Queries</a></li>
+                    <li><a href="{{ "/guides/forms.html"     | absolute_url }}">Form Data</a></li>
+                    <li><a href="{{ "/guides/flash.html"     | absolute_url }}">Flash Messages</a></li>
+                    <li><a href="{{ "/guides/session.html"   | absolute_url }}">Session Data</a></li>
+                    <li><a href="{{ "/guides/auth.html"      | absolute_url }}">User Auth.</a></li>
+                    <li><a href="{{ "/guides/images.html"    | absolute_url }}">Images / Files</a></li>
+                    <h4>Additional Guides</h4>
+                    <li><a href="{{ "/guides/vscode.html"    | absolute_url }}">VS Code Setup</a></li>
+                    <li><a href="{{ "/guides/hosting.html"   | absolute_url }}">Hosting Your App</a></li>
+                    <li><a href="{{ "/guides/pages.html"     | absolute_url }}">GitHub Pages</a></li>
                 {% else %}
-                    <li><a href="{{ "/guides/" | absolute_url }}">Guides</a></li>
+                    <li><a href="{{ "/guides/"               | absolute_url }}">Guides</a></li>
                 {% endif %}
             </ul>
         {% endif %}
 
-        Instructions
+        <h3>Task</h3>
         <ul>
-            {% for p in site.pages %}
-                {% if p.url contains '/instructions/' %}
-                    <li><a href="{{ p.url }}">{{ p.title }}</a></li>
-                {% endif %}
-            {% endfor %}
+            <li><a href="{{ "/instructions/" | absolute_url }}">Instructions</a></li>
         </ul>
 
-        Evidence
+        <h3>Evidence</h3>
         <ul>
-            {% for p in site.pages %}
-                {% if p.url contains '/evidence/' %}
-                    <li><a href="{{ p.url }}">{{ p.title }}</a></li>
-                {% endif %}
-            {% endfor %}
+            <li><a href="{{ "/evidence/sprint-0-requirements.html" | absolute_url }}">Requirements</a></li>
+            <li><a href="{{ "/evidence/sprint-1-prototype.html"    | absolute_url }}">Sprint 1: Prototype</a></li>
+            <li><a href="{{ "/evidence/sprint-2-mvp.html"          | absolute_url }}">Sprint 2: MVP</a></li>
+            <li><a href="{{ "/evidence/sprint-3-final.html"        | absolute_url }}">Sprint 3: Final</a></li>
+            <li><a href="{{ "/evidence/system-review.html"         | absolute_url }}">Project Review</a></li>
         </ul>
 
     </aside>
