@@ -5,4 +5,4 @@ author: Digital Technologies Dept.
 collections:
   guides:
     output: true
-
+    permalink: /guides/:name/
