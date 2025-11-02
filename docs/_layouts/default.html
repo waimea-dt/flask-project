@@ -44,6 +44,7 @@
         Instructions
         <ul>
             {% for page in site.pages %}
+            [{{ page.path }}] - [{{ page.url }}]<br>
                 {% if page.path contains '/instructions/' %}
                     <li><a href="{{ page.url }}">{{ page.title }}</a></li>
                 {% endif %}
