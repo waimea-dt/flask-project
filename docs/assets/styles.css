@@ -2,7 +2,7 @@
 
 body {
     --pico-h2-color: var(--pico-primary);
-    --pico-h3-color: var(--pico-primary-hover);
+    --pico-h3-color: var(--pico-secondary);
 }
 
 
