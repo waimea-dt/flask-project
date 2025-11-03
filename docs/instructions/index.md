@@ -1,5 +1,6 @@
-# Task Instructions
 
-This is where task instructions would go
+# Instructions
 
-
+- [Task Instructions](instructions.md)
+- [Progress Checklist](checklist.md)
+- etc.
