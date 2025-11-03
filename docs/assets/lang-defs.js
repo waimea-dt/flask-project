@@ -35,11 +35,11 @@
           relevance: 10
         },
 
-        // file names with extension
+        // file names with extension or dotfiles (e.g. .env, .gitignore, file.txt)
         {
-          className: 'keyword',
-          begin: /[A-Za-z0-9_\-\.]+\.[A-Za-z0-9]+(?=\s|$)/,
-          relevance: 10
+            className: 'keyword',
+            begin: /(?:\.[A-Za-z0-9_\-]+|[A-Za-z0-9_\-\.]+\.[A-Za-z0-9]+)(?=\s|$)/,
+            relevance: 10
         },
 
         // fallback punctuation (any remaining box-drawing chars)
