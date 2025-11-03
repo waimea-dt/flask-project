@@ -3,6 +3,9 @@
 body {
     --pico-h2-color: var(--pico-primary);
     --pico-h3-color: var(--pico-secondary);
+
+    --sidebar-border-color: var(--pico-form-element-border-color);
+    --sidebar-background-color: var(--pico-card-sectioning-background-color);
 }
 
 
@@ -81,13 +84,14 @@ body > header > nav ul {
 body > aside {
     position: sticky;
     top: 1rem;
+    align-self: start;
     padding: 0.75rem;
     max-height: calc(100vh - 2rem);
     overflow-y: auto;
     font-size: 0.9rem;
     line-height: 1.1;
-    background-color: var(--pico-card-sectioning-background-color);
-    border: 1px solid var(--pico-card-border-color);
+    background-color: var(--sidebar-background-color);
+    border: 1px solid var(--sidebar-border-color);
     border-radius: var(--pico-border-radius);
 }
 
@@ -108,13 +112,18 @@ body > aside h3 {
 body > aside h3:not(:first-child) {
     margin-top: 1.4rem;
     padding-top: 0.5rem;
-    border-top: 1px solid var(--pico-card-border-color);
+    border-top: 1px solid var(--sidebar-border-color);
 }
 
 body > aside h4 {
     margin: 0.5rem 0 0.4rem 0.7rem;
     font-size: 1rem;
+    font-weight: normal;
     color: var(--pico-muted-color);
+}
+
+body > aside :last-child {
+    margin-bottom: none;
 }
 
 
@@ -139,6 +148,13 @@ td, th {
 
 /* CODE ---------------------------------- */
 
-code.lang-plaintext {
+pre code.hljs.language-plaintext {
     line-height: 1.2;
 }
+
+pre code.hljs {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
