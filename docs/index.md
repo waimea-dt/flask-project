@@ -1,9 +1,10 @@
 # Project Documentation
 
-## Task Instructions
-- [Instruction document](instructions/)
+### Assessment Task
+- [Task Instructions](instructions/instructions.md)
+- [Progress Checklist](instructions/checklist.md)
 
-## Project Evidence
+### Project Evidence
 - [Project Requirements](evidence/sprint-0-requirements.md)
 - [Sprint 1: Development of a Prototype](evidence/sprint-1-prototype.md)
 - [Sprint 2: Development of a MVP](evidence/sprint-2-mvp.md)

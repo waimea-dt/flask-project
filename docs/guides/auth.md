@@ -273,11 +273,12 @@ If you need to know the logged in user information (e.g. you need the ID when po
 
 ```python
 with connect_db() as db:
+    user_id = session["user"]["id"]
     sql = """
         INSERT INTO note (title, body, user_id)
         VALUES (?, ?, ?)
     """
-    params = (title, body, session["user"]["id"])
+    params = (title, body, user_id)
     db.execute(sql, params)
 ```
 
