@@ -1,33 +1,33 @@
 # Project Structure
 
-```
-├── README.md            # Project README
+```filetree
+├── README.md                # Project README
 │
-├── requirements.txt     # Python modules required
+├── requirements.txt         # Python modules required
 │
-├── app/                 # Flask application
+├── app/                     # Flask application
 │   │
-│   ├── __init__.py      # Routes and app logic
+│   ├── __init__.py          # Routes and app logic
 │   │
-│   ├── .env             # Environment values
+│   ├── .env                 # Environment values
 │   │
-│   ├── templates/       # Jinja2 templates
-│   │   ├── pages/       # Full page templates
-│   │   └── partials/    # Reusable template parts
+│   ├── templates/           # Jinja2 templates
+│   │   ├── pages/           # Full page templates
+│   │   ╰── partials/        # Reusable template parts
 │   │
-│   ├── static/          # Files to be served directly
-│   │   ├── css/         # CSS stylesheets
-│   │   ├── images/      # Images
-│   │   └── js/          # Javascript files
+│   ├── static/              # Files to be served directly
+│   │   ├── css/             # CSS stylesheets
+│   │   ├── images/          # Images
+│   │   ╰── js/              # Javascript files
 │   │
-│   ├── db/              # Database files
-│   │   ├── config.py    # Database schema & seed data
-│   │   └── data.sqlite  # SQLite database
+│   ├── db/                  # Database files
+│   │   ├── config.py        # Database schema & seed data
+│   │   ╰── data.sqlite      # SQLite database
 │   │
-│   └── helpers/         # Helper files (don't modify)
+│   ╰── helpers/             # Helper files (don't modify)
 │
-└── docs/                # Project documentation
-    ├── guides/          # Helpful guides
-    ├── instructions/    # Task instructions
-    └── evidence/        # Project evidence
+╰── docs/                    # Project documentation
+    ├── guides/              # Helpful guides
+    ├── instructions/        # Task instructions
+    ╰── evidence/            # Project evidence
 ```
