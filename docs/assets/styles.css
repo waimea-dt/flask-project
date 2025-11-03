@@ -102,7 +102,7 @@ body > aside h3 {
 }
 
 body > aside h3:not(:first-child) {
-    margin-top: 1.6rem;
+    margin-top: 1.4rem;
     padding-top: 0.5rem;
     border-top: 1px solid var(--pico-card-border-color);
 }
@@ -114,10 +114,12 @@ body > aside h4 {
 }
 
 
-/* FOOTER --------------------------------- */
+/* BUTTONS -------------------------------- */
 
-body > footer {
-    text-align: center;
+a[role="button"] {
+    display: flex;
+    align-items: center;
+    gap: 0.3em;
 }
 
 
