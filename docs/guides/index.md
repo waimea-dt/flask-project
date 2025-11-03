@@ -4,7 +4,7 @@
 - [Quick Start](quick.md)
 - [Example Simple CRUD App](crud.md)
 
-## App Development Guides
+### App Development Guides
 
 - [Flask App Setup and Run](setup.md)
 - [Defining a Database Schema](schema.md)
@@ -17,7 +17,7 @@
 - [User Authentication](auth.md)
 - [Managing Image / File Uploads](images.md)
 
-## Additional Guides
+### Additional Guides
 
 - [VS Code Setup for Flask Dev.](vscode.md)
 - [Hosting Your App on Render](hosting.md)
