@@ -8,7 +8,10 @@
     <title>{{ page.title | default: site.title | default: site.github.repository_name }}</title>
     <link rel="icon" href="{{ "/assets/notes.svg" | relative_url }}">
 
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.classless.min.css">
+    {% if site.theme and site.theme != "azure" %}
+        {% assign theme = "." | append: site.theme | downcase %}
+    {% endif %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.classless{{ theme }}.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.colors.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release/build/styles/dark.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@catppuccin/highlightjs/css/catppuccin-mocha.css">
