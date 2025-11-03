@@ -238,10 +238,11 @@ def add_note():
 </style>
 
 
+---
 
-## ⚠️ Important Security Issue
+## ⚠️ Important Security Note
 
-✅ Always escape text to avoid **cross-site script (XSS) attacks**
+✅ Always 'escape' text to avoid **cross-site script (XSS) attacks**. This means that any HTML or JS entered into a text field will not be run when the text is displayed later.
 
 ❌ Not doing this allows users to exploit your app by entering script commands into form text fields which your app will then run.
 
