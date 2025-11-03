@@ -8,12 +8,12 @@
 
     <label>
         Title
-        <input name="title" type="text" placeholder="e.g. Feed the cat" required>
+        <input name="title" type="text" placeholder="e.g. Feed cat" required>
     </label>
 
     <label>
         Body
-        <textarea name="body" placeholder="e.g. 2 scoops in the morning" required></textarea>
+        <textarea name="body" placeholder="e.g. Two scoops" required></textarea>
     </label>
 
     <label>
@@ -53,8 +53,8 @@ Giving this form...
 
 <form id="formdemo" method="post" action="/note">
   <h3>New Note</h3>
-  <label>Title <input name="title" type="text" placeholder="e.g. Feed the cat" required></label>
-  <label>Body <textarea name="body" required placeholder="e.g. 2 scoops in the morning"></textarea></label>
+  <label>Title <input name="title" type="text" placeholder="e.g. Feed cat" required></label>
+  <label>Body <textarea name="body" required placeholder="e.g. Two scoops"></textarea></label>
   <label><input name="pin" type="checkbox"> Pin note?</label>
   <label>Category <select name="category">
     <option>Personal</option>
