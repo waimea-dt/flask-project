@@ -5,4 +5,4 @@ author: Digital Technologies Dept.
 # If development is true, guides will be shown
 development: true
 # PicoCSS colour theme: https://picocss.com/docs/version-picker
-picotheme: lime
+picotheme: pink
