@@ -12,11 +12,10 @@ body {
     min-height: 100vh;
     min-height: 100dvh;
     display: grid;
-    grid-template-rows: auto 1fr auto;
+    grid-template-rows: auto 1fr;
     grid-template-areas:
         "header"
-        "main"
-        "footer";
+        "main";
 }
 
 body > header { grid-area: header; }
@@ -42,8 +41,7 @@ body > aside {
         grid-template-columns: 15rem 1fr;
         grid-template-areas:
             "header header"
-            "sidebar main"
-            "footer footer";
+            "sidebar main";
     }
 
     body > footer,
@@ -84,7 +82,6 @@ body > aside {
     position: sticky;
     top: 1rem;
     padding: 0.75rem;
-    align-self: start;
     max-height: calc(100vh - 2rem);
     overflow-y: auto;
     font-size: 0.9rem;
