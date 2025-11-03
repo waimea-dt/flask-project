@@ -11,9 +11,10 @@
   hljs.registerLanguage('filetree', function(hljs) {
     return {
       name: 'filetree',
-      aliases: ['tree','file-tree','structure'],
+      aliases: ['tree','file-tree'],
       case_insensitive: false,
       contains: [
+
         // comments beginning with #
         {
           className: 'comment',
@@ -23,29 +24,29 @@
 
         // connector characters at start of line (├──, │, └──, etc.)
         {
-          className: 'type',
-          begin: /^[\s│├└╰┬]+[─]+/,
+          className: 'punctuation',
+          begin: /^[\s│└├┬─]+/,
           relevance: 0
         },
 
-        // folder names ending with a slash
+        // folder names (ending with a slash)
         {
           className: 'title',
-          begin: /[A-Za-z0-9_\-\.]+\/(?=\s|$)/,
+          begin: /[\w\-\.\/]+\//,
           relevance: 10
         },
 
-        // file names with extension or dotfiles (e.g. .env, .gitignore, file.txt)
+        // file names (contain a dot)
         {
-            className: 'keyword',
-            begin: /(?:\.[A-Za-z0-9_\-]+|[A-Za-z0-9_\-\.]+\.[A-Za-z0-9]+)(?=\s|$)/,
+            className: 'literal',
+            begin: /[\w\-]*\.[\w\.]+/,
             relevance: 10
         },
 
         // fallback punctuation (any remaining box-drawing chars)
         {
           className: 'punctuation',
-          begin: /[│└├─]+/,
+          begin: /[│└├┬─]+/,
           relevance: 0
         }
       ]
