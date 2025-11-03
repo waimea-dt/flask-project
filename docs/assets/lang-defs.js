@@ -17,13 +17,13 @@
         // comments beginning with #
         {
           className: 'comment',
-          begin: /^\s*#.*$/,
+          begin: /#.*$/,
           relevance: 0
         },
 
         // connector characters at start of line (├──, │, └──, etc.)
         {
-          className: 'string',
+          className: 'type',
           begin: /^[\s│├└╰┬]+[─]+/,
           relevance: 0
         },
