@@ -13,21 +13,21 @@
 │   │
 │   ├── templates/           # Jinja2 templates
 │   │   ├── pages/           # Full page templates
-│   │   ╰── partials/        # Reusable template parts
+│   │   └── partials/        # Reusable template parts
 │   │
 │   ├── static/              # Files to be served directly
 │   │   ├── css/             # CSS stylesheets
 │   │   ├── images/          # Images
-│   │   ╰── js/              # Javascript files
+│   │   └── js/              # Javascript files
 │   │
 │   ├── db/                  # Database files
 │   │   ├── config.py        # Database schema & seed data
-│   │   ╰── data.sqlite      # SQLite database
+│   │   └── data.sqlite      # SQLite database
 │   │
-│   ╰── helpers/             # Helper files (don't modify)
+│   └── helpers/             # Helper files (don't modify)
 │
-╰── docs/                    # Project documentation
+└── docs/                    # Project documentation
     ├── guides/              # Helpful guides
     ├── instructions/        # Task instructions
-    ╰── evidence/            # Project evidence
+    └── evidence/            # Project evidence
 ```
