@@ -77,6 +77,20 @@ body > header > nav ul {
 }
 
 
+/* BUTTONS -------------------------------- */
+
+nav a[role="button"] {
+    display: flex;
+    align-items: center;
+    gap: 0.3em;
+}
+
+nav a[role="button"] img {
+  height: 1.2em;
+  width: auto;
+}
+
+
 /* SIDEBAR -------------------------------- */
 
 body > aside {
@@ -126,15 +140,6 @@ body > aside h4 {
 
 body > aside :last-child {
     margin-bottom: 0.5rem;
-}
-
-
-/* BUTTONS -------------------------------- */
-
-a[role="button"] {
-    display: flex;
-    align-items: center;
-    gap: 0.3em;
 }
 
 
