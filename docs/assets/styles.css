@@ -156,15 +156,25 @@ pre code.hljs {
     word-break: break-word;
 }
 
-/* GUIDES -------------------------------- */
+/* DEV MODE ------------------------------ */
 
-.guides {
+body.dev-mode > header > h1 a::after {
+    content: "DEV";
+    display: inline-block;
+    padding: 0.2em 0.7em;
+    background-color: var(--pico-color-orange-500);
+    color: white;
+    font-weight: bold;
+    border-radius: 0.3em;
+}
+
+body.dev-mode .guides {
     --pico-primary:                  var(--pico-color-orange-500);
     --pico-primary-underline:        var(--pico-color-orange-200);
-    --pico-primary-hover:            var(--pico-color-orange-700);
-    --pico-primary-hover-underline:  var(--pico-color-orange-400);
+    --pico-primary-hover:            var(--pico-color-orange-600);
+    --pico-primary-hover-underline:  var(--pico-color-orange-600);
     --pico-primary-background:       var(--pico-color-orange-500);
     --pico-primary-border:           var(--pico-color-orange-500);
-    --pico-primary-hover-background: var(--pico-color-orange-700);
-    --pico-primary-hover-border:     var(--pico-color-orange-700);
+    --pico-primary-hover-background: var(--pico-color-orange-600);
+    --pico-primary-hover-border:     var(--pico-color-orange-600);
 }

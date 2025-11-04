@@ -23,7 +23,7 @@
     <script src="{{ "/assets/highlight.js" | relative_url }}"></script>
 </head>
 
-<body>
+<body {% if site.development %} class="dev-mode" {% endif %}>
     <header>
         <nav>
 
