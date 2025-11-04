@@ -146,10 +146,16 @@ body > aside :last-child {
 
 /* MEDIA ---------------------------------- */
 
-main > img,
-main > iframe {
+main > p > img {
     display: block;
     max-width: 100%;
+    margin: 1.5rem auto;
+}
+
+main > iframe {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16/9;
     margin: 1.5rem auto;
 }
 
