@@ -86,6 +86,7 @@ body > aside {
     top: 1rem;
     align-self: start;
     padding: 0.75rem;
+    margin-block: 1rem;
     max-height: calc(100vh - 2rem);
     overflow-y: auto;
     font-size: 0.9rem;
@@ -123,7 +124,7 @@ body > aside h4 {
 }
 
 body > aside :last-child {
-    margin-bottom: none;
+    margin-bottom: 0.5rem;
 }
 
 
