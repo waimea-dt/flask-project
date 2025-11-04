@@ -31,14 +31,14 @@
 
         // folder names (ending with a slash)
         {
-          className: 'title',
+          className: 'section',
           begin: /[\w\-\.\/]+\//,
           relevance: 10
         },
 
         // file names (contain a dot)
         {
-            className: 'literal',
+            className: 'property',
             begin: /[\w\-]*\.[\w\.]+/,
             relevance: 10
         },
