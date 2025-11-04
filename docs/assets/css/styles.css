@@ -155,6 +155,7 @@ main > p > img {
 main > iframe {
     display: block;
     width: 100%;
+    height: auto;
     aspect-ratio: 16/9;
     margin: 1.5rem auto;
 }
