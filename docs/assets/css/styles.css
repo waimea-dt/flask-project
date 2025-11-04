@@ -144,6 +144,16 @@ body > aside :last-child {
 }
 
 
+/* MEDIA ---------------------------------- */
+
+main > img,
+main > iframe {
+    display: block;
+    max-width: 100%;
+    margin: 1.5rem auto;
+}
+
+
 /* TABLES --------------------------------- */
 
 :where(table) {
@@ -153,6 +163,7 @@ body > aside :last-child {
 td, th {
     padding-block: calc(var(--pico-spacing)/ 4);
 }
+
 
 /* CODE ---------------------------------- */
 
@@ -165,6 +176,7 @@ pre code.hljs {
     overflow-wrap: anywhere;
     word-break: break-word;
 }
+
 
 /* DEV MODE ------------------------------ */
 
