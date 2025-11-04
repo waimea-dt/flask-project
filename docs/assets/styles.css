@@ -177,4 +177,6 @@ body.dev-mode .guides {
     --pico-primary-border:           var(--pico-color-orange-500);
     --pico-primary-hover-background: var(--pico-color-orange-400);
     --pico-primary-hover-border:     var(--pico-color-orange-400);
+
+    border-color: var(--pico-primary-border);
 }
