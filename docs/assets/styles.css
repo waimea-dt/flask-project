@@ -162,22 +162,19 @@ body.dev-mode::after {
     content: "DEV";
     display: block;
     position: fixed;
-    left: -4rem;
-    top: 1rem;
+    left: -3.5rem;
+    top: 0.5rem;
     transform: rotate(-40deg);
     padding: 0.2rem 04rem;
     background-color: var(--pico-color-orange-500);
+    box-shadow: 0 0.1rem 0.5rem #0002;
     color: white;
     font-weight: bold;
 }
 
 body.dev-mode .guides {
-    --pico-primary:                  var(--pico-color-orange-500);
-    --pico-primary-underline:        var(--pico-color-orange-200);
-    --pico-primary-hover:            var(--pico-color-orange-600);
-    --pico-primary-hover-underline:  var(--pico-color-orange-600);
     --pico-primary-background:       var(--pico-color-orange-500);
     --pico-primary-border:           var(--pico-color-orange-500);
-    --pico-primary-hover-background: var(--pico-color-orange-600);
-    --pico-primary-hover-border:     var(--pico-color-orange-600);
+    --pico-primary-hover-background: var(--pico-color-orange-400);
+    --pico-primary-hover-border:     var(--pico-color-orange-400);
 }
