@@ -158,14 +158,17 @@ pre code.hljs {
 
 /* DEV MODE ------------------------------ */
 
-body.dev-mode > header h1 a::after {
+body.dev-mode::after {
     content: "DEV";
-    display: inline-block;
-    padding: 0.2em 0.7em;
+    display: block;
+    position: fixed;
+    left: -4rem;
+    top: 1rem;
+    transform: rotate(-40deg);
+    padding: 0.2rem 04rem;
     background-color: var(--pico-color-orange-500);
     color: white;
     font-weight: bold;
-    border-radius: 0.3em;
 }
 
 body.dev-mode .guides {
