@@ -156,3 +156,8 @@ pre code.hljs {
     word-break: break-word;
 }
 
+/* GUIDES -------------------------------- */
+
+.guides {
+    --pico-primary: var(--pico-color-orange-500);
+}
