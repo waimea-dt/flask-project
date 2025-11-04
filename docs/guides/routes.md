@@ -25,7 +25,7 @@ Try to be consistent when naming routes. A good pattern to use is:
 
 ## Defining Routes
 
-### Simple Route to a Page - No Data
+### Route to Show a Static Page (No DB Data)
 
 ```python
 @app.get("/about")
@@ -39,7 +39,7 @@ def example_route():
     return render_template("pages/note_form.jinja")
 ```
 
-### Route for a Page with Multiple Items
+### Route to Show All DB Items
 
 ```python
 @app.get("/notes")
@@ -50,7 +50,9 @@ def show_note_list():
     return render_template("pages/note_list.jinja", notes=notes)
 ```
 
-### Route for a Page with Multiple, Specific Items
+### Route to Show a Specific Group of DB Items
+
+The route can specify a particular set of items, e.g. all pinned notes...
 
 ```python
 @app.get("/notes/pinned")
@@ -61,7 +63,11 @@ def show_pinned_note_list():
     return render_template("pages/note_list.jinja", notes=notes, title="Pinned Notes")
 ```
 
-### Route for a Single Item using a Parameter (e.g. an ID)
+### Route to Show a DB Item(s) Matching a Parameter
+
+The route can contain a parameter which can be passed into the handler function and then used in the DB query...
+
+#### Single item, e.g. a note with a specific ID:
 
 ```python
 @app.get("/note/<int:id>")
@@ -73,7 +79,7 @@ def show_note(id):
     return render_template("pages/note_info.jinja", note=note)
 ```
 
-### Route for Multiple Items using a Parameter (e.g. a category)
+#### Multiple items, e.g. notes in a given a Category:
 
 ```python
 @app.get("/notes/<category>")
@@ -108,7 +114,7 @@ def search_notes():
                            title=f"Notes matching '{query}'")
 ```
 
-### Protected Routes
+### Protected Routes - Authorised Users Only
 
 Add the `@login_required` decorator to stop routes being accessed by unauthorised users...
 
