@@ -26,6 +26,10 @@ body > aside  { grid-area: sidebar; }
 body > main   { grid-area: main; }
 body > footer { grid-area: footer; }
 
+body > main {
+    padding-top: 0;
+}
+
 body > aside {
     display: none;
 }
@@ -80,7 +84,6 @@ body > aside {
     top: 1rem;
     align-self: start;
     padding: 0.75rem;
-    margin-block: 1rem;
     max-height: calc(100vh - 2rem);
     overflow-y: auto;
     font-size: 0.9rem;
