@@ -65,9 +65,9 @@ def show_pinned_note_list():
 
 ### Route to Show a DB Item(s) Matching a Parameter
 
-The route can contain a parameter which can be passed into the handler function and then used in the DB query...
+The route can contain a parameter, `<...>`, which can be passed into the handler function and then used in the DB query...
 
-#### Single item, e.g. a note with a specific ID:
+#### Single item, e.g. a note with a specific ID, `<int:id>`:
 
 ```python
 @app.get("/note/<int:id>")
@@ -79,7 +79,7 @@ def show_note(id):
     return render_template("pages/note_info.jinja", note=note)
 ```
 
-#### Multiple items, e.g. notes in a given a Category:
+#### Multiple items, e.g. notes in a given category, `<category>`:
 
 ```python
 @app.get("/notes/<category>")
@@ -89,29 +89,6 @@ def show_note(category):
         params = (category,)
         note = db.execute(sql, params).fetchone()
     return render_template("pages/note_info.jinja", note=note)
-```
-
-### Route for a Search Query
-
-This would filter notes via a search URL of the form `/notes/search?query=...`. Typically this URL would be from filter links on the notes page, or from a search form, using the `GET` method...
-
-```python
-@app.get("/notes/search")
-def search_notes():
-    # Get search query and add wildcards
-    query = request.args.get('query')
-    query = f"%{query}%"
-
-    with connect_db() as db:
-        sql = """
-            SELECT * FROM note
-            WHERE title LIKE ? OR body LIKE ?
-        """
-        params = (query, query)
-        notes = db.execute(sql, params).fetchall()
-
-    return render_template("pages/note_list.jinja", notes=notes,
-                           title=f"Notes matching '{query}'")
 ```
 
 ### Protected Routes - Authorised Users Only
@@ -124,6 +101,40 @@ Add the `@login_required` decorator to stop routes being accessed by unauthorise
 def admin_page():
     # Only accessible if session['logged_in'] is True
     return render_template("pages/admin.jinja")
+```
+
+### Route for a Search Query
+
+A search form, using the `GET` method...
+
+```html
+<form method="GET" action="/notes/search">
+    <input name="query" type="text" required>
+    <button>Search Notes</button>
+</form>
+```
+
+... would result in an HTTP request URL of the form `/notes/search?query=...` which is then matched and handled, using the search term in a wild-card DB query...
+
+*Note: In SQL, `%` means **match anything**, so adding `%` either side of the search term results in a query where the search terms can appear anywhere in the text - a **wild-card** search*
+
+```python
+@app.get("/notes/search")
+def search_notes():
+    # Get search query and add wildcards
+    search = request.args.get('query')
+    search = f"%{search}%"
+
+    with connect_db() as db:
+        sql = """
+            SELECT * FROM note
+            WHERE title LIKE ? OR body LIKE ?
+        """
+        params = (search, search)
+        notes = db.execute(sql, params).fetchall()
+
+    return render_template("pages/note_list.jinja", notes=notes,
+                           title=f"Notes matching '{query}'")
 ```
 
 ## Route Redirects
