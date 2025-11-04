@@ -39,7 +39,7 @@ body > aside {
         max-width: 1280px;
         margin-inline: auto;
         gap: 0 3rem;
-        grid-template-columns: 15rem 1fr;
+        grid-template-columns: 13rem 1fr;
         grid-template-areas:
             "header header"
             "sidebar main";
@@ -93,6 +93,10 @@ body > aside {
     border-radius: var(--pico-border-radius);
 }
 
+body > aside ul {
+    padding-left: 1.5rem;
+}
+
 body > aside li {
     padding: 0;
     display: list-item;
@@ -114,7 +118,7 @@ body > aside h3:not(:first-child) {
 }
 
 body > aside h4 {
-    margin: 0.5rem 0 0.4rem 0.7rem;
+    margin: 0.5rem 0 0.4rem 0.2rem;
     font-size: 1rem;
     font-weight: normal;
     color: var(--pico-muted-color);
