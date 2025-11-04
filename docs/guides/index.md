@@ -1,5 +1,6 @@
 # How-To Guides
 
+- [What is Flask?](flask.md)
 - [Project Structure](structure.md)
 - [Quick Start](quick.md)
 - [Example Simple CRUD App](crud.md)
