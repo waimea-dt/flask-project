@@ -159,6 +159,25 @@ main > h2 {
 }
 
 
+/* MENU LISTS ----------------------------- */
+
+main > h1:first-child + ul {
+    padding: 0;
+    display: flex;
+    gap: 1.5rem;
+}
+
+main > h1:first-child + ul li {
+    list-style: none;
+    width: 8rem;
+    aspect-ratio: 3/4;
+    border: 2px solid var(--pico-border);
+    padding: 0.5rem;
+    text-align: center;
+    box-shadow: var(--pico-shadow);
+}
+
+
 /* MEDIA ---------------------------------- */
 
 main > p > img {
