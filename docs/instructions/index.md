@@ -4,7 +4,8 @@
 - [Task Instructions](instructions.md)
 - [Progress Checklist](checklist.md)
 
-## Supporting Documents
+
+### Supporting Documents
 
 - [Project Ideas](ideas.md)
 - [Standard AS91902 - Database](as91902.pdf)
