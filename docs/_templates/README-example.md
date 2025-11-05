@@ -17,11 +17,11 @@ Task Instructions:
 - [Instruction documents](docs/instructions/)
 
 Project Evidence
-- [Project Requirements](docs/evidence/sprint-0-requirements.md)
-- [Sprint 1: Development of a Prototype](docs/evidence/sprint-1-prototype.md)
-- [Sprint 2: Development of a MVP](docs/evidence/sprint-2-mvp.md)
-- [Sprint 3: Final System Refinement](docs/evidence/sprint-3-final.md)
-- [Project Review](docs/evidence/system-review.md)
+- [Sprint 0: Project Requirements](docs/evidence/sprint-0-requirements.md)
+- [Sprint 1: Prototype Development](docs/evidence/sprint-1-prototype.md)
+- [Sprint 2: MVP Development](docs/evidence/sprint-2-mvp.md)
+- [Sprint 3: Final System Development](docs/evidence/sprint-3-final.md)
+- [Review: Project Final Review](docs/evidence/system-review.md)
 
 
 ## Test Accounts

@@ -161,19 +161,20 @@ main > h2 {
 
 /* MENU LISTS ----------------------------- */
 
-main > h1:first-child + ul {
+main > :is(h1, h2, h3) + ul {
+    margin-top: 2rem;
     padding: 0;
     display: flex;
     gap: 1.5rem;
     flex-wrap: wrap;
 }
 
-main > h1:first-child + ul li {
+main > :is(h1, h2, h3) + ul li {
     list-style: none;
     width: 8rem;
 }
 
-main > h1:first-child + ul li a {
+main > :is(h1, h2, h3) + ul li a {
     text-decoration: none;
     display: grid;
     place-items: center;
@@ -183,10 +184,11 @@ main > h1:first-child + ul li a {
     background-color: var(--pico-card-background-color);
     padding: 0.5rem;
     text-align: center;
-    box-shadow: var(--pico-shadow);
+    box-shadow: var(--pico-card-box-shadow);
+    border-radius: var(--pico-border-radius);
 }
 
-main > h1:first-child + ul li a:hover {
+main > :is(h1, h2, h3) + ul li a:hover {
     border-color: var(--pico-primary-hover-border);
 }
 

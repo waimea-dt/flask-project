@@ -1,4 +1,4 @@
-# Sprint 2 - A Minimum Viable Product (MVP)
+# Sprint 2 - Developing a Minimum Viable Product (MVP)
 
 
 ## Sprint Goals
