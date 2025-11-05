@@ -17,11 +17,11 @@ You will be assessed on how skilfully and effectively you design, create, and te
 Achievement Criteria:
 
 
-| Level                 | AS91902 Achievement Criteria                               | AS91903 Achievement Criteria                                            |
-| --------------------- | ---------------------------------------------------------- | ----------------------------------------------------------------------- |
-| **Achieve** ★        | Use complex techniques to develop a database               | Use complex techniques to develop a digital media outcome               |
-| **Merit** ★★        | Use complex techniques to develop an **informed** database | Use complex techniques to develop an **informed** digital media outcome |
-| **Excellence** ★★★ | Use complex techniques to develop an **refined** database  | Use complex techniques to develop an **refined** digital media outcome  |
+| Level          | AS91902 Achievement Criteria                               | AS91903 Achievement Criteria                                            |
+| -------------- | ---------------------------------------------------------- | ----------------------------------------------------------------------- |
+| **Achieve**    | Use complex techniques to develop a database               | Use complex techniques to develop a digital media outcome               |
+| **Merit**      | Use complex techniques to develop an **informed** database | Use complex techniques to develop an **informed** digital media outcome |
+| **Excellence** | Use complex techniques to develop an **refined** database  | Use complex techniques to develop an **refined** digital media outcome  |
 
 
 ## Timeline
