@@ -1,8 +1,8 @@
 
 # Assessment Task
 
-- [Task Instructions](instructions.md)
-- [Progress Checklist](checklist.md)
+- [Task: **Instructions**](instructions.md)
+- [Task: **Progress Checklist**](checklist.md)
 
 
 ### Supporting Documents

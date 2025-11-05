@@ -1,7 +1,5 @@
 # How-To Guides
 
-### Overview
-
 - [Quick Start](quick.md)
 - [Project Structure](structure.md)
 - [What is Flask?](flask.md)
@@ -25,6 +23,6 @@
 - [Design and Development Tools](tools.md)
 - [VS Code Setup for Flask Dev.](vscode.md)
 - [Hosting Your App on Render](hosting.md)
-- [Documentation on GitHub Pages](pages.md)
+- [GitHub Pages Doc. Hosting](pages.md)
 
 

@@ -171,7 +171,7 @@ main > :is(h1, h2, h3) + ul {
 
 main > :is(h1, h2, h3) + ul li {
     list-style: none;
-    width: 8rem;
+    width: 8.5rem;
 }
 
 main > :is(h1, h2, h3) + ul li a {
@@ -179,7 +179,7 @@ main > :is(h1, h2, h3) + ul li a {
     display: grid;
     place-items: center;
     width: 100%;
-    aspect-ratio: 3/4;
+    aspect-ratio: 1;
     border: 2px solid var(--pico-secondary-border);
     background-color: var(--pico-card-background-color);
     padding: 0.5rem;
