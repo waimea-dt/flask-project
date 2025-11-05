@@ -170,11 +170,23 @@ main > h1:first-child + ul {
 main > h1:first-child + ul li {
     list-style: none;
     width: 8rem;
+}
+
+main > h1:first-child + ul li a {
+    text-decoration: none;
+    display: grid;
+    place-items: center;
+    width: 100%;
     aspect-ratio: 3/4;
-    border: 2px solid var(--pico-border);
+    border: 2px solid var(--pico-secondary-border);
+    background-color: var(--pico-card-background-color);
     padding: 0.5rem;
     text-align: center;
     box-shadow: var(--pico-shadow);
+}
+
+main > h1:first-child + ul li a:hover {
+    border-color: var(--pico-primary-hover-border);
 }
 
 
