@@ -2,9 +2,7 @@
 
 *Where possible, all desktop tools are cross-platform (Win/Mac/Linux) and free / open-source / free for edu.*
 
-## Design Tools
-
-### Database Design
+## Database Design
 
 These tools will help you with the design of your database...
 
@@ -12,7 +10,8 @@ These tools will help you with the design of your database...
 | ------------------------------- | ---------------------- | -------- | -------------------------------------------------------------- |
 | [DrawSQL](https://drawsql.app/) | Visual database design | Web      | Define relational database tables, fields, relationships, etc. |
 
-### UI Design
+
+## UI Design
 
 These tools will help you design the layout and look-and-feel of your UI...
 
@@ -25,10 +24,7 @@ These tools will help you design the layout and look-and-feel of your UI...
 | [Coolors](https://coolors.co)                     | Colour palettes           | Web                  | Explore and create colour palettes. Simple to use, with a huge collection of palettes                                           |
 | [Color Hunt](https://colorhunt.co/)               | Colour palettes           | Web                  | Explore colour palettes                                                                                                         |
 
-
-## Development Tools
-
-### Code Development
+## Coding
 
 These coding tools will be key to the development of your web app...
 
@@ -39,7 +35,8 @@ These coding tools will be key to the development of your web app...
 | [GitHub](https://github.com)                           | Code repository hosting     | Web      | Stores your code, tracks code commits, allows syncing between devices. [Free pro accounts](https://github.com/education/students) |
 | [GitHub Desktop](https://desktop.github.com/download/) | Managing code repos         | Desktop  | Simple GUI for managing Git repositories and syncing with GitHub                                                                  |
 
-### UI Development
+
+## UI Debugging
 
 As you develop your web UI, these tools can help debug issues...
 
@@ -50,7 +47,7 @@ As you develop your web UI, these tools can help debug issues...
 | [Viewport Resizer](https://lab.maltewassermann.com/viewport-resizer/) | Responsive design testing   | Browser  | Bookmarklet to quickly test UI at various screen sizes                 |
 
 
-### Database Development
+## Database Management
 
 When working with databases, these tools can help manage and manipulate data...
 
@@ -60,7 +57,7 @@ When working with databases, these tools can help manage and manipulate data...
 | [Azimutt](https://azimutt.app/new)        | Database visualisation | Web      | Generates ER diagrams: Export database as SQL from SQLite Studio, open file in Azimutt (from SQL Structure) |
 
 
-### Icons and Symbols
+## Icons and Symbols
 
 If you want to add icons or unicode symbols to your app...
 
@@ -69,7 +66,8 @@ If you want to add icons or unicode symbols to your app...
 | [Lucide Icons](https://lucide.dev/icons/)     | Icon collection    | Web      | Free icons, easy to configure and download / copy SVG code to place inline in HTML |
 | [&What; (AmpWhat)](https://www.amp-what.com/) | UniCode characters | Web      | Search and explore UniCode characters to copy/paste into your code                 |
 
-## Web App Hosting
+
+## Hosting
 
 For your web app to be live on the Web, for others to see and use, you need to have it hosted...
 
