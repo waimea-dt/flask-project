@@ -193,6 +193,7 @@ main > :is(h1, h2, h3) + ul li a {
     text-align: center;
     box-shadow: var(--pico-card-box-shadow);
     border-radius: var(--pico-border-radius);
+    transition: border-color 250ms;
 }
 
 main > h1:first-child + ul li a {
