@@ -34,9 +34,10 @@ body > aside {
     display: none;
 }
 
-@media screen and (min-width: 1440px) {
+@media screen and (min-width: 1024px) {
     body {
-        max-width: 1360px;
+        width: calc(100vw - 2rem);
+        max-width: 1440px;
         margin-inline: auto;
         gap: 0 3rem;
         grid-template-columns: 14rem 1fr;
