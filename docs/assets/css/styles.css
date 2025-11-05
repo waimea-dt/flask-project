@@ -40,7 +40,7 @@ body > aside {
         max-width: 1440px;
         margin-inline: auto;
         gap: 0 3rem;
-        grid-template-columns: 14rem 1fr;
+        grid-template-columns: 13rem 1fr;
         grid-template-areas:
             "header header"
             "sidebar main";
