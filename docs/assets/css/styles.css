@@ -193,7 +193,7 @@ main > :is(h1, h2, h3) + ul li a {
     text-align: center;
     box-shadow: var(--pico-card-box-shadow);
     border-radius: var(--pico-border-radius);
-    transition: border-color 250ms;
+    transition: all 250ms;
 }
 
 main > h1:first-child + ul li a {
@@ -206,6 +206,7 @@ main > h3:last-of-type + ul li a {
 
 main > :is(h1, h2, h3) + ul li a:hover {
     border-color: var(--doc-menu-border-color-hover);
+    background-color: var(--pico-primary-focus);
 }
 
 

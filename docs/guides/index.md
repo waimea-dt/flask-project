@@ -1,4 +1,4 @@
-# How-To Guides
+# Project Development Guides
 
 - [Quick Start](quick.md)
 - [Project Structure](structure.md)
