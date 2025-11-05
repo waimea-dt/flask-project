@@ -22,16 +22,12 @@ Optional (but great!):
 
 ## Useful VS Code Keyboard Shortcuts
 
-### Terminal
+Learning a few keyboard shortcuts can help speed up your app development...
 
-- <kbd>Ctrl</kbd>+<kbd>ˋ</kbd> - Open built-in terminal (to enter commands like `flask run`, or to see application logs)
-
-### Working with Files
-
-- <kbd>Ctrl</kbd>+<kbd>P</kbd> - Go to file... Type in a few letters of the file name (quicker thatn using the sidebar)
-
-### Working with Markdown
-
-- <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>V</kbd> - Open Markdown preview, to better be able to read a `.md` file
+| Shortcut                                      | Action                 | Notes                                                                    |
+| --------------------------------------------- | ---------------------- | ------------------------------------------------------------------------ |
+| <kbd>Ctrl</kbd>+<kbd>ˋ</kbd>                  | Open built-in terminal | The place to enter commands like `flask run`, or to see application logs |
+| <kbd>Ctrl</kbd>+<kbd>P</kbd>                  | Go to file...          | Type in a few letters of the file name (quicker than using the sidebar)  |
+| <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>V</kbd> | Open Markdown preview  | Easier to read the rendered view of a `.md` file                         |
 
 
