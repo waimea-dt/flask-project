@@ -20,6 +20,7 @@
 
 ### Additional Guides
 
+- [Design and Development Tools](tools.md)
 - [VS Code Setup for Flask Dev.](vscode.md)
 - [Hosting Your App on Render](hosting.md)
 - [Documentation on GitHub Pages](pages.md)

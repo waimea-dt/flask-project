@@ -144,6 +144,14 @@ body > aside :last-child {
 }
 
 
+/* HEADINGS ------------------------------- */
+
+main > h2 {
+    border-top: 2px solid var(--pico-primary);
+    padding-top: 0.5rem;
+}
+
+
 /* MEDIA ---------------------------------- */
 
 main > p > img {

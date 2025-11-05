@@ -1,12 +1,5 @@
-# Flask - Web framework for building Python web applications
-Flask
-
-# python-dotenv - Load environment variables from .env files
-python-dotenv
-
-# Arrow - Better date and time handling for Python
-arrow
-
-# Rich - Beautiful terminal formatting, logging, and tracebacks
-rich
+Flask              # Web framework for building web applications
+python-dotenv      # Load environment variables from .env files
+arrow              # Better date and time handling
+rich               # Terminal formatting, logging, and tracebacks
 
