@@ -189,8 +189,12 @@ main > :is(h1, h2, h3) + ul li a {
     border-radius: var(--pico-border-radius);
 }
 
-main > h1 + ul li a {
+main > h1:first-child + ul li a {
     border-color: var(--pico-primary-border);
+}
+
+main > h3:last-of-type + ul li a {
+    border-color: var(--pico-muted-border);
 }
 
 main > :is(h1, h2, h3) + ul li a:hover {
