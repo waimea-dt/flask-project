@@ -206,7 +206,9 @@ main > h3:last-of-type + ul li a {
 
 main > :is(h1, h2, h3) + ul li a:hover {
     border-color: var(--doc-menu-border-color-hover);
-    background-color: var(--pico-primary-focus);
+    /* background-color: var(--pico-primary-focus); */
+    box-shadow: 0 0.25rem 1rem #0004;
+    /* scale: 1.05; */
 }
 
 
