@@ -24,5 +24,6 @@
 - [VS Code Setup for Flask Dev.](vscode.md)
 - [Hosting Your App on Render](hosting.md)
 - [GitHub Pages Doc. Hosting](pages.md)
+- [Learning Resources](learn.md)
 
 
