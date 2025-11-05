@@ -82,7 +82,6 @@ with connect_db() as db:
     db.execute(sql, params)
 ```
 
----
 
 ## ⚠️ Important Security Note
 

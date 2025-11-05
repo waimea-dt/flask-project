@@ -41,8 +41,6 @@ You will have 14 weeks to complete this project, broken up into a number of phas
 During each sprint you will develop your ideas, create suitable outcomes, present these to your end-user(s) so they can try them out, collect feedback / test data, and improve your outcomes to fix any issues.
 
 
----
-
 ## Assessment Conditions
 
 This is an 'open book' task. You may look at previous projects that you have worked on, and you may use any notes provided (e.g. the language reference documents).
@@ -57,8 +55,6 @@ This is an individual assessment activity: Beyond the starter template, all the 
 
 *Note: You will be asked to explain the workings of any/all of your code to assess whether you wrote and understand the code. Also, your git commits will be examined to check how your code progresses.*
 
-
----
 
 ## What You Need to Hand In
 

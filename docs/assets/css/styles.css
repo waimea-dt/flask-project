@@ -146,9 +146,16 @@ body > aside :last-child {
 
 /* HEADINGS ------------------------------- */
 
+main > h1:not(:first-of-type) {
+    margin-top: 4rem;
+    border-top: 3px solid var(--pico-secondary-border);
+    padding-top: 0.75rem;
+}
+
 main > h2 {
-    border-top: 2px solid var(--pico-primary);
-    padding-top: 0.5rem;
+    margin-top: 2.5rem;
+    border-bottom: 2px solid var(--pico-primary-border);
+    padding-bottom: 0.5rem;
 }
 
 

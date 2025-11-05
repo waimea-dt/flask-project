@@ -238,7 +238,6 @@ def add_note():
 </style>
 
 
----
 
 ## ⚠️ Important Security Note
 

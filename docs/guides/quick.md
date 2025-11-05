@@ -28,7 +28,6 @@ flask run
 Visit: [http://localhost:5000](http://localhost:5000)
 
 
----
 
 ## Create Your App
 
@@ -76,7 +75,7 @@ Design Patterns to Follow...
 *See [jinja](jinja.md) doc for more details*
 
 
----
-### 😀 That's it!
+
+## 😀 That's it!
 
 
