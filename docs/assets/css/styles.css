@@ -165,12 +165,20 @@ main > h2 {
     padding-bottom: 0.5rem;
 }
 
+main h3 {
+    --pico-color: var(--pico-contrast)
+}
+
 
 /* TEXT ----------------------------------- */
 
-b, strong {
+strong {
   font-weight: bold;
-  color: var(--pico-contrast);
+  --pico-color: var(--pico-contrast);
+}
+
+a strong {
+  --pico-color: var(--pico-primary-hover);
 }
 
 
