@@ -166,6 +166,14 @@ main > h2 {
 }
 
 
+/* TEXT ----------------------------------- */
+
+b, strong {
+  font-weight: bold;
+  color: var(--pico-contrast);
+}
+
+
 /* MENU LISTS ----------------------------- */
 
 main > :is(h1, h2, h3) + ul {
