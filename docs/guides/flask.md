@@ -12,11 +12,11 @@ A 'tech stack' is the collection of technologies that work together to build a w
 
 | Framework / Library                           | Description                                                                                                                                                                                                            |
 | --------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| ![Python logo](../assets/images/python.png)   | [Python](https://www.python.org/) is a versatile programming language that's easy to read and write. It powers the backend logic of your web app, handling data, making decisions, etc.                                |
-| ![Flask logo](../assets/images/flask.png)     | [Flask](https://flask.palletsprojects.com/) is a lightweight Python web framework that handles URL routing and HTTP requests/responses. It's minimal and flexible, letting you build web apps without heavy structure. |
-| ![Jinja logo](../assets/images/jinja2.png)    | [Jinja](https://jinja.palletsprojects.com/templates/) is a templating engine that lets you embed Python-like logic into HTML. Use data variables, loops, and conditionals to generate dynamic web pages.               |
-| ![SQLite logo](../assets/images/sqlite.png)   | [SQLite](https://sqlite.org/) is a lightweight, file-based database that stores structured data. No database server is needed—it runs directly in your app and uses standard SQL queries.                              |
-| ![PicoCSS logo](../assets/images/picocss.png) | [PicoCSS](https://picocss.com/) is a minimal CSS framework that styles semantic HTML automatically. It provides a good-looking, responsive design on which to build the design of your website.                        |
+| ![Python logo](../assets/images/logos/python.png)   | [Python](https://www.python.org/) is a versatile programming language that's easy to read and write. It powers the backend logic of your web app, handling data, making decisions, etc.                                |
+| ![Flask logo](../assets/images/logos/flask.png)     | [Flask](https://flask.palletsprojects.com/) is a lightweight Python web framework that handles URL routing and HTTP requests/responses. It's minimal and flexible, letting you build web apps without heavy structure. |
+| ![Jinja logo](../assets/images/logos/jinja2.png)    | [Jinja](https://jinja.palletsprojects.com/templates/) is a templating engine that lets you embed Python-like logic into HTML. Use data variables, loops, and conditionals to generate dynamic web pages.               |
+| ![SQLite logo](../assets/images/logos/sqlite.png)   | [SQLite](https://sqlite.org/) is a lightweight, file-based database that stores structured data. No database server is needed—it runs directly in your app and uses standard SQL queries.                              |
+| ![PicoCSS logo](../assets/images/logos/picocss.png) | [PicoCSS](https://picocss.com/) is a minimal CSS framework that styles semantic HTML automatically. It provides a good-looking, responsive design on which to build the design of your website.                        |
 
 ### How a Flask Web App Works
 

@@ -237,6 +237,23 @@ main > :is(h1, h2, h3) + ul li a:hover {
     /* scale: 1.05; */
 }
 
+/* ICONS */
+
+main > :is(h1, h2, h3) + ul li a::before {
+    content: "";
+    display: block;
+    width: 2.5rem;
+    height: 2.5rem;
+    background-color: currentColor;
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
+}
+
+a[href*="/evidence/sprint-1-prototype.html"]::before {
+    mask-image: url('../images/icons/proto.svg');
+}
+
 
 /* MEDIA ---------------------------------- */
 
