@@ -7,6 +7,6 @@
 
 ### Supporting Documents
 
-- [Project Ideas](ideas.md)
-- [Standard AS91902 (Database)](as91902.pdf)
-- [Standard AS91903 (Website)](as91903.pdf)
+- [Help:     **Project Ideas**](ideas.md)
+- [Standard: **AS91902 (Database)**](as91902.pdf)
+- [Standard: **AS91903 (Website)**](as91903.pdf)
