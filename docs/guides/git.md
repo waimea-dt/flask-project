@@ -30,7 +30,7 @@ Think of it like a 'save game' feature for your code: You can save snapshots (ca
 
 ## Typical Workflows
 
-**Note: To keep things simple, instead of using the `git` command-line tool, we will use **GitHub Desktop**, an easy-to-use Git client with a GUI.*
+*Note: To keep things simple, instead of using the `git` command-line tool, we will use **GitHub Desktop**, an easy-to-use Git client with a GUI.*
 
 ### Working with a New Repo
 
