@@ -250,11 +250,42 @@ main > :is(h1, h2, h3) + ul li a::before {
     mask-position: center;
 }
 
+/* Task */
+a[href*="/instructions/instructions.html"]::before      { mask-image: url('../images/icons/task.svg'); }
+a[href*="/instructions/checklist.html"]::before         { mask-image: url('../images/icons/checks.svg'); }
+a[href*="/instructions/ideas.html"]::before             { mask-image: url('../images/icons/idea.svg'); }
+a[href*="/instructions/as"][href$=".pdf"]::before       { mask-image: url('../images/icons/std.svg'); }
+
+/* Evidence */
 a[href*="/evidence/sprint-0-requirements.html"]::before { mask-image: url('../images/icons/require.svg'); }
 a[href*="/evidence/sprint-1-prototype.html"]::before    { mask-image: url('../images/icons/proto.svg'); }
 a[href*="/evidence/sprint-2-mvp.html"]::before          { mask-image: url('../images/icons/mvp.svg'); }
 a[href*="/evidence/sprint-3-final.html"]::before        { mask-image: url('../images/icons/final.svg'); }
 a[href*="/evidence/system-review.html"]::before         { mask-image: url('../images/icons/review.svg'); }
+
+/* Guides */
+a[href*="/guides/quick.html"]::before     { mask-image: url('../images/icons/run.svg'); }
+a[href*="/guides/flask.html"]::before     { mask-image: url('../images/icons/how.svg'); }
+a[href*="/guides/structure.html"]::before { mask-image: url('../images/icons/struct.svg'); }
+a[href*="/guides/crud.html"]::before      { mask-image: url('../images/icons/app.svg'); }
+
+a[href*="/guides/setup.html"]::before     { mask-image: url('../images/icons/settings.svg'); }
+a[href*="/guides/routes.html"]::before    { mask-image: url('../images/icons/route.svg'); }
+a[href*="/guides/flash.html"]::before     { mask-image: url('../images/icons/message.svg'); }
+a[href*="/guides/session.html"]::before   { mask-image: url('../images/icons/session.svg'); }
+a[href*="/guides/jinja.html"]::before     { mask-image: url('../images/icons/template.svg'); }
+a[href*="/guides/schema.html"]::before    { mask-image: url('../images/icons/database.svg'); }
+a[href*="/guides/sqlite.html"]::before    { mask-image: url('../images/icons/query.svg'); }
+a[href*="/guides/forms.html"]::before     { mask-image: url('../images/icons/form.svg'); }
+a[href*="/guides/images.html"]::before    { mask-image: url('../images/icons/image.svg'); }
+a[href*="/guides/auth.html"]::before      { mask-image: url('../images/icons/auth.svg'); }
+
+a[href*="/guides/tools.html"]::before     { mask-image: url('../images/icons/tools.svg'); }
+a[href*="/guides/vscode.html"]::before    { mask-image: url('../images/icons/extend.svg'); }
+a[href*="/guides/git.html"]::before       { mask-image: url('../images/icons/github.svg'); }
+a[href*="/guides/hosting.html"]::before   { mask-image: url('../images/icons/server.svg'); }
+a[href*="/guides/pages.html"]::before     { mask-image: url('../images/icons/docs.svg'); }
+a[href*="/guides/learn.html"]::before     { mask-image: url('../images/icons/learn.svg'); }
 
 
 /* MEDIA ---------------------------------- */
