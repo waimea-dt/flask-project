@@ -1,4 +1,4 @@
-# What is a Flask Web App?
+# How Does a Flask Web App Work?
 
 A **web application** is a program that runs on a web server and **delivers interactive content through a web browser**. Unlike static websites that just display fixed information, web apps respond to user actions (clicking buttons, filling in forms, etc.) and generate personalised, dynamic responses.
 
