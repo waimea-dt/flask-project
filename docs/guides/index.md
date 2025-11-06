@@ -1,7 +1,5 @@
 # Project Development Guides
 
-### Getting Started
-
 - [Flask:    **Quick Start Guide**](quick.md)
 - [Overview: **How Does Flask Work?**](flask.md)
 - [Overview: **Project Structure**](structure.md)
