@@ -54,18 +54,21 @@ Think of it like a 'save game' feature for your code: You can save snapshots (ca
    - Review changed files → added (green), edited (yellow), removed (red)
    - Write a clear **commit message**
    - **Commit to main** → snapshot of changes saved locally
-   - Optionally, **Push origin** → Upload changes to GitHub
+   - **Push origin** → Upload changes to GitHub
 
-Repeat steps 2 and 3 until your coding session ends. Make sure you push any final commits.
+      *Note: Pushing is optional during a coding session, but **required** at the end, otherwise your work won't be backed-up*
+
+Repeat steps 2 and 3 until your coding session ends. Make sure you push any final commits!
 
 
 ## Tips
 
-To use Git and GitHub effectively...
+**Golden rules** for using Git and GitHub effectively:
 
-- Commit **small, related changes** together
+- **Commit often**, after every small new feature / bug fix
+- Commit all **related changes together**
 - Write **clear commit messages**
-- **Push regularly**, and always at the end of each work session
+- **Push regularly**, and **always at the end** of each work session
 
 **Good commit messages** start with a verb and are specific:
 - ✅ "Added user registration form"
