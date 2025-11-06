@@ -155,17 +155,22 @@ VALUES ("Welcome!",        "This is a demo application", 1, 1),
 
 ## Tips
 
-- Tables should be named using **singular** names, so a table that hold notes should be called 'note'. This makes queries read a bit more logically:
-    - `note.id`
-    - `note.title`
-    - etc.
+### Table Naming
 
-- A number of command-line commands are available to help you manage your database:
-    - `flask db-reset`  - Delete and recreate database
-    - `flask db-seed`   - Reseed with sample data
-    - `flask db-clear`  - Clear all data (with confirmation)
-    - `flask db-show`   - Shows the DB schema and data
-    - `flask db-schema` - Shows the DB schema
-    - `flask db-data`   - Shows the DB data
-```
+Tables should be named using **singular** names, so a table that hold notes should be called 'note'. This makes queries read a bit more logically:
+
+- `note.id`
+- `note.title`
+- etc.
+
+### Database Management Commands
+
+A number of command-line commands are available to help you manage your database:
+
+- `flask db-reset`  - Delete and recreate database
+- `flask db-seed`   - Reseed with sample data
+- `flask db-clear`  - Clear all data (with confirmation)
+- `flask db-show`   - Shows the DB schema and data
+- `flask db-schema` - Shows the DB schema
+- `flask db-data`   - Shows the DB data
 

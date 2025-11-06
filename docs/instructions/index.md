@@ -1,7 +1,7 @@
 
 # Assessment Task
 
-- [Task: **Instructions**](instructions.md)
+- [Task: **Task Instructions**](instructions.md)
 - [Task: **Progress Checklist**](checklist.md)
 
 

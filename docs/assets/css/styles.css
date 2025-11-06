@@ -6,6 +6,12 @@ body {
 
     --sidebar-border-color: var(--pico-form-element-border-color);
     --sidebar-background-color: var(--pico-card-sectioning-background-color);
+
+    --doc-menu-border-color:       var(--pico-secondary-border);
+    --doc-menu-border-color-high:  var(--pico-primary-border);
+    --doc-menu-border-color-low:   var(--pico-form-element-border-color);
+    --doc-menu-border-color-hover: var(--pico-primary-hover-border);
+    --doc-menu-background-color:   var(--pico-card-background-color);
 }
 
 
@@ -34,12 +40,13 @@ body > aside {
     display: none;
 }
 
-@media screen and (min-width: 1440px) {
+@media screen and (min-width: 1024px) {
     body {
+        width: calc(100vw - 2rem);
         max-width: 1360px;
         margin-inline: auto;
         gap: 0 3rem;
-        grid-template-columns: 14rem 1fr;
+        grid-template-columns: 13rem 1fr;
         grid-template-areas:
             "header header"
             "sidebar main";
@@ -180,20 +187,28 @@ main > :is(h1, h2, h3) + ul li a {
     place-items: center;
     width: 100%;
     aspect-ratio: 1;
-    border: 2px solid var(--pico-secondary-border);
-    background-color: var(--pico-card-background-color);
+    border: 2px solid var(--doc-menu-border-color);
+    background-color: var(--doc-menu-background-color);
     padding: 0.5rem;
     text-align: center;
     box-shadow: var(--pico-card-box-shadow);
     border-radius: var(--pico-border-radius);
+    transition: all 250ms;
 }
 
-main > h1 + ul li a {
-    border-color: var(--pico-primary-border);
+main > h1:first-child + ul li a {
+    border-color: var(--doc-menu-border-color-high);
+}
+
+main > h3:last-of-type + ul li a {
+    border-color: var(--doc-menu-border-color-low);
 }
 
 main > :is(h1, h2, h3) + ul li a:hover {
-    border-color: var(--pico-primary-hover-border);
+    border-color: var(--doc-menu-border-color-hover);
+    /* background-color: var(--pico-primary-focus); */
+    box-shadow: 0 0.25rem 1rem #0004;
+    /* scale: 1.05; */
 }
 
 
