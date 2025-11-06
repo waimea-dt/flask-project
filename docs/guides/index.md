@@ -1,9 +1,11 @@
 # Project Development Guides
 
-- [Flask:   **Quick Start**](quick.md)
-- [Flask:   **What is a Flask Web App?**](flask.md)
-- [Flask:   **Project Structure**](structure.md)
-- [Example: **Basic CRUD App**](crud.md)
+### Key Guides
+
+- [Flask:    **Quick Start Guide**](quick.md)
+- [Overview: **What is Flask?**](flask.md)
+- [Overview: **Project Structure**](structure.md)
+- [Example:  **Basic CRUD App**](crud.md)
 
 ### App Development Guides
 
@@ -13,7 +15,7 @@
 - [Flask:  **Session Management**](session.md)
 - [Jinja:  **Jinja Templates**](jinja.md)
 - [SQLite: **Database Schema**](schema.md)
-- [SQLite: **SQL Queries**](sqlite.md)
+- [SQLite: **SQLite SQL Queries**](sqlite.md)
 - [Data:   **Form Data Processing**](forms.md)
 - [Data:   **Image / File Uploads**](images.md)
 - [Users:  **User Authentication**](auth.md)
@@ -22,6 +24,7 @@
 
 - [Tools:   **Design and Dev. Tools**](tools.md)
 - [Tools:   **VS Code Setup**](vscode.md)
+- [Tools:   **Using Git and GitHub**](git.md)
 - [Hosting: **Hosting App on Render**](hosting.md)
 - [Hosting: **GitHub Pages for Docs.**](pages.md)
 - [Learn:   **Learning Resources**](learn.md)
