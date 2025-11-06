@@ -11,7 +11,7 @@
 
 - [Flask:  **Flask App Setup and Run**](setup.md)
 - [Flask:  **App Routes and Handlers**](routes.md)
-- [Flask:  **Flash Messages**](flash.md)
+- [Flask:  **Flash Feedback Messages**](flash.md)
 - [Flask:  **Session Management**](session.md)
 - [Jinja:  **Jinja Templates**](jinja.md)
 - [SQLite: **Database Schema**](schema.md)
@@ -23,7 +23,7 @@
 ### Additional Guides
 
 - [Tools:   **Design and Dev. Tools**](tools.md)
-- [Tools:   **VS Code Setup**](vscode.md)
+- [Tools:   **VS Code Dev. Setup**](vscode.md)
 - [Tools:   **Using Git and GitHub**](git.md)
 - [Hosting: **Hosting App on Render**](hosting.md)
 - [Hosting: **GitHub Pages for Docs.**](pages.md)

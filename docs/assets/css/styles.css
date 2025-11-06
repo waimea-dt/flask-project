@@ -212,7 +212,7 @@ main > :is(h1, h2, h3) + ul li a {
     display: grid;
     place-items: center;
     width: 100%;
-    aspect-ratio: 1;
+    aspect-ratio: 3 / 4;
     border: 2px solid var(--doc-menu-border-color);
     background-color: var(--doc-menu-background-color);
     padding: 0.5rem;
@@ -250,9 +250,11 @@ main > :is(h1, h2, h3) + ul li a::before {
     mask-position: center;
 }
 
-a[href*="/evidence/sprint-1-prototype.html"]::before {
-    mask-image: url('../images/icons/proto.svg');
-}
+a[href*="/evidence/sprint-0-requirements.html"]::before { mask-image: url('../images/icons/require.svg'); }
+a[href*="/evidence/sprint-1-prototype.html"]::before    { mask-image: url('../images/icons/proto.svg'); }
+a[href*="/evidence/sprint-2-mvp.html"]::before          { mask-image: url('../images/icons/mvp.svg'); }
+a[href*="/evidence/sprint-3-final.html"]::before        { mask-image: url('../images/icons/final.svg'); }
+a[href*="/evidence/system-review.html"]::before         { mask-image: url('../images/icons/review.svg'); }
 
 
 /* MEDIA ---------------------------------- */
