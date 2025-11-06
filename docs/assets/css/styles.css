@@ -153,6 +153,19 @@ body > aside :last-child {
 
 /* HEADINGS ------------------------------- */
 
+main > h1 {
+    --pico-font-size: 2rem;
+}
+
+main > h2 {
+    --pico-font-size: 1.6rem;
+}
+
+main > h3 {
+    --pico-font-size: 1.4rem;
+    --pico-color: var(--pico-secondary-hover)
+}
+
 main > h1:not(:first-of-type) {
     margin-top: 4rem;
     border-top: 3px solid var(--pico-secondary-border);
@@ -160,13 +173,10 @@ main > h1:not(:first-of-type) {
 }
 
 main > h2 {
+    --pico-font-size: 1.6rem;
     margin-top: 2.5rem;
     border-bottom: 2px solid var(--pico-primary-border);
     padding-bottom: 0.5rem;
-}
-
-main h3 {
-    --pico-color: var(--pico-contrast)
 }
 
 
