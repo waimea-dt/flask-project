@@ -36,15 +36,13 @@
 /* Notes --------------------------------------------------*/
 
 .notes {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
     gap: 2rem;
-    justify-content: center;
-    align-items: flex-start;
+    grid-template-columns: repeat(auto-fit, minmax(min(15rem, 100%), 1fr));
+    align-items: start;
 }
 
 .note {
-    width: 18rem;
     margin: 0;
     box-shadow: 0 0.5rem 1rem #0004;
     border: 1px solid var(--pico-color-yellow-300)
