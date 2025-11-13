@@ -159,15 +159,14 @@ a strong {
 main > :is(h1, h2, h3) + ul {
     margin-top: 2rem;
     padding: 0;
-    display: flex;
+    display: grid;
     gap: 1.5rem;
-    flex-wrap: wrap;
+    grid-template-columns: repeat(auto-fit, minmax(min(8.5rem, 100%), 1fr));
 
     li {
         list-style: none;
-        width: 8.5rem;
 
-         a {
+        a {
             text-decoration: none;
             display: grid;
             gap: 0.3rem;
