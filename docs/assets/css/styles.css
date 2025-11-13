@@ -236,10 +236,11 @@ main > :is(h1, h2, h3) + ul {
             &[href*="/instructions/as"][href$=".pdf"]::before       { mask-image: url('../images/icons/std.svg'); }
 
             /* Evidence */
-            &[href*="/evidence/sprint-0-requirements.html"]::before { mask-image: url('../images/icons/require.svg'); }
-            &[href*="/evidence/sprint-1-prototype.html"]::before    { mask-image: url('../images/icons/proto.svg'); }
-            &[href*="/evidence/sprint-2-mvp.html"]::before          { mask-image: url('../images/icons/mvp.svg'); }
-            &[href*="/evidence/sprint-3-final.html"]::before        { mask-image: url('../images/icons/final.svg'); }
+            &[href*="/evidence/sprint-0-requirements.html"]::before { mask-image: url('../images/icons/sprint0.svg'); }
+            &[href*="/evidence/sprint-1-prototype.html"]::before    { mask-image: url('../images/icons/sprint1.svg'); }
+            &[href*="/evidence/sprint-2-database.html"]::before     { mask-image: url('../images/icons/sprint2.svg'); }
+            &[href*="/evidence/sprint-3-mvp.html"]::before          { mask-image: url('../images/icons/sprint3.svg'); }
+            &[href*="/evidence/sprint-4-final.html"]::before        { mask-image: url('../images/icons/sprint4.svg'); }
             &[href*="/evidence/system-review.html"]::before         { mask-image: url('../images/icons/review.svg'); }
 
             /* Guides */
