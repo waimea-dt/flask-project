@@ -1,4 +1,4 @@
-# Sprint 3 - Developing a Refined and Complete System
+# Sprint 4 - Developing a Refined and Complete System
 
 
 ## Sprint Goals

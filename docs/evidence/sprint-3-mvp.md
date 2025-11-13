@@ -1,25 +1,19 @@
-# Sprint 2 - Developing a Minimum Viable Product (MVP)
+# Sprint 3 - Developing a Minimum Viable Product (MVP)
 
 
 ## Sprint Goals
 
-Develop a bare-bones, working web application that provides the key functionality of the system, then test and refine it so that it can serve as the basis for the final phase of development in Sprint 3.
+Continue to develop the web application to the point that it provides all key functionality of the system. Test and refine it so that it can serve as the basis for the final phase of development.
 
 ### Specific Goals
 
 **Edit these goals as needed**
 
-- Implement the database
-- Add test data to the database
 - Create the following web pages:
-    - Home pages showing...
-    - Details page for ...
     - Form for ...
     - Etc.
 - Develop SQL database queries to:
-    - Retrieve all ...
     - Add a new ...
-    - Retrieve specific ...
     - Etc.
 
 

@@ -32,13 +32,18 @@ You will have **15 weeks** to complete this project, broken up into a number of 
 | ----- | ------ | ---------------------------------------------------- |
 | 1     | 1      | **Sprint 0**: Project idea development and research  |
 | 3     | 2-4    | **Sprint 1**: DB design and UI prototype             |
-| 6     | 5-10   | **Sprint 2**: Working MVP (minimum viable product)   |
-| 4     | 11-14  | **Sprint 3**: Final System refinement and completion |
+| 2     | 5-6    | **Sprint 2**: DB implemented and test data displayed |
+| 4     | 7-10   | **Sprint 3**: Working MVP (minimum viable product)   |
+| 4     | 11-14  | **Sprint 4**: Final System refinement and completion |
 | 1     | 15     | **Review**: Project final review                     |
 
-*A 'sprint' is a set period of time during which specific work has to be completed and made ready for review. In this project, the work for each sprint has been defined for you in the table above.*
+Key Terms:
 
-During each sprint you will develop your ideas, create suitable outcomes, present these to your end-user(s) so they can try them out, collect feedback / test data, and improve your outcomes to fix any issues.
+- **Sprint** - A set period of time during which specific work has to be completed and made ready for review. During each sprint you will develop your ideas, create suitable outcomes, present these to your end-user(s) so they can try them out, collect feedback / test data, and improve your outcomes to fix any issues.
+
+- **Prototype** - A working model of the system, consisting of a UI mock-up that can respond to key user actions. An end-user can operate this to get a feel for how the system works.
+
+- **Minimum Viable Product (MVP)** - A basic, working system with key functionality implemented: database, queries, web pages that display data, forms to add data, etc. System will be 'bare-bones', still requiring polish and refinement, but the system works enough that functionality can be tested.
 
 
 ## Assessment Conditions
