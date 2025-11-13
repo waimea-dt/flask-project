@@ -205,8 +205,8 @@ main > :is(h1, h2, h3) + ul {
             &::before {
                 content: "";
                 display: block;
-                width: 2.5rem;
-                height: 2.5rem;
+                width: 40%;
+                aspect-ratio: 1;
                 background-color: currentColor;
                 mask-size: contain;
                 mask-repeat: no-repeat;
