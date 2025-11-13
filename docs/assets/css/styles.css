@@ -95,7 +95,6 @@ body > header {
 /* SIDEBAR -------------------------------- */
 
 body > aside {
-    display: none;
     position: sticky;
     top: 1rem;
     align-self: start;
