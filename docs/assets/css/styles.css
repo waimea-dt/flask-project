@@ -31,6 +31,10 @@ body {
     > main   { grid-area: main; padding-top: 0; }
     > footer { grid-area: footer; }
 
+    > aside  {
+        display: none;
+    }
+
     @media screen and (min-width: 1024px) {
         width: calc(100vw - 2rem);
         max-width: 1360px;
