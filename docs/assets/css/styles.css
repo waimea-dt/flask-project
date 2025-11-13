@@ -1,17 +1,34 @@
 /* COLOURS ------------------------------- */
 
 body {
-    --pico-h2-color: var(--pico-primary);
-    --pico-h3-color: var(--pico-secondary);
+    --pico-h2-color:               var(--pico-primary);
+    --pico-h3-color:               var(--pico-secondary-hover);
+    --pico-h4-color:               var(--pico-muted-color);
 
-    --sidebar-border-color: var(--pico-form-element-border-color);
-    --sidebar-background-color: var(--pico-card-sectioning-background-color);
+    --h1-border-color:             var(--pico-secondary-border);
+    --h2-border-color:             var(--pico-primary-border);
+
+    --strong-color:                var(--pico-contrast);
+    --link-strong-color:           var(--pico-primary-hover);
+
+    --table-cell-padding:          calc(var(--pico-spacing) / 4);
+
+    --sidebar-border-color:        var(--pico-form-element-border-color);
+    --sidebar-background-color:    var(--pico-card-sectioning-background-color);
+    --sidebar-marker-color:        var(--pico-muted-color);
+    --sidebar-border-radius:       var(--pico-border-radius);
 
     --doc-menu-border-color:       var(--pico-secondary-border);
     --doc-menu-border-color-high:  var(--pico-primary-border);
     --doc-menu-border-color-low:   var(--pico-form-element-border-color);
     --doc-menu-border-color-hover: var(--pico-primary-hover-border);
+    --doc-menu-border-radius:      var(--pico-border-radius);
+    --doc-menu-icon-color:         var(--pico-muted-color);
     --doc-menu-background-color:   var(--pico-card-background-color);
+    --doc-menu-shadow:             var(--pico-card-box-shadow);
+
+    --dev-color:                   var(--pico-color-orange-500);
+    --dev-color-hover:             var(--pico-color-orange-400);
 }
 
 
@@ -103,7 +120,7 @@ body > aside {
     line-height: 1.1;
     background-color: var(--sidebar-background-color);
     border: 1px solid var(--sidebar-border-color);
-    border-radius: var(--pico-border-radius);
+    border-radius: var(--sidebar-border-radius);
 
     ul {
         padding-left: 1.2rem;
@@ -114,7 +131,7 @@ body > aside {
         display: list-item;
 
         &::marker {
-            color: var(--pico-muted-color);
+            color: var(--sidebar-marker-color);
         }
     }
 
@@ -133,7 +150,6 @@ body > aside {
         margin: 0.5rem 0 0.4rem 0.2rem;
         font-size: 1rem;
         font-weight: normal;
-        color: var(--pico-muted-color);
     }
 
     :last-child {
@@ -146,11 +162,11 @@ body > aside {
 
 strong {
   font-weight: bold;
-  --pico-color: var(--pico-contrast);
+  --pico-color: var(--strong-color);
 }
 
 a strong {
-  --pico-color: var(--pico-primary-hover);
+  --pico-color: var(--link-strong-color);
 }
 
 
@@ -178,8 +194,8 @@ main > :is(h1, h2, h3) + ul {
             padding: 0.5rem;
             text-align: center;
             line-height: 1.2;
-            box-shadow: var(--pico-card-box-shadow);
-            border-radius: var(--pico-border-radius);
+            box-shadow: var(--doc-menu-shadow);
+            border-radius: var(--doc-menu-border-radius);
             transition: all 250ms;
 
             &:hover {
@@ -207,7 +223,7 @@ main > :is(h1, h2, h3) + ul {
                 display: block;
                 width: 40%;
                 aspect-ratio: 1;
-                background-color: currentColor;
+                background-color: var(--doc-menu-icon-color);
                 mask-size: contain;
                 mask-repeat: no-repeat;
                 mask-position: center;
@@ -264,7 +280,7 @@ body > main {
 
         &:not(:first-of-type) {
             margin-top: 4rem;
-            border-top: 3px solid var(--pico-secondary-border);
+            border-top: 3px solid var(--h1-border-color);
             padding-top: 0.75rem;
         }
     }
@@ -273,14 +289,12 @@ body > main {
         --pico-font-size: 1.6rem;
 
         margin-top: 2.5rem;
-        border-bottom: 2px solid var(--pico-primary-border);
+        border-bottom: 2px solid var(--h2-border-color);
         padding-bottom: 0.5rem;
     }
 
     > h3 {
         --pico-font-size: 1.4rem;
-
-        --pico-color: var(--pico-secondary-hover);
     }
 
     > p > img {
@@ -301,7 +315,7 @@ body > main {
         width: auto;
 
         td, th {
-            padding-block: calc(var(--pico-spacing) / 4);
+            padding-block: var(--table-cell-padding);
         }
     }
 
@@ -328,17 +342,17 @@ body.dev-mode {
         top: 0.5rem;
         transform: rotate(-40deg);
         padding: 0.2rem 4rem;
-        background-color: var(--pico-color-orange-500);
+        background-color: var(--dev-color);
         box-shadow: 0 0.1rem 0.5rem #0002;
         color: white;
         font-weight: bold;
     }
 
     .guides {
-        --pico-primary-background:       var(--pico-color-orange-500);
-        --pico-primary-border:           var(--pico-color-orange-500);
-        --pico-primary-hover-background: var(--pico-color-orange-400);
-        --pico-primary-hover-border:     var(--pico-color-orange-400);
+        --pico-primary-background:       var(--dev-color);
+        --pico-primary-border:           var(--dev-color);
+        --pico-primary-hover-background: var(--dev-color-hover);
+        --pico-primary-hover-border:     var(--dev-color-hover);
 
         border-color: var(--pico-primary-border);
     }
