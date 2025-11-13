@@ -28,8 +28,7 @@ body {
 
     > header { grid-area: header; }
     > aside  { grid-area: sidebar; }
-    > main   { grid-area: main; padding-top: 0; }
-    > footer { grid-area: footer; }
+    > main   { grid-area: main; }
 
     > aside  {
         display: none;
@@ -45,7 +44,6 @@ body {
             "header header"
             "sidebar main";
 
-        > footer,
         > header,
         > main {
             max-width: unset;
@@ -144,35 +142,6 @@ body > aside {
 }
 
 
-/* HEADINGS ------------------------------- */
-
-main {
-    > h1 {
-        --pico-font-size: 2rem;
-
-        &:not(:first-of-type) {
-            margin-top: 4rem;
-            border-top: 3px solid var(--pico-secondary-border);
-            padding-top: 0.75rem;
-        }
-    }
-
-    > h2 {
-        --pico-font-size: 1.6rem;
-
-        margin-top: 2.5rem;
-        border-bottom: 2px solid var(--pico-primary-border);
-        padding-bottom: 0.5rem;
-    }
-
-    > h3 {
-        --pico-font-size: 1.4rem;
-
-        --pico-color: var(--pico-secondary-hover);
-    }
-}
-
-
 /* TEXT ----------------------------------- */
 
 strong {
@@ -219,7 +188,20 @@ main > :is(h1, h2, h3) + ul {
                 box-shadow: 0 0.25rem 1rem #0004;
             }
 
-            /* ICONS */
+            main > h1:first-child + ul li & {
+                border-color: var(--doc-menu-border-color-high);
+            }
+
+            main > h3:last-of-type + ul li & {
+                border-color: var(--doc-menu-border-color-low);
+            }
+
+
+            /* ICONS ------------------------------------- */
+
+            > :first-child { order: 1; }
+            &::before      { order: 2; }
+            > :last-child  { order: 3; }
 
             &::before {
                 content: "";
@@ -230,65 +212,78 @@ main > :is(h1, h2, h3) + ul {
                 mask-size: contain;
                 mask-repeat: no-repeat;
                 mask-position: center;
-                order: 2;
             }
 
-            > :first-child { order: 1; }
-            > :last-child  { order: 3; }
+            /* Task */
+            &[href*="/instructions/instructions.html"]::before      { mask-image: url('../images/icons/task.svg'); }
+            &[href*="/instructions/checklist.html"]::before         { mask-image: url('../images/icons/checks.svg'); }
+            &[href*="/instructions/ideas.html"]::before             { mask-image: url('../images/icons/idea.svg'); }
+            &[href*="/instructions/as"][href$=".pdf"]::before       { mask-image: url('../images/icons/std.svg'); }
+
+            /* Evidence */
+            &[href*="/evidence/sprint-0-requirements.html"]::before { mask-image: url('../images/icons/require.svg'); }
+            &[href*="/evidence/sprint-1-prototype.html"]::before    { mask-image: url('../images/icons/proto.svg'); }
+            &[href*="/evidence/sprint-2-mvp.html"]::before          { mask-image: url('../images/icons/mvp.svg'); }
+            &[href*="/evidence/sprint-3-final.html"]::before        { mask-image: url('../images/icons/final.svg'); }
+            &[href*="/evidence/system-review.html"]::before         { mask-image: url('../images/icons/review.svg'); }
+
+            /* Guides */
+            &[href*="/guides/quick.html"]::before     { mask-image: url('../images/icons/run.svg'); }
+            &[href*="/guides/flask.html"]::before     { mask-image: url('../images/icons/how.svg'); }
+            &[href*="/guides/structure.html"]::before { mask-image: url('../images/icons/struct.svg'); }
+            &[href*="/guides/crud.html"]::before      { mask-image: url('../images/icons/app.svg'); }
+
+            &[href*="/guides/setup.html"]::before     { mask-image: url('../images/icons/settings.svg'); }
+            &[href*="/guides/routes.html"]::before    { mask-image: url('../images/icons/route.svg'); }
+            &[href*="/guides/flash.html"]::before     { mask-image: url('../images/icons/message.svg'); }
+            &[href*="/guides/session.html"]::before   { mask-image: url('../images/icons/session.svg'); }
+            &[href*="/guides/jinja.html"]::before     { mask-image: url('../images/icons/template.svg'); }
+            &[href*="/guides/schema.html"]::before    { mask-image: url('../images/icons/database.svg'); }
+            &[href*="/guides/sqlite.html"]::before    { mask-image: url('../images/icons/query.svg'); }
+            &[href*="/guides/forms.html"]::before     { mask-image: url('../images/icons/form.svg'); }
+            &[href*="/guides/images.html"]::before    { mask-image: url('../images/icons/image.svg'); }
+            &[href*="/guides/auth.html"]::before      { mask-image: url('../images/icons/auth.svg'); }
+
+            &[href*="/guides/tools.html"]::before     { mask-image: url('../images/icons/tools.svg'); }
+            &[href*="/guides/vscode.html"]::before    { mask-image: url('../images/icons/extend.svg'); }
+            &[href*="/guides/git.html"]::before       { mask-image: url('../images/icons/github.svg'); }
+            &[href*="/guides/hosting.html"]::before   { mask-image: url('../images/icons/server.svg'); }
+            &[href*="/guides/pages.html"]::before     { mask-image: url('../images/icons/docs.svg'); }
+            &[href*="/guides/learn.html"]::before     { mask-image: url('../images/icons/learn.svg'); }
         }
     }
 }
 
-main > h1:first-child + ul li a {
-    border-color: var(--doc-menu-border-color-high);
-}
 
-main > h3:last-of-type + ul li a {
-    border-color: var(--doc-menu-border-color-low);
-}
+/* HEADINGS & CONTENT ---------------------- */
 
+body > main {
+    padding-top: 0;
 
-/* Task */
-a[href*="/instructions/instructions.html"]::before      { mask-image: url('../images/icons/task.svg'); }
-a[href*="/instructions/checklist.html"]::before         { mask-image: url('../images/icons/checks.svg'); }
-a[href*="/instructions/ideas.html"]::before             { mask-image: url('../images/icons/idea.svg'); }
-a[href*="/instructions/as"][href$=".pdf"]::before       { mask-image: url('../images/icons/std.svg'); }
+    > h1 {
+        --pico-font-size: 2rem;
 
-/* Evidence */
-a[href*="/evidence/sprint-0-requirements.html"]::before { mask-image: url('../images/icons/require.svg'); }
-a[href*="/evidence/sprint-1-prototype.html"]::before    { mask-image: url('../images/icons/proto.svg'); }
-a[href*="/evidence/sprint-2-mvp.html"]::before          { mask-image: url('../images/icons/mvp.svg'); }
-a[href*="/evidence/sprint-3-final.html"]::before        { mask-image: url('../images/icons/final.svg'); }
-a[href*="/evidence/system-review.html"]::before         { mask-image: url('../images/icons/review.svg'); }
+        &:not(:first-of-type) {
+            margin-top: 4rem;
+            border-top: 3px solid var(--pico-secondary-border);
+            padding-top: 0.75rem;
+        }
+    }
 
-/* Guides */
-a[href*="/guides/quick.html"]::before     { mask-image: url('../images/icons/run.svg'); }
-a[href*="/guides/flask.html"]::before     { mask-image: url('../images/icons/how.svg'); }
-a[href*="/guides/structure.html"]::before { mask-image: url('../images/icons/struct.svg'); }
-a[href*="/guides/crud.html"]::before      { mask-image: url('../images/icons/app.svg'); }
+    > h2 {
+        --pico-font-size: 1.6rem;
 
-a[href*="/guides/setup.html"]::before     { mask-image: url('../images/icons/settings.svg'); }
-a[href*="/guides/routes.html"]::before    { mask-image: url('../images/icons/route.svg'); }
-a[href*="/guides/flash.html"]::before     { mask-image: url('../images/icons/message.svg'); }
-a[href*="/guides/session.html"]::before   { mask-image: url('../images/icons/session.svg'); }
-a[href*="/guides/jinja.html"]::before     { mask-image: url('../images/icons/template.svg'); }
-a[href*="/guides/schema.html"]::before    { mask-image: url('../images/icons/database.svg'); }
-a[href*="/guides/sqlite.html"]::before    { mask-image: url('../images/icons/query.svg'); }
-a[href*="/guides/forms.html"]::before     { mask-image: url('../images/icons/form.svg'); }
-a[href*="/guides/images.html"]::before    { mask-image: url('../images/icons/image.svg'); }
-a[href*="/guides/auth.html"]::before      { mask-image: url('../images/icons/auth.svg'); }
+        margin-top: 2.5rem;
+        border-bottom: 2px solid var(--pico-primary-border);
+        padding-bottom: 0.5rem;
+    }
 
-a[href*="/guides/tools.html"]::before     { mask-image: url('../images/icons/tools.svg'); }
-a[href*="/guides/vscode.html"]::before    { mask-image: url('../images/icons/extend.svg'); }
-a[href*="/guides/git.html"]::before       { mask-image: url('../images/icons/github.svg'); }
-a[href*="/guides/hosting.html"]::before   { mask-image: url('../images/icons/server.svg'); }
-a[href*="/guides/pages.html"]::before     { mask-image: url('../images/icons/docs.svg'); }
-a[href*="/guides/learn.html"]::before     { mask-image: url('../images/icons/learn.svg'); }
+    > h3 {
+        --pico-font-size: 1.4rem;
 
+        --pico-color: var(--pico-secondary-hover);
+    }
 
-/* MEDIA ---------------------------------- */
-
-main {
     > p > img {
         display: block;
         max-width: 100%;
@@ -302,29 +297,23 @@ main {
         aspect-ratio: 16/9;
         margin: 1.5rem auto;
     }
-}
 
+    table {
+        width: auto;
 
-/* TABLES --------------------------------- */
-
-:where(table) {
-    width: auto;
-
-    td, th {
-        padding-block: calc(var(--pico-spacing) / 4);
+        td, th {
+            padding-block: calc(var(--pico-spacing) / 4);
+        }
     }
-}
 
+    pre code.hljs {
+        white-space: pre-wrap;
+        overflow-wrap: anywhere;
+        word-break: break-word;
 
-/* CODE ---------------------------------- */
-
-pre code.hljs {
-    white-space: pre-wrap;
-    overflow-wrap: anywhere;
-    word-break: break-word;
-
-    &.language-plaintext {
-        line-height: 1.2;
+        &.language-plaintext {
+            line-height: 1.2;
+        }
     }
 }
 
