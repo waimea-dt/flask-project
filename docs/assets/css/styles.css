@@ -161,7 +161,7 @@ main > :is(h1, h2, h3) + ul {
     padding: 0;
     display: grid;
     gap: 1.5rem;
-    grid-template-columns: repeat(auto-fit, minmax(min(8.5rem, 100%), 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(min(8.5rem, 100%), 1fr));
 
     li {
         list-style: none;
