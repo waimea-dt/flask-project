@@ -32,8 +32,8 @@ You will have **15 weeks** to complete this project, broken up into a number of 
 | ----- | ------ | ---------------------------------------------------- |
 | 1     | 1      | **Sprint 0**: Project idea development and research  |
 | 3     | 2-4    | **Sprint 1**: DB design and UI prototype             |
-| 2     | 5-6    | **Sprint 2**: DB implemented and test data displayed |
-| 4     | 7-10   | **Sprint 3**: Working MVP (minimum viable product)   |
+| 3     | 5-7    | **Sprint 2**: DB implemented and test data displayed |
+| 3     | 8-10   | **Sprint 3**: Working MVP (minimum viable product)   |
 | 4     | 11-14  | **Sprint 4**: Final System refinement and completion |
 | 1     | 15     | **Review**: Project final review                     |
 
