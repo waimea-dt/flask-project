@@ -1,17 +1,34 @@
 /* COLOURS ------------------------------- */
 
 body {
-    --pico-h2-color: var(--pico-primary);
-    --pico-h3-color: var(--pico-secondary);
+    --pico-h2-color:               var(--pico-primary);
+    --pico-h3-color:               var(--pico-secondary-hover);
+    --pico-h4-color:               var(--pico-muted-color);
 
-    --sidebar-border-color: var(--pico-form-element-border-color);
-    --sidebar-background-color: var(--pico-card-sectioning-background-color);
+    --h1-border-color:             var(--pico-secondary-border);
+    --h2-border-color:             var(--pico-primary-border);
+
+    --strong-color:                var(--pico-contrast);
+    --link-strong-color:           var(--pico-primary-hover);
+
+    --table-cell-padding:          calc(var(--pico-spacing) / 4);
+
+    --sidebar-border-color:        var(--pico-form-element-border-color);
+    --sidebar-background-color:    var(--pico-card-sectioning-background-color);
+    --sidebar-marker-color:        var(--pico-muted-color);
+    --sidebar-border-radius:       var(--pico-border-radius);
 
     --doc-menu-border-color:       var(--pico-secondary-border);
     --doc-menu-border-color-high:  var(--pico-primary-border);
     --doc-menu-border-color-low:   var(--pico-form-element-border-color);
     --doc-menu-border-color-hover: var(--pico-primary-hover-border);
+    --doc-menu-border-radius:      var(--pico-border-radius);
+    --doc-menu-icon-color:         var(--pico-muted-color);
     --doc-menu-background-color:   var(--pico-card-background-color);
+    --doc-menu-shadow:             var(--pico-card-box-shadow);
+
+    --dev-color:                   var(--pico-color-orange-500);
+    --dev-color-hover:             var(--pico-color-orange-400);
 }
 
 
@@ -25,23 +42,16 @@ body {
     grid-template-areas:
         "header"
         "main";
-}
 
-body > header { grid-area: header; }
-body > aside  { grid-area: sidebar; }
-body > main   { grid-area: main; }
-body > footer { grid-area: footer; }
+    > header { grid-area: header; }
+    > aside  { grid-area: sidebar; }
+    > main   { grid-area: main; }
 
-body > main {
-    padding-top: 0;
-}
+    > aside  {
+        display: none;
+    }
 
-body > aside {
-    display: none;
-}
-
-@media screen and (min-width: 1024px) {
-    body {
+    @media screen and (min-width: 1024px) {
         width: calc(100vw - 2rem);
         max-width: 1360px;
         margin-inline: auto;
@@ -50,52 +60,50 @@ body > aside {
         grid-template-areas:
             "header header"
             "sidebar main";
-    }
 
-    body > footer,
-    body > header,
-    body > main {
-        max-width: unset;
-    }
+        > header,
+        > main {
+            max-width: unset;
+        }
 
-    body > aside {
-        display: block;
+        > aside {
+            display: block;
+        }
     }
 }
 
 
 /* HEADER & NAV --------------------------- */
 
-body > header hgroup {
-    margin-bottom: 0;
-}
+body > header {
+    hgroup {
+        margin-bottom: 0;
+    }
 
-body > header h1 {
-    --pico-font-size: 1.5rem;
-}
+    h1 {
+        --pico-font-size: 1.5rem;
+    }
 
-body > header > nav {
-    flex-wrap: wrap;
-    gap: 0 2rem;
-}
+    > nav {
+        flex-wrap: wrap;
+        gap: 0 2rem;
 
-body > header > nav ul {
-    flex-wrap: wrap;
-}
+        ul {
+            flex-wrap: wrap;
+        }
 
+        a[role="button"] {
+            display: flex;
+            align-items: center;
+            gap: 0.3em;
 
-/* BUTTONS -------------------------------- */
-
-nav a[role="button"] {
-    display: flex;
-    align-items: center;
-    gap: 0.3em;
-}
-
-nav a[role="button"] svg,
-nav a[role="button"] img {
-  height: 1.2em;
-  width: auto;
+            svg,
+            img {
+                height: 1.2em;
+                width: auto;
+            }
+        }
+    }
 }
 
 
@@ -112,61 +120,41 @@ body > aside {
     line-height: 1.1;
     background-color: var(--sidebar-background-color);
     border: 1px solid var(--sidebar-border-color);
-    border-radius: var(--pico-border-radius);
-}
+    border-radius: var(--sidebar-border-radius);
 
-body > aside ul {
-    padding-left: 1.2rem;
-}
+    ul {
+        padding-left: 1.2rem;
+    }
 
-body > aside li {
-    padding: 0;
-    display: list-item;
-}
+    li {
+        padding: 0;
+        display: list-item;
 
-body > aside li::marker {
-    color: var(--pico-muted-color);
-}
+        &::marker {
+            color: var(--sidebar-marker-color);
+        }
+    }
 
-body > aside h3 {
-    margin-bottom:0.5rem;
-    font-size: 1.1rem;
-}
+    h3 {
+        margin-bottom: 0.5rem;
+        font-size: 1.1rem;
 
-body > aside h3:not(:first-child) {
-    margin-top: 1.4rem;
-    padding-top: 0.5rem;
-    border-top: 1px solid var(--sidebar-border-color);
-}
+        &:not(:first-child) {
+            margin-top: 1.4rem;
+            padding-top: 0.5rem;
+            border-top: 1px solid var(--sidebar-border-color);
+        }
+    }
 
-body > aside h4 {
-    margin: 0.5rem 0 0.4rem 0.2rem;
-    font-size: 1rem;
-    font-weight: normal;
-    color: var(--pico-muted-color);
-}
+    h4 {
+        margin: 0.5rem 0 0.4rem 0.2rem;
+        font-size: 1rem;
+        font-weight: normal;
+    }
 
-body > aside :last-child {
-    margin-bottom: 0.5rem;
-}
-
-
-/* HEADINGS ------------------------------- */
-
-main > h1:not(:first-of-type) {
-    margin-top: 4rem;
-    border-top: 3px solid var(--pico-secondary-border);
-    padding-top: 0.75rem;
-}
-
-main > h2 {
-    margin-top: 2.5rem;
-    border-bottom: 2px solid var(--pico-primary-border);
-    padding-bottom: 0.5rem;
-}
-
-main h3 {
-    --pico-color: var(--pico-contrast)
+    :last-child {
+        margin-bottom: 0.5rem;
+    }
 }
 
 
@@ -174,11 +162,11 @@ main h3 {
 
 strong {
   font-weight: bold;
-  --pico-color: var(--pico-contrast);
+  --pico-color: var(--strong-color);
 }
 
 a strong {
-  --pico-color: var(--pico-primary-hover);
+  --pico-color: var(--link-strong-color);
 }
 
 
@@ -187,109 +175,186 @@ a strong {
 main > :is(h1, h2, h3) + ul {
     margin-top: 2rem;
     padding: 0;
-    display: flex;
-    gap: 1.5rem;
-    flex-wrap: wrap;
-}
-
-main > :is(h1, h2, h3) + ul li {
-    list-style: none;
-    width: 8.5rem;
-}
-
-main > :is(h1, h2, h3) + ul li a {
-    text-decoration: none;
     display: grid;
-    place-items: center;
-    width: 100%;
-    aspect-ratio: 1;
-    border: 2px solid var(--doc-menu-border-color);
-    background-color: var(--doc-menu-background-color);
-    padding: 0.5rem;
-    text-align: center;
-    box-shadow: var(--pico-card-box-shadow);
-    border-radius: var(--pico-border-radius);
-    transition: all 250ms;
+    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fill, minmax(min(8.5rem, 100%), 1fr));
+
+    li {
+        list-style: none;
+
+        a {
+            text-decoration: none;
+            display: grid;
+            gap: 0.3rem;
+            place-items: center;
+            width: 100%;
+            aspect-ratio: 7 / 8;
+            border: 2px solid var(--doc-menu-border-color);
+            background-color: var(--doc-menu-background-color);
+            padding: 0.5rem;
+            text-align: center;
+            line-height: 1.2;
+            box-shadow: var(--doc-menu-shadow);
+            border-radius: var(--doc-menu-border-radius);
+            transition: all 250ms;
+
+            &:hover {
+                border-color: var(--doc-menu-border-color-hover);
+                box-shadow: 0 0.25rem 1rem #0004;
+            }
+
+            main > h1:first-child + ul li & {
+                border-color: var(--doc-menu-border-color-high);
+            }
+
+            main > h3:last-of-type + ul li & {
+                border-color: var(--doc-menu-border-color-low);
+            }
+
+
+            /* ICONS ------------------------------------- */
+
+            > :first-child { order: 1; }
+            &::before      { order: 2; }
+            > :last-child  { order: 3; }
+
+            &::before {
+                content: "";
+                display: block;
+                width: 40%;
+                aspect-ratio: 1;
+                background-color: var(--doc-menu-icon-color);
+                mask-size: contain;
+                mask-repeat: no-repeat;
+                mask-position: center;
+            }
+
+            /* Task */
+            &[href*="/instructions/instructions.html"]::before      { mask-image: url('../images/icons/task.svg'); }
+            &[href*="/instructions/checklist.html"]::before         { mask-image: url('../images/icons/checks.svg'); }
+            &[href*="/instructions/ideas.html"]::before             { mask-image: url('../images/icons/idea.svg'); }
+            &[href*="/instructions/as"][href$=".pdf"]::before       { mask-image: url('../images/icons/std.svg'); }
+
+            /* Evidence */
+            &[href*="/evidence/sprint-0-requirements.html"]::before { mask-image: url('../images/icons/sprint0.svg'); }
+            &[href*="/evidence/sprint-1-prototype.html"]::before    { mask-image: url('../images/icons/sprint1.svg'); }
+            &[href*="/evidence/sprint-2-database.html"]::before     { mask-image: url('../images/icons/sprint2.svg'); }
+            &[href*="/evidence/sprint-3-mvp.html"]::before          { mask-image: url('../images/icons/sprint3.svg'); }
+            &[href*="/evidence/sprint-4-final.html"]::before        { mask-image: url('../images/icons/sprint4.svg'); }
+            &[href*="/evidence/system-review.html"]::before         { mask-image: url('../images/icons/review.svg'); }
+
+            /* Guides */
+            &[href*="/guides/quick.html"]::before     { mask-image: url('../images/icons/run.svg'); }
+            &[href*="/guides/flask.html"]::before     { mask-image: url('../images/icons/how.svg'); }
+            &[href*="/guides/structure.html"]::before { mask-image: url('../images/icons/struct.svg'); }
+            &[href*="/guides/crud.html"]::before      { mask-image: url('../images/icons/app.svg'); }
+
+            &[href*="/guides/setup.html"]::before     { mask-image: url('../images/icons/settings.svg'); }
+            &[href*="/guides/routes.html"]::before    { mask-image: url('../images/icons/route.svg'); }
+            &[href*="/guides/flash.html"]::before     { mask-image: url('../images/icons/message.svg'); }
+            &[href*="/guides/session.html"]::before   { mask-image: url('../images/icons/session.svg'); }
+            &[href*="/guides/jinja.html"]::before     { mask-image: url('../images/icons/template.svg'); }
+            &[href*="/guides/schema.html"]::before    { mask-image: url('../images/icons/database.svg'); }
+            &[href*="/guides/sqlite.html"]::before    { mask-image: url('../images/icons/query.svg'); }
+            &[href*="/guides/forms.html"]::before     { mask-image: url('../images/icons/form.svg'); }
+            &[href*="/guides/images.html"]::before    { mask-image: url('../images/icons/image.svg'); }
+            &[href*="/guides/auth.html"]::before      { mask-image: url('../images/icons/auth.svg'); }
+
+            &[href*="/guides/tools.html"]::before     { mask-image: url('../images/icons/tools.svg'); }
+            &[href*="/guides/vscode.html"]::before    { mask-image: url('../images/icons/extend.svg'); }
+            &[href*="/guides/git.html"]::before       { mask-image: url('../images/icons/github.svg'); }
+            &[href*="/guides/hosting.html"]::before   { mask-image: url('../images/icons/server.svg'); }
+            &[href*="/guides/pages.html"]::before     { mask-image: url('../images/icons/docs.svg'); }
+            &[href*="/guides/learn.html"]::before     { mask-image: url('../images/icons/learn.svg'); }
+        }
+    }
 }
 
-main > h1:first-child + ul li a {
-    border-color: var(--doc-menu-border-color-high);
-}
 
-main > h3:last-of-type + ul li a {
-    border-color: var(--doc-menu-border-color-low);
-}
+/* HEADINGS & CONTENT ---------------------- */
 
-main > :is(h1, h2, h3) + ul li a:hover {
-    border-color: var(--doc-menu-border-color-hover);
-    /* background-color: var(--pico-primary-focus); */
-    box-shadow: 0 0.25rem 1rem #0004;
-    /* scale: 1.05; */
-}
+body > main {
+    padding-top: 0;
 
+    > h1 {
+        --pico-font-size: 2rem;
 
-/* MEDIA ---------------------------------- */
+        &:not(:first-of-type) {
+            margin-top: 4rem;
+            border-top: 3px solid var(--h1-border-color);
+            padding-top: 0.75rem;
+        }
+    }
 
-main > p > img {
-    display: block;
-    max-width: 100%;
-    margin: 1.5rem auto;
-}
+    > h2 {
+        --pico-font-size: 1.6rem;
 
-main > iframe {
-    display: block;
-    width: 100%;
-    height: auto;
-    aspect-ratio: 16/9;
-    margin: 1.5rem auto;
-}
+        margin-top: 2.5rem;
+        border-bottom: 2px solid var(--h2-border-color);
+        padding-bottom: 0.5rem;
+    }
 
+    > h3 {
+        --pico-font-size: 1.4rem;
+    }
 
-/* TABLES --------------------------------- */
+    > p > img {
+        display: block;
+        max-width: 100%;
+        margin: 1.5rem auto;
+    }
 
-:where(table) {
-    width: auto;
-}
+    > iframe {
+        display: block;
+        width: 100%;
+        height: auto;
+        aspect-ratio: 16/9;
+        margin: 1.5rem auto;
+    }
 
-td, th {
-    padding-block: calc(var(--pico-spacing)/ 4);
-}
+    table {
+        width: auto;
 
+        td, th {
+            padding-block: var(--table-cell-padding);
+        }
+    }
 
-/* CODE ---------------------------------- */
+    pre code.hljs {
+        white-space: pre-wrap;
+        overflow-wrap: anywhere;
+        word-break: break-word;
 
-pre code.hljs.language-plaintext {
-    line-height: 1.2;
-}
-
-pre code.hljs {
-    white-space: pre-wrap;
-    overflow-wrap: anywhere;
-    word-break: break-word;
+        &.language-plaintext {
+            line-height: 1.2;
+        }
+    }
 }
 
 
 /* DEV MODE ------------------------------ */
 
-body.dev-mode::after {
-    content: "DEV";
-    display: block;
-    position: fixed;
-    left: -3.5rem;
-    top: 0.5rem;
-    transform: rotate(-40deg);
-    padding: 0.2rem 04rem;
-    background-color: var(--pico-color-orange-500);
-    box-shadow: 0 0.1rem 0.5rem #0002;
-    color: white;
-    font-weight: bold;
-}
+body.dev-mode {
+    &::after {
+        content: "DEV";
+        display: block;
+        position: fixed;
+        left: -3.5rem;
+        top: 0.5rem;
+        transform: rotate(-40deg);
+        padding: 0.2rem 4rem;
+        background-color: var(--dev-color);
+        box-shadow: 0 0.1rem 0.5rem #0002;
+        color: white;
+        font-weight: bold;
+    }
 
-body.dev-mode .guides {
-    --pico-primary-background:       var(--pico-color-orange-500);
-    --pico-primary-border:           var(--pico-color-orange-500);
-    --pico-primary-hover-background: var(--pico-color-orange-400);
-    --pico-primary-hover-border:     var(--pico-color-orange-400);
+    .guides {
+        --pico-primary-background:       var(--dev-color);
+        --pico-primary-border:           var(--dev-color);
+        --pico-primary-hover-background: var(--dev-color-hover);
+        --pico-primary-hover-border:     var(--dev-color-hover);
 
-    border-color: var(--pico-primary-border);
+        border-color: var(--pico-primary-border);
+    }
 }

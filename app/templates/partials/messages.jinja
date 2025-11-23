@@ -7,7 +7,8 @@
     {% if messages %}
 
         <div id="messages">
-            <ul>
+
+            <ul class="message-list">
                 {% for category, message in messages %}
 
                     <li class="message {{ category }}">
@@ -16,6 +17,7 @@
 
                 {% endfor %}
             </ul>
+
         </div>
 
     {% endif %}

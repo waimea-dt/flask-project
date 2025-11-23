@@ -10,10 +10,11 @@ To support setting up and developing with Flask, the following extensions for VS
 
 Additionally (just to make life better):
 
-- **[Code Spell Checker](https://marketplace.visualstudio.com/items?itemName=streetsidesoftware.code-spell-checker)** *(Street Side Software)* - because speeling is hard!
 - **[Error Lens](https://marketplace.visualstudio.com/items?itemName=usernamehw.errorlens)** *(Alexander)* - places error messages inline, next to code
 - **[Python Indent](https://marketplace.visualstudio.com/items?itemName=KevinRose.vsc-python-indent)** *(Kevin Rose)* - indents / aligns Python code better
 - **[GitHub Markdown Preview](https://marketplace.visualstudio.com/items?itemName=bierner.github-markdown-preview)** extension pack *(Matt Bierner)* - better MD preview matching GitHub style
+- **[CSS Nesting Syntax Highlighting](https://marketplace.visualstudio.com/items?itemName=jacobcassidy.css-nesting-syntax-highlighting)** *(Jacob Cassidy)* - better when working with nested CSS
+- **[Code Spell Checker](https://marketplace.visualstudio.com/items?itemName=streetsidesoftware.code-spell-checker)** *(Street Side Software)* - because speeling is hard!
 
 Optional (but great!):
 

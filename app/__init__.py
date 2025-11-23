@@ -34,6 +34,10 @@ def show_notes():
         params = ()
         notes = db.execute(sql, params).fetchall()
 
+        flash("Test message", "info")
+        flash("Test message", "warning")
+        flash("Test message that is longer", "success")
+        flash("Test message", "error")
         return render_template("pages/note_list.jinja", notes=notes)
 
 
