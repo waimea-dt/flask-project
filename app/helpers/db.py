@@ -304,7 +304,7 @@ def _log_database_schema():
                         if col['name'] == fk['from']:
                             keys += " " if keys else ""
                             keys += "[magenta]FK[/magenta]"
-                            refs = f"[magenta]FK[/magenta] --→ [blue]{fk['table']}[/blue]([yellow]{fk['to']}[/yellow])"
+                            refs = f"[magenta]FK[/magenta] ➜ [blue]{fk['table']}[/blue]([yellow]{fk['to']}[/yellow])"
 
                 if col['notnull']:
                     constraints.append('NOT NULL')

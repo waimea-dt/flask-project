@@ -113,7 +113,7 @@ def _register_request_logging(app):
         view_func = app.view_functions.get(request.endpoint) if request.endpoint else None
         if view_func and hasattr(view_func, '__name__'):
             route_name = str(request.url_rule) if request.url_rule else ""
-            func_name = f"--→ {view_func.__name__}()"
+            func_name = f"➜ {view_func.__name__}()"
         else:
             route_name = "[red][bold]✗[/bold] unknown route[/red]"
             func_name = ""
@@ -125,7 +125,7 @@ def _register_request_logging(app):
         # Log request info
         console.rule()
         app.logger.debug(
-            f"{log_prefix('Request')} {request.method} {path_text} --→ {route_name} {func_name}"
+            f"{log_prefix('Request')} {request.method} {path_text} ➜ {route_name} {func_name}"
         )
 
         # Log request data
@@ -150,7 +150,7 @@ def _register_request_logging(app):
         status_code = response.status_code
         status_name = STATUS_INFO.get(status_code, "")
         status_text = (
-            f"{log_prefix('Status')} {request.method} {request.path} --→ "
+            f"{log_prefix('Status')} {request.method} {request.path} ➜ "
             f"{status_code} [dim]({status_name})[/dim]"
         )
 
@@ -206,7 +206,7 @@ def get_console():
     return console
 
 
-def truncate(text, width=80):
+def truncate(text, width=50):
     """Truncate text to width, properly closing any open quotes"""
     # Strip blank lines and indents, then collapse to single line
     lines = [line.strip() for line in str(text).splitlines() if line.strip()]
@@ -215,7 +215,8 @@ def truncate(text, width=80):
     if len(text) <= width:
         return text
 
-    truncated_text = text[:width]
+    # Trim, accounting for final three dots
+    truncated_text = text[:width - 3]
 
     # Remove complete quoted strings, leaving only unmatched quotes
     no_doubles = re.sub(r'"[^"]*"', '', truncated_text)
@@ -237,7 +238,7 @@ def log_exception(error):
     logger = get_logger()
 
     logger.error(
-        f"{log_prefix('Error', 'red bold')} {exc_type.__name__} → {str(error)}",
+        f"{log_prefix('Error', 'red bold')} {exc_type.__name__} ➜ {str(error)}",
         exc_info=True
     )
 
