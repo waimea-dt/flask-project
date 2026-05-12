@@ -1,5 +1,26 @@
 # Flask App Setup
 
+```bash
+# First time, or after pulling changes to Dockerfile/requirements.txt
+docker compose up --build
+
+# Every other day
+docker compose up
+
+# Run a Flask command (e.g. reset the database)
+docker compose exec web flask db-reset
+
+# Stop the server
+Ctrl+C
+docker compose down
+```
+
+
+
+
+
+
+
 ## Create and Configure a Virtual Environment
 
 ### 1. Create a virtual environment:
@@ -86,4 +107,15 @@ flask db-clear   # Clear all data (with confirmation)
 flask db-show    # Shows the DB schema and data
 flask db-schema  # Shows the DB schema
 flask db-data    # Shows the DB data
+```
+
+When using Docker...
+
+```bash
+docker compose exec web flask db-reset   # Delete and recreate database
+docker compose exec web flask db-seed    # Reseed with sample data
+docker compose exec web flask db-clear   # Clear all data (with confirmation)
+docker compose exec web flask db-show    # Shows the DB schema and data
+docker compose exec web flask db-schema  # Shows the DB schema
+docker compose exec web flask db-data    # Shows the DB data
 ```
