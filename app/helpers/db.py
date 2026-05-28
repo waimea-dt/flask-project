@@ -7,7 +7,9 @@ from pathlib import Path
 from dotenv import load_dotenv
 from os import getenv, environ
 from rich.table import Table, box
+from rich.console import Console
 import sqlite3
+import textwrap
 
 from app.db.config import TABLES
 from app.helpers.log import get_logger, get_console, log_prefix, truncate
@@ -158,7 +160,18 @@ class _LoggingConnection:
 
     def _log_query(self, sql, params):
         """Log the query being executed"""
-        self._logger.debug(f"{_prefix('Query')} {sql}")
+        indent = " " * 17
+        width = 63  # 80 - 17 = 63 characters for SQL text
+
+        lines = textwrap.wrap(sql, width=width, break_long_words=False, break_on_hyphens=False)
+        if lines:
+            formatted_sql = lines[0]
+            for line in lines[1:]:
+                formatted_sql += "\n" + indent + line
+        else:
+            formatted_sql = sql
+
+        self._logger.debug(f"{_prefix('Query')} {formatted_sql}")
         self._logger.debug(f"{_prefix('Params')} {params}")
 
     def _log_mutation_result(self, sql, rowcount, lastrowid):
