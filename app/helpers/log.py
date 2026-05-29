@@ -195,9 +195,15 @@ def _announce_server_start(app):
         return
 
     _announce("Launching Flask App")
+
+    if FLASK_HOST == "0.0.0.0":
+        show_host = "localhost"
+    else:
+        show_host = FLASK_HOST
+
     console.print(
         f"🚀 [green]Server running at[/green] "
-        f"[link=http://{FLASK_HOST}:{FLASK_PORT}]http://{FLASK_HOST}:{FLASK_PORT}[/link]"
+        f"[link=http://{FLASK_HOST}:{FLASK_PORT}]http://{show_host}:{FLASK_PORT}[/link]"
     )
 
     if app.debug:
