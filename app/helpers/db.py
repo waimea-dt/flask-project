@@ -7,19 +7,17 @@ from pathlib import Path
 from dotenv import load_dotenv
 from os import getenv, environ
 from rich.table import Table, box
-from rich.console import Console
 import sqlite3
-import textwrap
 
 from app.db.config import TABLES
-from app.helpers.log import get_logger, get_console, log_prefix, truncate
+from app.helpers.log import get_logger, get_console, log_prefix, truncate, wrap_lines, _announce
 
 
 load_dotenv()
 LOCAL_DB_PATH = getenv("LOCAL_DB_PATH", "app/db/data.sqlite")
 
-DB_LOGGER = "DBASE"
-PREVIEW_ROWS = 3
+DB_LOGGER = "DB"
+PREVIEW_ROWS = 5
 
 TYPE_COLOUR = {
     "INTEGER":   "cyan",
@@ -86,7 +84,7 @@ class _LoggingCursor:
         """Log multiple rows with preview"""
         num_rows = len(rows)
         self._logger.debug(
-            f"{_prefix('Result')} {num_rows} {'row' if num_rows == 1 else 'rows'} returned"
+            f"{_prefix('Resu')} {num_rows} {'row' if num_rows == 1 else 'rows'} returned"
         )
 
         if num_rows > 0:
@@ -99,7 +97,7 @@ class _LoggingCursor:
     def _log_single_row(self, row):
         """Log a single row result"""
         row_text = "1 row" if row else "0 rows"
-        self._logger.debug(f"{_prefix('Result')} {row_text} returned")
+        self._logger.debug(f"{_prefix('Resu')} {row_text} returned")
 
         if row:
             self._logger.debug(f"{_prefix()} {truncate(row)}")
@@ -160,19 +158,8 @@ class _LoggingConnection:
 
     def _log_query(self, sql, params):
         """Log the query being executed"""
-        indent = " " * 17
-        width = 63  # 80 - 17 = 63 characters for SQL text
-
-        lines = textwrap.wrap(sql, width=width, break_long_words=False, break_on_hyphens=False)
-        if lines:
-            formatted_sql = lines[0]
-            for line in lines[1:]:
-                formatted_sql += "\n" + indent + line
-        else:
-            formatted_sql = sql
-
-        self._logger.debug(f"{_prefix('Query')} {formatted_sql}")
-        self._logger.debug(f"{_prefix('Params')} {params}")
+        self._logger.debug(f"{_prefix('Qury')} {wrap_lines(sql)}")
+        self._logger.debug(f"{_prefix('Para')} {wrap_lines(params)}")
 
     def _log_mutation_result(self, sql, rowcount, lastrowid):
         """Log the result of INSERT/UPDATE/DELETE"""
@@ -180,21 +167,21 @@ class _LoggingConnection:
         row_text = f"{rowcount} row{'s' if rowcount != 1 else ''}"
 
         if sql_upper.startswith('INSERT'):
-            self._logger.debug(f"{_prefix('Result')} {row_text} inserted [dim](ID: {lastrowid})[/dim]")
+            self._logger.debug(f"{_prefix('Resu')} {row_text} inserted [dim](ID: {lastrowid})[/dim]")
         elif sql_upper.startswith('UPDATE'):
-            self._logger.debug(f"{_prefix('Result')} {row_text} updated")
+            self._logger.debug(f"{_prefix('Resu')} {row_text} updated")
         elif sql_upper.startswith('DELETE'):
-            self._logger.debug(f"{_prefix('Result')} {row_text} deleted")
+            self._logger.debug(f"{_prefix('Resu')} {row_text} deleted")
         else:
-            self._logger.debug(f"{_prefix('Result')} {row_text} affected")
+            self._logger.debug(f"{_prefix('Resu')} {row_text} affected")
 
     def _log_error(self, error, sql=None, params=None):
         """Log database errors"""
-        self._logger.error(f"{_prefix('Error', 'red bold')} {error}")
+        self._logger.error(f"{_prefix('Err', 'red bold')} {wrap_lines(error)}")
         if sql:
-            self._logger.error(f"{_prefix('Query', 'red')} {sql}")
+            self._logger.error(f"{_prefix('Qury', 'red')} {wrap_lines(sql)}")
         if params:
-            self._logger.error(f"{_prefix('Params', 'red')} {params}")
+            self._logger.error(f"{_prefix('Para', 'red')} {wrap_lines(params)}")
 
     def commit(self):
         return self._conn.commit()
@@ -216,17 +203,12 @@ def init_database():
     if environ.get('WERKZEUG_RUN_MAIN') != 'true':
         return
 
-    console = get_console()
-    console.rule("[blue bold]Database Configuration[/blue bold]")
-
     _create_db_if_needed()
 
-    for table_name, schema, seed_sql in TABLES:
-        _init_db_table(table_name, schema, seed_sql)
+    for table in TABLES:
+        _init_db_table(table.NAME, table.SCHEMA, table.SEED_DATA)
 
-    _log_database_schema()
-    console.rule()
-    _log_database_data()
+    db_show()
 
 
 def _create_db_if_needed():
@@ -242,7 +224,7 @@ def _init_db_table(table_name, schema, seed_sql):
             return
 
         logger = get_logger()
-        logger.info(f"{_prefix('Table', 'cyan')} creating '{table_name}'...")
+        logger.info(f"{_prefix('Tabl', 'cyan')} creating '{table_name}'...")
 
         db.execute(schema)
 
@@ -262,9 +244,9 @@ def _table_exists(db, table_name):
 
 def _seed_table(db, logger, table_name, seed_sql):
     """Seed a table with initial data"""
-    logger.info(f"{_prefix('Table', 'cyan')} seeding '{table_name}' with data")
+    logger.info(f"{_prefix('Tabl', 'cyan')} seeding '{table_name}' with data")
     db.execute(seed_sql)
-    logger.info(f"{_prefix('Table', 'cyan')} '{table_name}' seeded with data")
+    logger.info(f"{_prefix('Tabl', 'cyan')} '{table_name}' seeded with data")
 
 
 def _log_database_schema():
@@ -407,3 +389,56 @@ def _log_database_data():
 
             console.print(data_table)
 
+
+def db_show():
+    """Display all table schema and data"""
+    db_schema()
+    db_data()
+
+
+def db_data():
+    """Display all table data"""
+    _announce("Database Contents")
+    _log_database_data()
+
+
+def db_schema():
+    """Display all table schema"""
+    _announce("Database Schema")
+    _log_database_schema()
+
+
+def db_reset():
+    """Delete and recreate the database with seed data"""
+    _announce("Database Reset")
+
+    db_path = Path(LOCAL_DB_PATH)
+    if db_path.exists():
+        console.print(f"[red]Deleting database:[/red] [blue]{LOCAL_DB_PATH}[/blue]")
+        db_path.unlink()
+
+    console.print("[green]Creating fresh database...[/green]")
+    _create_db_if_needed()
+
+    console.print("[green]Creating and seeding tables...[/green]")
+    logger = get_logger()
+
+    for table in TABLES:
+        _init_db_table(table.NAME, table.SCHEMA, table.SEED_DATA)
+        logger.info(f"{_prefix('Tabl', 'green')} '{table.NAME}' created and seeded")
+
+    _announce("Database Reset Complete")
+    db_show()
+
+
+def db_clear():
+    """Clear all data from all tables"""
+    _announce("Database Clearing")
+    logger = get_logger()
+
+    with connect_db() as db:
+        for table in TABLES:
+            db.execute(f"DELETE FROM {table.NAME}")
+            logger.info(f"{_prefix('Tabl', 'green')} '{table.NAME}' cleared")
+
+    _announce("Database Cleared")

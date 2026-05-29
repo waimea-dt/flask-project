@@ -12,6 +12,7 @@ from rich.console import Console
 from rich.table import Table
 import logging
 import re
+import textwrap
 
 # Load Flask environment config
 load_dotenv()
@@ -43,13 +44,13 @@ STATUS_INFO = {
 STATIC = "static"
 EXCLUDED_CONTEXT_KEYS = {'request', 'session', 'g', 'config', 'url_for', 'get_flashed_messages'}
 
-APP_LOGGER   = "FLASK"
-JINJA_LOGGER = "JINJA"
+APP_LOGGER   = "FL"
+JINJA_LOGGER = "JI"
 
 
 def log_prefix(action="", colour="yellow", logger=APP_LOGGER):
     """Create a consistent log prefix with color and alignment"""
-    return f"[{colour}][{logger}] {action:>7}{':' if action else ' '}[/{colour}]"
+    return f"[{colour}][{logger}] {action:>4}{':' if action else ' '}[/{colour}]"
 
 
 def init_logging(app):
@@ -82,7 +83,7 @@ def init_logging(app):
         show_path=False,
         show_level=False,
         log_time_format="[%X]",
-        omit_repeated_times=True,
+        omit_repeated_times=False,
     )
 
     # Setup app logger
@@ -99,6 +100,12 @@ def init_logging(app):
 
     # Log routes after everything is initialized
     log_routes(app)
+
+
+def _announce(action):
+    console.print()
+    console.rule(f"[yellow bold]{action}[/yellow bold]", align="left")
+    console.print()
 
 
 def _register_request_logging(app):
@@ -123,34 +130,33 @@ def _register_request_logging(app):
         path_text = f"{request.path}{query_text}"
 
         # Log request info
-        console.rule()
-        app.logger.debug(
-            f"{log_prefix('Request')} {request.method} {path_text} ➜ {route_name} {func_name}"
-        )
+        _announce("Request")
+        request_text = f"{request.method} {path_text} ➜ {route_name} {func_name}"
+        app.logger.debug(f"{log_prefix('Requ')} {wrap_lines(request_text)}")
 
         # Log request data
         if request.view_args:
-            app.logger.debug(f"{log_prefix('Params')} {request.view_args}")
+            app.logger.debug(f"{log_prefix('Para')} {wrap_lines(request.view_args)}")
 
         if request.args:
-            app.logger.debug(f"{log_prefix('Query')} {dict(request.args)}")
+            app.logger.debug(f"{log_prefix('Qury')} {wrap_lines(dict(request.args))}")
 
         if request.form:
-            app.logger.debug(f"{log_prefix('Form')} {dict(request.form)}")
+            app.logger.debug(f"{log_prefix('Form')} {wrap_lines(dict(request.form))}")
 
         if request.files and any(file.filename for file in request.files.values()):
             filenames = [f.filename for f in request.files.values()]
-            app.logger.debug(f"{log_prefix('Files')} {filenames}")
+            app.logger.debug(f"{log_prefix('File')} {wrap_lines(filenames)}")
 
         if session:
-            app.logger.debug(f"{log_prefix('Session')} {dict(session)}")
+            app.logger.debug(f"{log_prefix('Sess')} {wrap_lines(dict(session))}")
 
     @app.after_request
     def log_request_end(response):
         status_code = response.status_code
         status_name = STATUS_INFO.get(status_code, "")
         status_text = (
-            f"{log_prefix('Status')} {request.method} {request.path} ➜ "
+            f"{log_prefix('Stat')} {request.method} {request.path} ➜ "
             f"{status_code} [dim]({status_name})[/dim]"
         )
 
@@ -170,7 +176,7 @@ def _register_template_logging(app):
         if not app.debug:
             return
 
-        app.logger.debug(f"{log_prefix('Render', 'magenta', JINJA_LOGGER)} {template.name}")
+        app.logger.debug(f"{log_prefix('Rend', 'magenta', JINJA_LOGGER)} {template.name}")
 
         # Filter out Flask built-ins from context
         template_data = [
@@ -187,7 +193,7 @@ def _announce_server_start(app):
     if environ.get('WERKZEUG_RUN_MAIN') != 'true':
         return
 
-    console.rule("[green bold]Launching Flask App[/green bold]")
+    _announce("Launching Flask App")
     console.print(
         f"🚀 [green]Server running at[/green] "
         f"[link=http://{FLASK_HOST}:{FLASK_PORT}]http://{FLASK_HOST}:{FLASK_PORT}[/link]"
@@ -206,7 +212,7 @@ def get_console():
     return console
 
 
-def truncate(text, width=50):
+def truncate(text, width=55):
     """Truncate text to width, properly closing any open quotes"""
     # Strip blank lines and indents, then collapse to single line
     lines = [line.strip() for line in str(text).splitlines() if line.strip()]
@@ -232,13 +238,29 @@ def truncate(text, width=50):
     return truncated_text + closing + "..."
 
 
+def wrap_lines(data, indent=11, width=55):
+    """Wrap given text to fit width, indenting wrapped lines as needed"""
+    text = f"{data}"
+    indent_spaces = " " * indent
+
+    lines = textwrap.wrap(text, width=width, break_long_words=False, break_on_hyphens=False)
+    if lines:
+        wrapped_text = lines[0]
+        for line in lines[1:]:
+            wrapped_text += "\n" + indent_spaces + line
+    else:
+        wrapped_text = text
+
+    return wrapped_text
+
+
 def log_exception(error):
     """Log exception with Rich formatting"""
     exc_type, exc_value, exc_traceback = exc_info()
     logger = get_logger()
 
     logger.error(
-        f"{log_prefix('Error', 'red bold')} {exc_type.__name__} ➜ {str(error)}",
+        f"{log_prefix('Err', 'red bold')} {exc_type.__name__} ➜ {str(error)}",
         exc_info=True
     )
 
@@ -258,7 +280,7 @@ def log_routes(app):
         endpoint_display = rule.endpoint + ("()" if rule.endpoint != STATIC else "")
         table.add_row(methods, rule.rule, endpoint_display)
 
-    console.rule("[yellow bold]Registered Routes[/yellow bold]")
+    _announce("Registered Routes")
     console.print(table)
 
 
