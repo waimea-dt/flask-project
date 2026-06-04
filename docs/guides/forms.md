@@ -198,7 +198,7 @@ def add_note():
     # Add to the database
     with connect_db() as db:
         sql = """
-            INSERT INTO note (title, body, priority, tags, pinned)
+            INSERT INTO notes (title, body, priority, tags, pinned)
             VALUES (?, ?, ?, ?, ?)
         """
         params = (title, body, priority, tags, pinned)

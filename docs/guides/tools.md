@@ -28,12 +28,13 @@ These tools will help you design the layout and look-and-feel of your UI...
 
 These coding tools will be key to the development of your web app...
 
-| Tool                                                   | Purpose                     | Platform | Notes                                                                                                                             |
-| ------------------------------------------------------ | --------------------------- | -------- | --------------------------------------------------------------------------------------------------------------------------------- |
-| [Visual Studio Code](https://code.visualstudio.com/)   | Code editor / IDE           | Desktop  | Powerful and extensible code editor. See [Setting Up VS Code](vscode.md) for more details                                         |
-| [Python](https://www.python.org/downloads/)            | Programming language        | Desktop  | Required to run Flask. Install Python 3.10 or newer. Verify with `python --version`                                               |
-| [GitHub](https://github.com)                           | Code repository hosting     | Web      | Stores your code, tracks code commits, allows syncing between devices. [Free pro accounts](https://github.com/education/students) |
-| [GitHub Desktop](https://desktop.github.com/download/) | Managing code repos         | Desktop  | Simple GUI for managing Git repositories and syncing with GitHub                                                                  |
+| Tool                                                   | Purpose                    | Platform | Notes                                                                                                                             |
+| ------------------------------------------------------ | -------------------------- | -------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| [Visual Studio Code](https://code.visualstudio.com/)   | Code editor / IDE          | Desktop  | Powerful and extensible code editor. See [Setting Up VS Code](vscode.md) for more details                                         |
+| [Python](https://www.python.org/downloads/)            | Programming language       | Desktop  | Required to run Flask. Install Python 3.10 or newer. Verify with `python --version`                                               |
+| [GitHub](https://github.com)                           | Code repository hosting    | Web      | Stores your code, tracks code commits, allows syncing between devices. [Free pro accounts](https://github.com/education/students) |
+| [GitHub Desktop](https://desktop.github.com/download/) | Managing code repos        | Desktop  | Simple GUI for managing Git repositories and syncing with GitHub                                                                  |
+| [Rancher Desktop](https://rancherdesktop.io/)          | Managing Docker containers | Desktop  | An open-source application that provides all the essentials to work with [Docker containers](https://www.docker.com/)             |
 
 
 ## UI Debugging

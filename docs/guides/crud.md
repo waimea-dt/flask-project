@@ -8,7 +8,7 @@ A simple Flask / SQLite / Jinja app with routes to: **C**reate, **R**ead, **U**p
 ### DB Schema
 
 ```SQL
-CREATE TABLE note (
+CREATE TABLE notes (
     id      INTEGER PRIMARY KEY AUTOINCREMENT,
     title   TEXT NOT NULL,
     body    TEXT,
@@ -51,7 +51,7 @@ def show_notes():
     with connect_db() as db:
         sql = """
             SELECT id, title, body, pinned, created
-            FROM note
+            FROM notes
             ORDER BY pinned DESC, created DESC
         """
         params = ()
@@ -66,7 +66,7 @@ def show_a_note(id):
     with connect_db() as db:
         sql = """
             SELECT id, title, body, pinned, created
-            FROM note
+            FROM notes
             WHERE id=?
         """
         params = (id,)
@@ -97,7 +97,7 @@ def add_a_note():
 
     with connect_db() as db:
         sql = """
-            INSERT INTO note (title, body, pinned)
+            INSERT INTO notes (title, body, pinned)
             VALUES (?, ?, ?)
         """
         params = (title, body, pinned)
@@ -116,7 +116,7 @@ def show_note_edit_form(id):
     with connect_db() as db:
         sql = """
             SELECT id, title, body, pinned, created
-            FROM note
+            FROM notes
             WHERE id=?
         """
         params = (id,)
@@ -138,7 +138,7 @@ def update_a_note(id):
 
     with connect_db() as db:
         sql = """
-            UPDATE note
+            UPDATE notes
             SET title=?, body=?, pinned=?
             WHERE id=?
         """
@@ -157,7 +157,7 @@ def update_a_note(id):
 def delete_a_note(id):
     with connect_db() as db:
         sql = """
-            DELETE FROM note
+            DELETE FROM notes
             WHERE id=?
         """
         params = (id,)

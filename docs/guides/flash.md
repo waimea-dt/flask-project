@@ -21,29 +21,4 @@ flash("Error message", "error")
 
 *Note: you can modify the code for this template partial if needed*
 
-And add suitable CSS to your stylesheet:
-
-```css
-/* Flash Status Messages --------------------------------- */
-
-#messages ul {
-    width: fit-content;
-    margin: 2rem auto;
-    padding: 0;
-}
-
-#messages .message {
-    list-style: none;
-    text-align: center;
-    margin-bottom: 1rem;
-}
-
-#messages .message.success {
-    color: var(--pico-color-green-500);
-}
-
-#messages .message.error {
-    color: var(--pico-color-red-500);
-}
-```
-
+Messages are styled by default via the `messages.css` stylesheet, but you can customise this as you like.

@@ -1,56 +1,11 @@
 # Flask App Setup
 
-```bash
-# First time, or after pulling changes to Dockerfile/requirements.txt
-docker compose up --build
+The app uses a **Docker container** to setup and configure Python ready for use, install all required libraries, etc.
 
-# Every other day
-docker compose up
-
-# Run a Flask command (e.g. reset the database)
-docker compose exec web flask db-reset
-
-# Stop the server
-Ctrl+C
-docker compose down
-```
+Some configuration is needed before creating and starting the container...
 
 
-
-
-
-
-
-## Create and Configure a Virtual Environment
-
-### 1. Create a virtual environment:
-
-   A virtual environment (venv) is used to create an isolated Python install, just for this app...
-
-   ```bash
-   python -m venv venv
-   ```
-
-   Activate the new virtual environment...
-
-   On Windows:
-   ```bash
-   venv\Scripts\activate
-   ```
-   On Linux / Mac:
-   ```bash
-   source venv/bin/activate
-   ```
-
-### 2. Install dependencies:
-
-   Install the required Python modules into the new virtual environment...
-
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-### 3. Configure environment:
+## Configure Environment:
 
    Setup the environment variable file that define key values for the app...
 
@@ -72,15 +27,27 @@ docker compose down
    The database is automatically created and seeded on **first run**...
 
 
-## Launch the App
+## Bring up the Docker container to Launch the App
 
-### 1. Run the app:
+### 1. Launch Rancher Desktop:
 
-   In a terminal...
+Rancher Desktop provides the back-end for setting up and running Docker containers. It needs to be running before you begin.
+
+
+### 2. Bring up the container:
+
+   In a terminal, if this is the first time...
 
    ```bash
-   flask run
+   docker compose up --build
    ```
+
+   If the config has not changed...
+
+   ```bash
+   docker compose up
+   ```
+
 
 ### 2. View in browser:
 
@@ -96,20 +63,24 @@ docker compose down
    - Traceback of errors
 
 
+### 5. Shutdown the app and stop container
+
+  In a terminal...
+
+  ```bash
+  Ctrl+C
+  ```
+
+  If you want to completely remove the container...
+
+  ```bash
+  docker compose down
+  ```
+
+
 ## Command-Line DB Management Commands
 
-A number of command-line commands are available to help you manage your database:
-
-```bash
-flask db-reset   # Delete and recreate database
-flask db-seed    # Reseed with sample data
-flask db-clear   # Clear all data (with confirmation)
-flask db-show    # Shows the DB schema and data
-flask db-schema  # Shows the DB schema
-flask db-data    # Shows the DB data
-```
-
-When using Docker...
+A number of command-line commands are available to help you manage your database. In a *separate terminal window* to the one running the app...
 
 ```bash
 docker compose exec web flask db-reset   # Delete and recreate database

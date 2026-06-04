@@ -1,4 +1,4 @@
-# Project Development Guides
+# Flask App Development Guides
 
 - [Flask:    **Quick Start Guide**](quick.md)
 - [Overview: **How Does Flask Work?**](flask.md)

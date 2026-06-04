@@ -2,14 +2,9 @@
 
 ## First Run
 
-### 1. Setup virtual environment:
+### 1. Run Rancher Desktop
 
-```bash
-python -m venv venv
-venv\Scripts\activate
-pip install -r requirements.txt
-```
-*(use `source venv/bin/activate` on Mac/Linux)*
+Run Rancher Desktop ready to start Docker container
 
 
 ### 2. Configure environment vars:
@@ -17,16 +12,37 @@ pip install -r requirements.txt
 Copy `.env.example` to `.env`, and edit as needed
 
 
-### 3. Run server:
+### 3. Bring up the Docker container:
+
+For the first time, or after editing any config files:
 
 ```bash
-flask run
+docker compose up --build
 ```
+
+For subsequent runs:
+
+```bash
+docker compose up
+```
+
 
 ### 4. Browse site
 
 Visit: [http://localhost:5000](http://localhost:5000)
 
+
+### 5. Shutdown the app and stop container
+
+```bash
+Ctrl+C
+```
+
+### 6. Remove the Docker container if needed
+
+```bash
+docker compose down
+```
 
 
 ## Create Your App

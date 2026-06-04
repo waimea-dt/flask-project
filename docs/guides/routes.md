@@ -45,7 +45,7 @@ def example_route():
 @app.get("/notes")
 def show_note_list():
     with connect_db() as db:
-        sql = "SELECT * FROM note"
+        sql = "SELECT * FROM notes"
         notes = db.execute(sql).fetchall()
     return render_template("pages/note_list.jinja", notes=notes)
 ```
@@ -58,7 +58,7 @@ The route can specify a particular set of items, e.g. all pinned notes...
 @app.get("/notes/pinned")
 def show_pinned_note_list():
     with connect_db() as db:
-        sql = "SELECT * FROM note WHERE pinned=1"
+        sql = "SELECT * FROM notes WHERE pinned=1"
         notes = db.execute(sql).fetchall()
     return render_template("pages/note_list.jinja", notes=notes, title="Pinned Notes")
 ```
@@ -73,7 +73,7 @@ The route can contain a parameter, `<...>`, which can be passed into the handler
 @app.get("/note/<int:id>")
 def show_note(id):
     with connect_db() as db:
-        sql = "SELECT * FROM note WHERE id=?"
+        sql = "SELECT * FROM notes WHERE id=?"
         params = (id,)
         note = db.execute(sql, params).fetchone()
     return render_template("pages/note_info.jinja", note=note)
@@ -85,7 +85,7 @@ def show_note(id):
 @app.get("/notes/<category>")
 def show_note(category):
     with connect_db() as db:
-        sql = "SELECT * FROM note WHERE category=?"
+        sql = "SELECT * FROM notes WHERE category=?"
         params = (category,)
         note = db.execute(sql, params).fetchone()
     return render_template("pages/note_info.jinja", note=note)
@@ -127,7 +127,7 @@ def search_notes():
 
     with connect_db() as db:
         sql = """
-            SELECT * FROM note
+            SELECT * FROM notes
             WHERE title LIKE ? OR body LIKE ?
         """
         params = (search, search)
