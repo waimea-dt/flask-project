@@ -219,11 +219,14 @@ def get_console():
     return console
 
 
-def truncate(text, width=55):
+def truncate(text, width=None):
     """Truncate text to width, properly closing any open quotes"""
     # Strip blank lines and indents, then collapse to single line
     lines = [line.strip() for line in str(text).splitlines() if line.strip()]
     text = ' '.join(lines)
+
+    if width is None:
+        width = CONSOLE_WIDTH - 25   # Allow for log prefixes
 
     if len(text) <= width:
         return text
@@ -245,9 +248,13 @@ def truncate(text, width=55):
     return truncated_text + closing + "..."
 
 
-def wrap_lines(data, indent=11, width=55):
+def wrap_lines(data, indent=11, width=None):
     """Wrap given text to fit width, indenting wrapped lines as needed"""
     text = f"{data}"
+
+    if width is None:
+        width = CONSOLE_WIDTH - indent - 14  # Allow for log prefixes
+
     indent_spaces = " " * indent
 
     lines = textwrap.wrap(text, width=width, break_long_words=False, break_on_hyphens=False)

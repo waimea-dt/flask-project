@@ -2,16 +2,18 @@
   Home page
 =====================================================#}
 
-{% extends 'pages/base.jinja' %}
+{% extends 'pages/_base.jinja' %}
 
 
 {% block content %}
+
+    <h2>Notes</h2>
 
     <section id="notes">
 
         {% for note in notes %}
 
-            <article class="note {{ 'pinned' if note.pinned }}">
+            <div class="note {{ 'pinned' if note.pinned }}">
 
                 <header>
                     <h3>{{ note.title }}</h3>
@@ -24,7 +26,7 @@
                     Created on {{ note.created | local | format }}
                 </footer>
 
-            </article>
+            </div>
 
         {% else %}
 

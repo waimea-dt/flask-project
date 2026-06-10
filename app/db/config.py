@@ -49,8 +49,8 @@ class NoteTable:
 # Register all of your tables by adding them to the TABLES list here:
 #
 # TABLES = [
-#     (Table1.NAME, Table1.SCHEMA, Table1.SEED_DATA),
-#     (Table2.NAME, Table2.SCHEMA, Table2.SEED_DATA),
+#     Table1Name,
+#     Table2Name,
 #     etc.
 # ]
 #
@@ -59,7 +59,7 @@ class NoteTable:
 #----------------------------------------------------------------------------
 
 TABLES = [
-    (NoteTable.NAME, NoteTable.SCHEMA, NoteTable.SEED_DATA),
+    NoteTable,
     # Add more tables here...
 ]
 

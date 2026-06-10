@@ -45,5 +45,4 @@ Test User 2:
 - [Python](https://www.python.org/) as the programming language used
 - [SQLite](https://sqlite.org/) for the database
 - [Jinja2](https://jinja.palletsprojects.com/templates/) for page templating
-- [PicoCSS](https://picocss.com/) as the foundation for styling
 

@@ -12,11 +12,11 @@ def init_error_handlers(app):
     @app.errorhandler(404)
     def page_not_found(error):
         """Handle 404 - Page Not Found"""
-        return render_template("pages/404.jinja"), 404
+        return render_template("pages/_404.jinja"), 404
 
     @app.errorhandler(Exception)
     def handle_exception(error):
         """Handle all unhandled exceptions"""
         log_exception(error)
-        return render_template("pages/500.jinja"), 500
+        return render_template("pages/_500.jinja"), 500
 
