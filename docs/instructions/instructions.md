@@ -26,7 +26,7 @@ Achievement Criteria:
 
 ## Timeline
 
-You will have **15 weeks** to complete this project, broken up into a number of phases:
+You will have **14 weeks** to complete this project, broken up into a number of phases:
 
 | Weeks | Week # | Phase                                                |
 | ----- | ------ | ---------------------------------------------------- |
@@ -34,8 +34,8 @@ You will have **15 weeks** to complete this project, broken up into a number of 
 | 3     | 2-4    | **Sprint 1**: DB design and UI prototype             |
 | 2     | 5-6    | **Sprint 2**: DB implemented and test data displayed |
 | 4     | 7-10   | **Sprint 3**: Working MVP (minimum viable product)   |
-| 4     | 11-14  | **Sprint 4**: Final System refinement and completion |
-| 1     | 15     | **Review**: Project final review                     |
+| 4     | 11-13  | **Sprint 4**: Final System refinement and completion |
+| 1     | 14     | **Review**: Project final review                     |
 
 Key Terms:
 
