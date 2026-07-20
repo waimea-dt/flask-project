@@ -46,17 +46,3 @@ See the [docs folder](docs) for a quick-start and guides to usage. In particular
     ├── instructions/    # Task instructions
     └── evidence/        # Project evidence
 ```
-
-## Useful Commands
-
-### Database Management
-- `flask db-show` - View database schema and all data
-- `flask db-schema` - Show just the schema
-- `flask db-data` - Show just the data
-- `flask db-reset` - Delete and recreate database with seed data
-- `flask db-clear` - Clear all data (keeps structure)
-
-### Development
-- `flask run` - Start the development server
-- `flask --help` - See all available commands
-
